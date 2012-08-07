@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.8"
+  xmlns:sh="http://sitehopper.sf.net/sitehopper/1.0">
+<url>
+ <loc><![CDATA[http://localhost/]]></loc>
+  <method name="GET"/>
+  <params></params>
+  <links>
+ <link>
+  <link_path>/html/body/div/div[1]/div/div/a[2]></link_path>
+  <loc><![CDATA[http://localhost/]]></loc>
+  <method name="GET"/>
+   <params>
+   </params>
+ </link>
+ <link>
+  <link_path>/html/body/div/div[2]/div[3]/p/a></link_path>
+  <loc><![CDATA[http://localhost/private/]]></loc>
+  <method name="GET"/>
+   <params>
+   </params>
+ </link>
+  </links>
+</url>
+<url>
+ <loc><![CDATA[http://localhost/private/]]></loc>
+  <method name="GET"/>
+  <params></params>
+  <links>
+  </links>
+</url>
+</urlset>

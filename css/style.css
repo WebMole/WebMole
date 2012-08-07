@@ -1,0 +1,118 @@
+/* Layout */
+
+body {
+	background: white url(../img/wallpaper.jpg) no-repeat center top fixed;
+}
+
+.footer {
+	margin-top: 45px;
+	padding: 35px 0 36px;
+	border-top: 1px solid #E5E5E5;
+}
+
+.footer p {
+	margin-bottom: 0;
+	color: #555;
+}
+
+.source_input {
+	width: 520px;
+	height: 300px;
+}
+
+/* Drag and drop Upload */
+
+#drop-area {
+	padding-top: 90px;
+	padding-bottom: 90px;
+	margin:10px 0;
+	height: 100%;
+	text-align: center;
+
+	border: 10px dotted lightgrey;
+	border-radius: 10px;
+
+	transition: all 1s;
+	-moz-transition: all 1s; /* Firefox 4 */
+	-webkit-transition: all 1s; /* Safari and Chrome */
+	-o-transition: all 1s; /* Opera */
+
+
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-o-border-radius
+}
+
+#drop-area:hover {
+	border-color: grey;
+}
+
+/* Tools */
+
+.align-center {
+	text-align: center;
+}
+
+.spacer {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+¸/* Twitter Bootstrap tweaks */
+
+.btn-group-centered {
+	text-align: center;
+}
+
+.btn-group-centered .btn-group {
+	margin: 0 auto; 
+    text-align: center;
+    width: inherit;
+    display: inline-block;
+}
+
+/* JIT css */
+#infovis {    
+	height:600px;
+	width:100%;
+	background-color:#1a1a1a;
+	position:relative;
+	margin:auto;
+	overflow:hidden;
+
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+
+	border: 1px solid black;
+}
+
+#inner-details {
+	font-size:0.8em;
+	list-style:none;
+	margin:7px;
+}
+
+#log {
+	position:absolute;
+	top:10px;
+	font-size:1.0em;
+	font-weight:bold;
+	color:#23A4FF;
+}
+
+.tip {
+	color: #111;
+	width: 139px;
+	background-color: white;
+	border:1px solid #ccc;
+	-moz-box-shadow:#555 2px 2px 8px;
+	-webkit-box-shadow:#555 2px 2px 8px;
+	-o-box-shadow:#555 2px 2px 8px;
+	box-shadow:#555 2px 2px 8px;
+	opacity:0.9;
+	filter:alpha(opacity=90);
+	font-size:10px;
+	font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;
+	padding:7px;
+}
