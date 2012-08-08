@@ -52,19 +52,28 @@ $access = 'authorized';
 			<strong>Hello there!</strong> Looks like it's your first time here, click on help for more info ;).
 		</div>
 		
-		<div class="btn-group pull-right">
-			<a class="btn" data-toggle="modal" href="#source_modal" ><i class="icon-edit"></i> Insert map manually</a>
-			<a class="btn btn-info" data-toggle="modal" href="#upload_modal" ><i class="icon-upload"></i> Upload map</a>
+		<div class="btn-group-centered">
+			<div class="btn-group">
+				<a class="btn" data-toggle="modal" href="#source_modal" ><i class="icon-edit"></i> Insert map manually</a>
+				<a class="btn btn-info" data-toggle="modal" href="#upload_modal" ><i class="icon-upload"></i> Upload map</a>
+			</div>
 		</div>
 		
-		<h2>The Circular Map</h2>
-		<div id="infovis"><?php /* Map is generated here */ ?></div>
-
-		<div class="btn-group-centered spacer">
-			<div class="btn-group">
-				<button class="btn circular-map active">Circular map</button>
-				<button class="btn force-directed">Force Directed</button>
-			</div>	
+		<div class="row">
+			<div class="span8">
+				<h2>The Circular Map</h2>
+				<div id="infovis"><?php /* Map is generated here */ ?></div>
+				
+				<div class="btn-group-centered spacer">
+					<div class="btn-group">
+						<button class="btn circular-map active">Circular map</button>
+						<button class="btn force-directed">Force Directed</button>
+					</div>	
+				</div>
+			</div>
+			<div class="span4">
+				<h2>Nodes Info</h2>
+			</div>
 		</div>
 		
 		<div class="footer">
