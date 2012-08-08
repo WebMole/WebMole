@@ -4,7 +4,7 @@ $(document).ready(function() {
   prettyPrint();
 
   //Noty test
-  var my_notification = noty({type: "information", text: 'noty is alive and javascript is ebabled ;)', timeout: 3000});
+  var my_notification = noty({layout: "topRight", type: "information", text: 'noty is alive and javascript is ebabled ;)', timeout: 3500});
 
   // Handlers for buttons and actions
   attachHandlers();

@@ -29,6 +29,7 @@ $access = 'authorized';
 	<?php /* Noty Library (Growl Like jQuery notifications) */ ?>
 	<script language="javascript" type="text/javascript" src="js/noty/jquery.noty.js"></script>
 	<script language="javascript" type="text/javascript" src="js/noty/layouts/topLeft.js"></script>
+	<script language="javascript" type="text/javascript" src="js/noty/layouts/topRight.js"></script>
 	<script language="javascript" type="text/javascript" src="js/noty/layouts/top.js"></script>
 	<script language="javascript" type="text/javascript" src="js/noty/themes/default.js"></script>
 
@@ -52,16 +53,17 @@ $access = 'authorized';
 			<strong>Hello there!</strong> Looks like it's your first time here, click on help for more info ;).
 		</div>
 		
-		<div class="btn-group-centered">
-			<div class="btn-group">
-				<a class="btn" data-toggle="modal" href="#source_modal" ><i class="icon-edit"></i> Insert map manually</a>
-				<a class="btn btn-info" data-toggle="modal" href="#upload_modal" ><i class="icon-upload"></i> Upload map</a>
-			</div>
-		</div>
-		
 		<div class="row">
 			<div class="span8">
-				<h2>The Circular Map</h2>
+				<h2>The Circular Map
+					<div class="pull-right">
+						<div class="btn-group">
+							<a class="btn" data-toggle="modal" href="#source_modal" ><i class="icon-edit"></i> Insert map manually</a>
+							<a class="btn btn-info" data-toggle="modal" href="#upload_modal" ><i class="icon-upload"></i> Upload map</a>
+						</div>
+					</div>
+				</h2>
+				
 				<div id="infovis"><?php /* Map is generated here */ ?></div>
 				
 				<div class="btn-group-centered spacer">
