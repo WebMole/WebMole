@@ -25,6 +25,13 @@ Credits
 
 Written by [Gabriel Le Breton](http://www.gableroux.com), [Fabien Maronnaud](mailto:fabien.maronnaud@gmail.com), in collaboration with [Sylvain Hallé](http://www.leduotang.com/sylvain/), Professor at Université du Québec à Chicoutimi.
 
+### Libraries
+
+* [jQuery](http://jquery.com/), one of the best javascript lib out there
+* [Twitter Bootstrap](http://twitter.github.com/bootstrap/) for ui componants and interactions
+* [JavaScript InfoVis Toolkit](http://thejit.org/) for drawing some cool graphs
+* [Prettify](http://code.google.com/p/google-code-prettify/) for having some cool colors highlighting
+
 Developpement
 =============
 
