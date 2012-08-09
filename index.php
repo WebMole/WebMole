@@ -7,7 +7,7 @@ $access = 'authorized';
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Urlset Map Viewer</title>
+	<title>Urlset Manager Project</title>
 
 	<?php /* CSS */ ?>
 	<link type="text/css" href="css/style.css" rel="stylesheet" />
@@ -34,58 +34,58 @@ $access = 'authorized';
 	<script language="javascript" type="text/javascript" src="js/noty/themes/default.js"></script>
 
 	<?php /* Application Manips */ ?>
-	<script language="javascript" type="text/javascript" src="js/umv-jit-manip.js"></script>
-	<script language="javascript" type="text/javascript" src="js/umv-init.js"></script>
+	<script language="javascript" type="text/javascript" src="js/ump-jit-manip.js"></script>
+	<script language="javascript" type="text/javascript" src="js/ump-init.js"></script>
 
 </head>
 
 <body>
 	<div class="container">
 		<div class="page-header">
-			<h1>Urlset Map Viewer
-				<small>A SiteHopper Utility made with jit and Twitter bootstrap</small>
+			<h1>Urlset Manager Project
+				<small>Utility made on Twitter bootstrap with some awesome code</small>
 				<a class="btn pull-right" data-toggle="modal" href="#help_modal" ><i class="icon-question-sign"></i> Help!</a>
 			</h1>
 		</div>
 		
+		<?php //@Todo: set this to show if cookies does not exist ;) ?>
 		<div class="alert alert-info">
 			<button class="close" data-dismiss="alert">×</button>
 			<strong>Hello there!</strong> Looks like it's your first time here, click on help for more info ;).
 		</div>
 		
-		<div class="row">
-			<div class="span8">
-				<h2>The Circular Map
-					<div class="pull-right">
-						<div class="btn-group">
-							<a class="btn" data-toggle="modal" href="#source_modal" ><i class="icon-edit"></i> Insert map manually</a>
-							<a class="btn btn-info" data-toggle="modal" href="#upload_modal" ><i class="icon-upload"></i> Upload map</a>
-						</div>
-					</div>
-				</h2>
-				
-				<div id="infovis"><?php /* Map is generated here */ ?></div>
-				
-				<div class="btn-group-centered spacer">
-					<div class="btn-group">
-						<button class="btn circular-map active">Circular map</button>
-						<button class="btn force-directed">Force Directed</button>
-					</div>	
-				</div>
+		<ul id="main-tab-controller" class="nav nav-tabs">
+			<li class="active"><a href="#tab-map-viewier" data-toggle="tab">Map Viewer</a></li>
+			<li><a href="#tab-web-explorer" data-toggle="tab">Web Explorer</a></li>
+			<li><a href="#tab-settings" data-toggle="tab">Settings</a></li>
+		</ul>
+		<div id="main-tab-content" class="tab-content">
+			<div class="tab-pane fade active in" id="tab-map-viewier">
+
+				<?php include('map-viewer.php'); ?>
+
 			</div>
-			<div class="span4">
-				<h2>Nodes Info</h2>
+			<div class="tab-pane fade" id="tab-web-explorer">
+				
+				<?php include('web-explorer.php'); ?>
+
 			</div>
-		</div>
-		
-		<div class="footer">
-			<p>Designed and built with <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>, using <a href="http://code.google.com/p/google-code-prettify/" target="_blank">Prettifier</a> and <a href="http://thejit.org/" target="_blank">JavaScript InfoVis Toolkit</a>.</p>
-			<p>By <a href="http://www.gableroux.com" target="_blank">GabLeRoux</a></p>
-			<p>Code licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache License v2.0</a>.</p>
+			<div class="tab-pane fade" id="tab-settings">
+
+				<?php include('settings.php'); ?>
+
+			</div>
 		</div>
 
-	</div>
-	
+		<div class="footer">
+			<a class="pull-right" href="http://www.github.com/<?php //@todo Add project url here ?>"><img src="img/github_logo_social_coding_outlined.png" alt="View project on GitHub" height="66" width="149" /></a>
+			<p>Designed and built with <a href="http://twitter.github.com/bootstrap/" target="_blank">Twitter Bootstrap</a>, using <a href="http://code.google.com/p/google-code-prettify/" target="_blank">Prettifier</a> and <a href="http://thejit.org/" target="_blank">JavaScript InfoVis Toolkit</a>.</p>
+			<p>By <a href="http://www.gableroux.com" target="_blank">GabLeRoux</a> and <a href="mailto:fabien.maronnaud@gmail.com">Fabien Maronnaud</a>, in collaboration with with <a href="http://www.leduotang.com/sylvain/">Sylvain Hallé</a>, Professor at <a href="http://www.uqac.ca/">Université du Québec à Chicoutimi</a>. </p>
+			<p>Code licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache License v2.0</a>.</p>
+		</div><!-- /.footer -->
+
+	</div><!-- /.container -->
+
 	<?php /* Hidden elements below */ ?>
 
 	<?php /* Log */ ?>
@@ -115,7 +115,10 @@ $access = 'authorized';
 			<h3>Don't panic, everything's ok!</h3>
 		</div>
 		<div class="modal-body">
-			<p>Basically, this is an utility for viewing some <span class="label label-info">urlset generated maps</span> in a smooth and easy way. Maps are usually in <span class="label label-info">xml</span> formats and here is an example:</p>
+
+			<p>Basically, this is an utility for managing some <span class="label label-info">urlset generated maps</span> in a smooth and easy way. Maps are usually in <span class="label label-info">xml</span> format.
+			<p>For further details, you can read the <a href="ReadMe.md">readme</a>.</p>
+			<p>Here is an example of a valid xml file:</p>
 
 			<pre class="prettyprint"><code class="language-xml"><?php echo htmlspecialchars(file_get_contents("example.xml"), ENT_QUOTES); ?></code></pre>
 

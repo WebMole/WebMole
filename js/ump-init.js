@@ -3,8 +3,11 @@ $(document).ready(function() {
   // Load PrettyPrint
   prettyPrint();
 
-  //Noty test
+  // Noty test
   var my_notification = noty({layout: "topRight", type: "information", text: 'noty is alive and javascript is ebabled ;)', timeout: 3500});
+
+  // Initialize the tab :)
+  $('#tab-map-viewier').tab('show');
 
   // Handlers for buttons and actions
   attachHandlers();
@@ -12,15 +15,19 @@ $(document).ready(function() {
 
 function attachHandlers() {
   // Main compute button
+
   $('.action_compute').on('click', function() {
     init();
   });
   
+  // Editor Clear button
   $('.action_clear').on('click', function() {
     $('.source_input').html('');
     $('.source_input').val('');
   });
 }
+
+
 
 /*
 filesUpload.addEventListener("change", function () {
