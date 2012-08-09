@@ -18,7 +18,7 @@ Requirements
 Disclaimer
 ----------
 
-URLset Manager Project does not provide any way to hacks nor encourage hacking. The project is delivered as-is
+URLset Manager Project does not provide any way to hack, attack websites and doesn't encourage hacking. The project is delivered as-is
 
 Credits
 -------
