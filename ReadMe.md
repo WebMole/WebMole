@@ -10,6 +10,7 @@ This will be filled with some common usage tips ;)
 Requirements
 ------------
 
+* A web server running PHP
 * A web browser
   * Tested with [Google Chrome](https://www.google.com/chrome)
 * Javascript must be enabled
