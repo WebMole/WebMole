@@ -5,68 +5,36 @@ if ($access != 'authorized')
 ?>
 
 <div class="row" id="web-explorer">
-	<div class="span4">
-		<h2>Insert your magic stuff here</h2>
-
-		<div class="btn-group-centered spacer">
-			<div class="btn-group">
-				<button class="btn active">Some stuff</button>
-				<button class="btn">Cool stuff</button>
-			</div>	
-		</div>
-	</div>
-	<div class="span8">
-		<h2>Here's a random table</h2>
-
-		<?php //@todo: make this dynamic and real ;) ?>
-		<table class="table table-bordered table-striped">
-			<colgroup>
-				<col class="span2"></col>
-				<col class="span6"></col>
-			</colgroup>
-			<thead>
-				<tr>
-					<th>Hapiness</th>
-					<th>Joy</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>
-						<code>blabla</code>
-					</td>
-					<td>
-						cool
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<code>hey</code>
-					</td>
-					<td>
-						<span class="label label-important">replace</span>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<code>me</code>
-					</td>
-					<td>
-						ok?
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<code>do it</code>
-					</td>
-					<td>
-						<span class="badge">NOW</span>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+	<div class="span12">
+    	 <div class="control-group spacer">
+             <div class="controls">
+                <div class="input-append"> 
+                    <input type="text" class="span7" id="sh_url_start" value="http://localhost:8888/st/p20.html"/> 
+                    <button type="button" class="btn btn-info" id="sh_url_start_btn" onclick="webExplorer_start();">
+                        <i class="icon-play icon-white"></i> Start exploration
+                    </button>
+                    <button type="button" class="btn btn-info" id="sh_url_start_btn" onclick="nomDeLappli_start();">
+                        <i class="icon-globe icon-white"></i> View map
+                    </button>
+                    <button type="button" class="btn btn-danger" id="sh_url_start_btn" onclick="nomDeLappli_start();">
+                        <i class="icon-stop icon-white"></i> Cancel
+                    </button>               
+                </div> 
+            </div>                 
+        </div>
+    </div>
+    <div class="span5">
+		<h2>Console</h2>
+       
+        <div id="web-explorer-console">
+        </div>
 		
-		<button class="btn btn-success"><i class="icon-star-empty"></i> Hello world</button>
+	</div>
+	<div class="span7">
+		<h2>Viewer</h2>
+		<iframe id="sh_explorer_frame"></iframe>  
+		
+		
 	
 	</div>
 </div><!-- /#web-explorer -->
