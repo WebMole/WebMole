@@ -91,65 +91,16 @@ $access = 'authorized';
 	<?php /* Log */ ?>
 	<div id="log"></div>
 
-	<?php /* Source code Modal */ ?>
-	<div class="modal hide fade" id="source_modal">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal">×</button>
-			<h3>Manually insert the data</h3>
-		</div>
-		<div class="modal-body">
-			<textarea class="source_input">Insert your data here</textarea>
-			<div class="clear"></div>
-			<a href="#" class="btn action_clear">Clear</a>
-		</div>
-		<div class="modal-footer">
-			<a href="#" class="btn" data-dismiss="modal">Close</a>
-			<a class="btn btn-primary action_compute" data-dismiss="modal" href="#"><i class="icon-fire"></i> Compute</a>
-		</div>
-	</div>
-
 	<?php /* Help Modal */ ?>
-	<div class="modal hide fade" id="help_modal">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal">×</button>
-			<h3>Don't panic, everything's ok!</h3>
-		</div>
-		<div class="modal-body">
+	<?php include("modal-help.php") ?>
 
-			<p>Basically, this is an utility for managing some <span class="label label-info">urlset generated maps</span> in a smooth and easy way. Maps are usually in <span class="label label-info">xml</span> format.
-			<p>For further details, you can read the <a href="ReadMe.md">readme</a>.</p>
-			<p>Here is an example of a valid xml file:</p>
-
-			<pre class="prettyprint"><code class="language-xml"><?php echo htmlspecialchars(file_get_contents("example.xml"), ENT_QUOTES); ?></code></pre>
-
-			<p>Just insert this sample code and see the result, simple as that ;)</p>
-		</div>
-		<div class="modal-footer">
-			<a class="btn btn-primary" data-dismiss="modal" href="#">Alright!</a>
-		</div>
-	</div>
+	<?php /* Source form Modal */ ?>
+	<?php include("modal-source-form.php") ?>
 
 	<?php /* Upload Modal */ ?>
-	<div class="modal hide fade" id="upload_modal">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal">×</button>
-			<h3>Manually insert the data</h3>
-		</div>
-		<div class="modal-body">
-			<p>
-				<input id="files-upload" type="file" multiple>
-			</p>
-			<p id="drop-area">
-				<!-- <span class="drop-instructions">or drag and drop files here</span> -->
-				<span class="drop-over">Drop files here!</span>
-			</p>
-			<p>Or just do it the good old way ;)</p>
-			<input type="file" name="datafile"></input>
-			<input type="submit"></input>
-		</div>
-		<div class="modal-footer">
-			<a href="#" class="btn" data-dismiss="modal">Close</a>
-		</div>
-	</div>
+	<?php include("modal-source-upload.php") ?>
+
+	<img class="homepage-icon" src="img/nodes/homepage.png" alt="Homepage" height="16" width="16" />
+
 </body>
 </html>
