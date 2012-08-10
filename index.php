@@ -36,6 +36,9 @@ $access = 'authorized';
 	<?php /* Application Manips */ ?>
 	<script language="javascript" type="text/javascript" src="js/ump-jit-manip.js"></script>
 	<script language="javascript" type="text/javascript" src="js/ump-init.js"></script>
+    
+    <?php /* Web-explorer */ ?>
+	<script type="text/javascript" src="js/web-explorer.js"></script>
 
 </head>
 
