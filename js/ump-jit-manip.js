@@ -36,50 +36,10 @@ function init() {
       },
       'children':[
         {
-            'id':'pie10',
-            'name': 'pie1',
-            'data': {
-                '$angularWidth': 20,
-                '$color': '#f55'
-            },
-            'children': [
-                {
-                    'id':'pie100',
-                    'name': 'pc1',
-                    'data': {
-                        '$angularWidth': 20,
-                        '$color': '#55f'
-                    },
-                    'children': []
-                    
-                },
-                {
-                    'id':'pie101',
-                    'name': 'pc2',
-                    'data': {
-                        '$angularWidth': 70,
-                        '$color': '#66f'
-                    },
-                    'children': []
-                    
-                },
-                {
-                    'id':'pie102',
-                    'name': 'pc3',
-                    'data': {
-                        '$angularWidth': 10,
-                        '$color': '#77f'
-                    },
-                    'children': []
-                    
-                }
-            ]
-        },
-        {
             'id':'pie20',
             'name': 'pie2',
             'data': {
-                '$angularWidth': 40,
+                '$angularWidth': 4,
                 '$color': '#f77'
             },
             'children': [
@@ -87,7 +47,7 @@ function init() {
                     'id':'pie200',
                     'name': 'pc1',
                     'data': {
-                        '$angularWidth': 40,
+                        '$angularWidth': 30,
                         '$color': '#88f'
                     },
                     'children': []
@@ -138,8 +98,7 @@ function init() {
             'id':'pie1',
             'name': 'pie1',
             'data': {
-                '$angularWidth': 20,
-                '$color': '#f55'
+                '$type': 'homepage'
             },
             'children': []
         },
@@ -204,15 +163,31 @@ function init() {
         'piechart': {
           'render': function(node, canvas, animating) {
             var ctx = canvas.getCtx(), pos = node.pos.getc(true);
-            ctx.save();
-            ctx.translate(pos.x, pos.y);
-            pie.plot();
-            ctx.restore();
+                ctx.save();
+                ctx.translate(pos.x, pos.y);
+                pie.plot();
+                ctx.restore();
           }
-         }
+        },
+        'homepage':
+        {  
+            'render': function(node, canvas)
+            {  
+                //print your custom node to canvas
+                var pos = node.pos.getc(true);
+                var img = $('.homepage-icon');
+                var ctx = canvas.getCtx();
+                ctx.drawImage(img, pos.x - img.width/2, pos.y - img.height/2);
+            },  
+            //optional  
+            'contains': function(node, pos)
+            {  
+                //return true if pos is inside the node or false otherwise
+            }  
+        }
     });
     //end
-    
+
     //init pie
     //This RGraph instance will be used as the node for 
     //another RGraph instance.
@@ -257,7 +232,8 @@ function init() {
         Node: {
             //set the RGraph rendering function
             //as node type
-           'type': 'piechart'
+            overridable: true,
+            type: 'square'
         },
         Edge: {
             color: '#772277'
