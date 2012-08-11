@@ -291,6 +291,35 @@ function webExplorer_consolePopoverUpdate(nodeId){
 	
 	$('#webExplorer_consoleNode'+nodeId+' > a').attr('data-content',consoleNodePopover);
 }
+
+
+function webExplorer_nodeToXml(){
+	var nodeToXml = '<urlset>';
+	for(var i=0;i<webExplorer_nodeList.length;i++){
+		nodeToXml += '<url>';
+		nodeToXml += '<id>'+webExplorer_nodeList[i].id+'</id>';
+		nodeToXml += '<loc><![CDATA['+webExplorer_nodeList[i].nodeDocumentLocationHref+']]></loc>';
+		nodeToXml += '<dom><![CDATA['+webExplorer_nodeList[i].nodeHtmlContent+']]></dom>';
+		nodeToXml += '<links>';
+		for(j=0;j<webExplorer_nodeList[i].nodeExternalLink.length;j++){
+			nodeToXml += '<link>';
+			nodeToXml += '<path>'+webExplorer_nodeList[i].nodeExternalLink[j].elementPath+'</path>';
+			nodeToXml += '<destination>'+webExplorer_nodeList[i].nodeExternalLink[j].nodeIdDest+'</destination>';
+			for(h=0;h<webExplorer_nodeList.length;h++){
+				if(webExplorer_nodeList[h].id == webExplorer_nodeList[i].nodeExternalLink[j].nodeIdDest){
+					nodeToXml += '<href><![CDATA['+webExplorer_nodeList[i].nodeDocumentLocationHref+']]></href>';
+					nodeToXml += '<type><![CDATA['+webExplorer_nodeList[i].nodeType+']]></type>';
+				}
+			}
+			nodeToXml += '</link>';
+		}
+		nodeToXml += '</links>';
+		nodeToXml += '</url>';
+	}
+	nodeToXml += '</urlset>';
+	return nodeToXml;
+}
+
 	
 
 
