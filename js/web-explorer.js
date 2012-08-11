@@ -297,14 +297,14 @@ function webExplorer_nodeToXml(){
 	var nodeToXml = '<urlset>';
 	for(var i=0;i<webExplorer_nodeList.length;i++){
 		nodeToXml += '<url>';
-		nodeToXml += '<id>'+webExplorer_nodeList[i].id+'</id>';
-		nodeToXml += '<loc><![CDATA['+webExplorer_nodeList[i].nodeDocumentLocationHref+']]></loc>';
+		nodeToXml += '<nodeid>'+webExplorer_nodeList[i].id+'</nodeid>';
+		nodeToXml += '<href><![CDATA['+webExplorer_nodeList[i].nodeDocumentLocationHref+']]></href>';
 		nodeToXml += '<dom><![CDATA['+webExplorer_nodeList[i].nodeHtmlContent+']]></dom>';
 		nodeToXml += '<links>';
 		for(j=0;j<webExplorer_nodeList[i].nodeExternalLink.length;j++){
 			nodeToXml += '<link>';
 			nodeToXml += '<path>'+webExplorer_nodeList[i].nodeExternalLink[j].elementPath+'</path>';
-			nodeToXml += '<destination>'+webExplorer_nodeList[i].nodeExternalLink[j].nodeIdDest+'</destination>';
+			nodeToXml += '<nodeid>'+webExplorer_nodeList[i].nodeExternalLink[j].nodeIdDest+'</nodeid>';
 			for(h=0;h<webExplorer_nodeList.length;h++){
 				if(webExplorer_nodeList[h].id == webExplorer_nodeList[i].nodeExternalLink[j].nodeIdDest){
 					nodeToXml += '<href><![CDATA['+webExplorer_nodeList[i].nodeDocumentLocationHref+']]></href>';
