@@ -3,7 +3,6 @@ var webExplorer_nodeList = new Array();//Liste de tous les noeuds
 var webExplorer_urlStart;//Adresse du noeud d'origine
 var webExplorer_nodeCurrentId,webExplorer_nodePreviousId;//Id du noeud en cours et du noeud précédent
 var webExplorer_elementPath = null;//Chemin relatif au dernier élément DOM visité
-var javascriptState = false;
 
 //Charge la page désirée dans l'iframe et injecte le script de cartographie javascript
 function webExplorer_start(){
@@ -24,6 +23,7 @@ function webExplorer_start(){
 
 //Classe Noeud
 function webExplorer_Node(nodeHtmlContent, nodeDomTreePath, nodeDomTreeText, nodeDocumentLocationHref, nodeType) {
+	//console.log(nodeHtmlContent);
 	this.id=webExplorer_newNodeId();
 	this.nodeHtmlContent = nodeHtmlContent;//Contenu entier de la page HTML
 	this.nodeDomTreePath = nodeDomTreePath;//Tableau des différents éléments DOM de la page
@@ -142,30 +142,18 @@ function webExplorer_isExternalLink(nodeId,elementPath){
 }
 
 //Classe lien sortant
-function ExternalLink(nodeIdDest,elementPath,javascriptState){
+function ExternalLink(nodeIdDest,elementPath){
 	this.nodeIdDest=nodeIdDest;//Id du noeud de destination
 	this.elementPath=elementPath;//Chemin du lien sortant du noeud relatif
-	this.javascriptState=javascriptState;
 	//console.log("Nouveau lien sortant : "+elementPath +"|"+nodeIdDest);
 }
 
 
-function webExplorer_isExternalLinkJavascriptState(nodeId,elementPath){
-	for(var h=0;h<webExplorer_nodeList.length;h++){
-		if(	webExplorer_nodeList[h].id == nodeId){
-			for(var i=0;i<webExplorer_nodeList[h].nodeExternalLink.length;i++){
-				if(webExplorer_nodeList[h].nodeExternalLink[i].elementPath==elementPath){
-					return webExplorer_nodeList[h].nodeExternalLink[i].javascriptState;
-				}
-			}
-		}
-	}
-	return false;
-}
+
 
 
 //Ajout un lien sortant au noeud relatif
-function webExplorer_setExternalLink(nodeId,nodeIdDest,elementPath,javascriptState){
+function webExplorer_setExternalLink(nodeId,nodeIdDest,elementPath){
 	var exist = false;
 	for(var h=0;h<webExplorer_nodeList.length;h++){
 		if(	webExplorer_nodeList[h].id == nodeId){
@@ -175,7 +163,7 @@ function webExplorer_setExternalLink(nodeId,nodeIdDest,elementPath,javascriptSta
 				}
 			}
 			if(exist==false){
-				var externalLink = new ExternalLink(nodeIdDest,elementPath,javascriptState);
+				var externalLink = new ExternalLink(nodeIdDest,elementPath);
 				webExplorer_nodeList[h].nodeExternalLink.push(externalLink);
 				webExplorer_consoleAlertNewExternalLink(nodeId,nodeIdDest)
 				//console.log("Lien sortant ajouté de "+nodeId+" vers "+nodeIdDest+" | element path : "+elementPath);
@@ -219,9 +207,12 @@ function webExplorer_hasBeenVisitedExternalLink(nodeId,elementPath){
 
 
 function webExplorer_consoleAlertNewNode(nodeId,nodeDocumentLocationHref,nodeType){
-	var iconNodeType = "icon-asterisk";
+	var iconNodeType = "icon-certificate";
 	if(nodeType=="javascript"){
 		iconNodeType = "icon-repeat";
+	}
+	else if(nodeType == "ajax"){
+		iconNodeType = "icon-cog";		
 	}
 	var consoleNodePopover = '<table class=\'table\'>';
 	consoleNodePopover += '<tr>';
@@ -239,8 +230,7 @@ function webExplorer_consoleAlertNewNode(nodeId,nodeDocumentLocationHref,nodeTyp
 	consoleNodePopover += '</td>';
 	consoleNodePopover += '</tr>';
 	consoleNodePopover += '</table>';
-	
-	
+		
 	var consoleNodeContent = '<div id="webExplorer_consoleNode'+nodeId+'" class="alert alert-success" style="margin-bottom:2px;">';
 	consoleNodeContent += '<button type="button" class="close" data-dismiss="alert">×</button>';
 	consoleNodeContent += '<a href="#" rel="popover" data-original-title="Node '+nodeId+' details :" data-content="'+consoleNodePopover+'">';
@@ -260,8 +250,7 @@ function webExplorer_consoleAlertNewExternalLink(nodeId,nodeIdDest){
 function webExplorer_consolePopoverUpdate(nodeId){
 	var consoleNodePopover;
 	for(var i=0;i<webExplorer_nodeList.length;i++){
-		if(webExplorer_nodeList[i].id==nodeId){
-			
+		if(webExplorer_nodeList[i].id==nodeId){			
 			var nodeType = webExplorer_nodeList[i].nodeType;
 			var nodeDocumentLocationHref = webExplorer_nodeList[i].nodeDocumentLocationHref;
 			var consoleNodePopover = '<table class=\'table\'>';
@@ -277,7 +266,6 @@ function webExplorer_consolePopoverUpdate(nodeId){
 			consoleNodePopover += '<td>External links</td>';
 			consoleNodePopover += '<td>';
 			consoleNodePopover += '<ul>';
-			console.log(nodeId);
 			for(var j=0;j<webExplorer_nodeList[i].nodeExternalLink.length;j++){
 				consoleNodePopover += '<li>Node '+webExplorer_nodeList[i].nodeExternalLink[j].nodeIdDest+' : '+webExplorer_nodeList[i].nodeExternalLink[j].elementPath+'</li>';
 			}
