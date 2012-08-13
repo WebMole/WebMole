@@ -21,12 +21,11 @@ function webExplorer_start(){
 		myf = myf.contentWindow.document || myf.contentDocument;	
 		var script   = myf.createElement("script");
 		script.type  = "text/javascript";
-		//Adresse générée dynamiquement
-		script.src   = "<?php echo $application_directory; ?>/js/web-explorer-iframe.js?a="+(Math.random());// use this for linked script
+		script.src   = "<?php $application_directory ?>/js/web-explorer-iframe.js?a="+(Math.random());// use this for linked script
 		myf.head.appendChild(script);
 		startTime = new Date().getTime();			
     });	
-	
+
 }
 
 //Classe Noeud
@@ -48,7 +47,7 @@ function webExplorer_Node(nodeHtmlContent, nodeDomTreePath, nodeDomTreeText, nod
 //Fonction permettant d'instancier un nouveau noeud à partir du code javascript de l'iFrame
 function webExplorer_newNode(nodeHtmlContent, nodeDomTreePath, nodeDomTreeText, nodeDocumentLocationHref, nodeType){
 	new webExplorer_Node(nodeHtmlContent, nodeDomTreePath,nodeDomTreeText, nodeDocumentLocationHref, nodeType);
-	
+
 }
 
 //Génère un nouvel identifiant unique pour un noeud
@@ -176,7 +175,7 @@ function webExplorer_setExternalLink(nodeId,nodeIdDest,elementPath){
 				webExplorer_consoleAlertNewExternalLink(nodeId,nodeIdDest)
 				//console.log("Lien sortant ajouté de "+nodeId+" vers "+nodeIdDest+" | element path : "+elementPath);
 			}
-			
+
 		}
 	}
 }
@@ -238,7 +237,11 @@ function webExplorer_consoleAlertNewNode(nodeId,nodeDocumentLocationHref,nodeTyp
 	consoleNodePopover += '</td>';
 	consoleNodePopover += '</tr>';
 	consoleNodePopover += '</table>';
+<<<<<<< HEAD
 		
+=======
+
+>>>>>>> Fixed commit conflict (kind of)
 	var consoleNodeContent = '<div id="webExplorer_consoleNode'+nodeId+'" class="alert alert-success" style="margin-bottom:2px;">';
 	consoleNodeContent += '<button type="button" class="close" data-dismiss="alert">×</button>';
 	consoleNodeContent += '<a href="#" rel="popover" data-original-title="Node '+nodeId+' details :" data-content="'+consoleNodePopover+'">';
@@ -282,9 +285,9 @@ function webExplorer_consolePopoverUpdate(nodeId){
 			consoleNodePopover += '</tr>';
 			consoleNodePopover += '</table>';
 		}
-		
+
 	}
-	
+
 	$('#webExplorer_consoleNode'+nodeId+' > a').attr('data-content',consoleNodePopover);
 }
 <<<<<<< HEAD:js/web-explorer.js
@@ -330,4 +333,36 @@ function webExplorer_nodeToXml(){
 =======
 >>>>>>> Made web-explorer.js dynamic ;):js/web-explorer.js.php
 
+<<<<<<< HEAD
 </script>
+=======
+
+function webExplorer_nodeToXml(){
+	var nodeToXml = '<urlset>';
+	for(var i=0;i<webExplorer_nodeList.length;i++){
+		nodeToXml += '<url>';
+		nodeToXml += '<nodeid>'+webExplorer_nodeList[i].id+'</nodeid>';
+		nodeToXml += '<href><![CDATA['+webExplorer_nodeList[i].nodeDocumentLocationHref+']]></href>';
+		nodeToXml += '<dom><![CDATA['+webExplorer_nodeList[i].nodeHtmlContent+']]></dom>';
+		nodeToXml += '<links>';
+		for(j=0;j<webExplorer_nodeList[i].nodeExternalLink.length;j++){
+			nodeToXml += '<link>';
+			nodeToXml += '<path>'+webExplorer_nodeList[i].nodeExternalLink[j].elementPath+'</path>';
+			nodeToXml += '<nodeid>'+webExplorer_nodeList[i].nodeExternalLink[j].nodeIdDest+'</nodeid>';
+			for(h=0;h<webExplorer_nodeList.length;h++){
+				if(webExplorer_nodeList[h].id == webExplorer_nodeList[i].nodeExternalLink[j].nodeIdDest){
+					nodeToXml += '<href><![CDATA['+webExplorer_nodeList[i].nodeDocumentLocationHref+']]></href>';
+					nodeToXml += '<type><![CDATA['+webExplorer_nodeList[i].nodeType+']]></type>';
+				}
+			}
+			nodeToXml += '</link>';
+		}
+		nodeToXml += '</links>';
+		nodeToXml += '</url>';
+	}
+	nodeToXml += '</urlset>';
+	return nodeToXml;
+}
+
+</script>
+>>>>>>> Fixed commit conflict (kind of)
