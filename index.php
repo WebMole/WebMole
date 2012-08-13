@@ -1,6 +1,14 @@
 <?php
 /* This is to prevent direct access to other php files */
 $access = 'authorized';
+
+include('config.php');
+/**
+ * Read configuration file
+ */
+$CONFIG = read_config_file(CONFIG_FILE);
+$application_directory = dirname($_SERVER['PHP_SELF']);
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -38,7 +46,7 @@ $access = 'authorized';
 	<script language="javascript" type="text/javascript" src="js/ump-init.js"></script>
     
     <?php /* Web-explorer */ ?>
-	<script type="text/javascript" src="js/web-explorer.js"></script>
+	<?php include('js/web-explorer.js.php'); ?>
 
 </head>
 
