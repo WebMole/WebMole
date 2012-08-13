@@ -1,3 +1,10 @@
+<?php
+/* Prevent direct access to this file. */
+if ($access != 'authorized')
+    die('You are not allowed to view this file');
+?>
+
+<script type="text/javascript" language="javascript">
 var webExplorer_nodeId = 0;
 var webExplorer_nodeList = new Array();//Liste de tous les noeuds 
 var webExplorer_urlStart;//Adresse du noeud d'origine
@@ -14,7 +21,8 @@ function webExplorer_start(){
 		myf = myf.contentWindow.document || myf.contentDocument;	
 		var script   = myf.createElement("script");
 		script.type  = "text/javascript";
-		script.src   = "http://localhost:8888/GabLeRoux-Urlset-Manager-Project-9990194/js/web-explorer-iframe.js?a="+(Math.random());// use this for linked script
+		//Adresse générée dynamiquement
+		script.src   = "<?php echo $application_directory; ?>/js/web-explorer-iframe.js?a="+(Math.random());// use this for linked script
 		myf.head.appendChild(script);
 		startTime = new Date().getTime();			
     });	
@@ -279,6 +287,7 @@ function webExplorer_consolePopoverUpdate(nodeId){
 	
 	$('#webExplorer_consoleNode'+nodeId+' > a').attr('data-content',consoleNodePopover);
 }
+<<<<<<< HEAD:js/web-explorer.js
 
 
 function webExplorer_nodeToXml(){
@@ -318,4 +327,7 @@ function webExplorer_nodeToXml(){
 
 
 
+=======
+>>>>>>> Made web-explorer.js dynamic ;):js/web-explorer.js.php
 
+</script>
