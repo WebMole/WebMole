@@ -21,7 +21,7 @@ function webExplorer_start(){
 		myf = myf.contentWindow.document || myf.contentDocument;	
 		var script   = myf.createElement("script");
 		script.type  = "text/javascript";
-		script.src   = "<?php $application_directory ?>/js/web-explorer-iframe.js?a="+(Math.random());// use this for linked script
+		script.src   = "<?php echo $application_directory ?>/js/web-explorer-iframe.js?a="+(Math.random());// use this for linked script
 		myf.head.appendChild(script);
 		startTime = new Date().getTime();			
     });	
