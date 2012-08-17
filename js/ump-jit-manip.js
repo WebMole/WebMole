@@ -249,14 +249,9 @@ function handle_json_file(filename)
 	var jqxhr = $.getJSON(filename, function() {
 	  alert("success");
 	})
-	.success(function() { alert("second success"); })
-	.error(function() { alert("error"); })
-	.complete(function() { alert("complete"); });
-
-	// perform other work here ...
-
-	// Set another completion function for the request above
-	jqxhr.complete(function(){ alert("second complete"); });
+	.error(function() {
+		alert("There was an error with the upload file");
+	});
 
 	return jqxhr;
 }

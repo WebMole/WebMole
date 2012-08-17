@@ -16,6 +16,6 @@ if ($access != 'authorized')
 	</div>
 	<div class="modal-footer">
 		<a href="#" class="btn" data-dismiss="modal">Close</a>
-		<a class="btn btn-primary action_compute" data-dismiss="modal" href="#"><i class="icon-fire"></i> Compute</a>
+		<a class="btn btn-primary action_compute" href="#"><i class="icon-fire"></i> Compute</a>
 	</div>
 </div>
