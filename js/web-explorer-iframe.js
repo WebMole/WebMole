@@ -19,8 +19,12 @@ XMLHttpRequest.prototype.open = newOpen;
 
 
 $(document).ready(function() {
-	var documentDom = $("body").find("*");//Variable qui sert à parcourir les éléments contenu dans la balise BODY
+	var documentDom = $("body").find(webExplorer_getElementToExplore());//Variable qui sert à parcourir les éléments contenu dans la balise BODY
+	if(webExplorer_getElementToCompute()){
+		webExplorer_computeElements();
+	}
 	var nodeHtmlContent = $("body").html();//Contenu de la balise BODY
+
 		
 	//Si il n'existe aucun noeud, alors on crée le noeud initial
 	if(webExplorer_getNodeList() == 0){
@@ -38,8 +42,12 @@ $(document).ready(function() {
 
 //Fonction qui va cliquer si besoin les différents éléments de la page
 function doClick(){
-	documentDom = $("body").find("*");
-	nodeHtmlContent = $("body").html();	
+	documentDom = $("body").find(webExplorer_getElementToExplore());
+	
+	if(webExplorer_getElementToCompute()){
+		webExplorer_computeElements();
+	}
+	nodeHtmlContent = $("body").html();//Contenu de la balise BODY
 	
 	var i = documentDom.length;
 	var end = true;
@@ -56,8 +64,11 @@ function doClick(){
 			}
 			else{				
 				$(this).click();
-				documentDom = $("body").find("*");
-				nodeHtmlContent = $("body").html();
+				documentDom = $("body").find(webExplorer_getElementToExplore());
+				if(webExplorer_getElementToCompute()){
+					webExplorer_computeElements();
+				}
+				nodeHtmlContent = $("body").html();//Contenu de la balise BODY
 				//console.log(nodeHtmlContent);
 				if(webExplorer_nodeAlreadySeen(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom))==false){
 					//On change la valeur du noeud précédent
@@ -114,7 +125,7 @@ function doClick(){
 				}
 				return false;				
 			}			
-		}			
+		}						
     });
 	
 	//Si on est pas sur le noeud initial et que tout les éléments de la page on été visité alors :
@@ -192,6 +203,27 @@ function getDomTreePath(documentDom){
 	return domTreeElemPath;
 }
 
+
+function getDomainName() {
+	var url = window.location.href;
+	var url_parts = url.split('/');
+	var domain_name_parts = url_parts[2].split(':');
+	var domain_name = domain_name_parts[0];
+	return domain_name;
+}
+
+function getPortNumber() {
+	var url = window.location.href;	
+	var url_parts = url.split('/');	
+	var domain_name_parts = url_parts[2].split(':');	
+	var port_number = domain_name_parts[1];	
+	if(port_number!=""){
+		port_number = ":"+port_number;
+	}
+	return port_number;
+
+}
+
 function webExplorer_nodeAlreadySeen(nodeHtmlContent, nodeDomTreePath, nodeDomTreeText){
 	return window.parent.webExplorer_nodeAlreadySeen(nodeHtmlContent, nodeDomTreePath, nodeDomTreeText);
 }
@@ -254,4 +286,30 @@ function webExplorer_getNodePreviousId(){
 
 function webExplorer_getNodeList(){
 	return window.parent.webExplorer_nodeList;
+}
+
+function webExplorer_getElementToExplore(){
+	return window.parent.webExplorer_elementToExplore;
+}
+
+function webExplorer_getElementToCompute(){
+	return window.parent.webExplorer_elementToCompute;
+}
+
+function webExplorer_computeElements(){
+	$(webExplorer_getElementToExplore()).each(function(index, element) {
+		if($(this).attr("style")==null){
+			$(this).attr("style","");
+		}
+		var toto = new Array("height", "width", "display");
+		for(var i=0;i<toto.length;i++){
+			var cssStylePattern = new RegExp("("+toto[i]+"\s*:\s*)");
+			if(cssStylePattern.test($(this).attr("style"))==false){
+				$(this).attr("style",$(this).attr("style")+""+toto[i]+":"+window.getComputedStyle(element, null).getPropertyValue(toto[i])+";");
+			}
+		}
+		
+		
+		
+	});
 }

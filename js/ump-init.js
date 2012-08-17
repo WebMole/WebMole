@@ -11,6 +11,9 @@ $(document).ready(function() {
 
   // Handlers for buttons and actions
   attachHandlers();
+  
+  // Init tooltip for btn with 'btn-tooltip' class
+  $(".btn-tooltip").tooltip();
 });
 
 function attachHandlers() {

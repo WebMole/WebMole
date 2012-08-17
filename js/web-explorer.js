@@ -1,31 +1,75 @@
-<?php
-/* Prevent direct access to this file. */
-if ($access != 'authorized')
-    die('You are not allowed to view this file');
-?>
-
-<script type="text/javascript" language="javascript">
 var webExplorer_nodeId = 0;
 var webExplorer_nodeList = new Array();//Liste de tous les noeuds 
 var webExplorer_urlStart;//Adresse du noeud d'origine
 var webExplorer_nodeCurrentId,webExplorer_nodePreviousId;//Id du noeud en cours et du noeud précédent
 var webExplorer_elementPath = null;//Chemin relatif au dernier élément DOM visité
+var webExplorer_elementToExplore = "*";
+var webExplorer_elementToCompute = false;
+
+function webExplorer_go(where){
+	$(".web-explorer").hide(0);
+	$("#web-explorer-"+where).fadeIn('fast');
+}
+
+function webExplorer_automaticOption(option){
+	$(".web-explorer-automatic-option").fadeOut('fast');
+	if(option=="specify"){
+		$("#web-explorer-automatic-option-specify").fadeIn();
+	}
+	else if(option=="computed"){			
+		$("#web-explorer-automatic-option-computed").fadeIn();
+	}
+}
+
+function webExplorer_specifyElements(){
+	var hasToSpecifyElements = false;
+	var specifiedElements = new Array();
+	$(".web-explorer-specify-element:not(:checked)").each(function(index, element) {
+        hasToSpecifyElements = true;
+		return false;
+    });
+	if(hasToSpecifyElements){
+		$(".web-explorer-specify-element:checked").each(function(index, element) {
+			specifiedElements.push($(this).attr("element-name"));
+		});
+		var specifiedElementsList = specifiedElements.join(",");
+		console.log(specifiedElementsList);
+		webExplorer_elementToExplore = specifiedElementsList;
+	}
+	else{
+		webExplorer_elementToExplore = "*";
+	}
+}
+
+function webExplorer_computeElements(){	
+	if($("#web-explorer-compute-element").is(":checked")){
+		webExplorer_elementToCompute = true;
+	}	
+}
+
+
+
 
 //Charge la page désirée dans l'iframe et injecte le script de cartographie javascript
 function webExplorer_start(){
-	webExplorer_urlStart = $("#sh_url_start").val();
-	$('#sh_explorer_frame').attr('src', webExplorer_urlStart);
-	$('#sh_explorer_frame').load(function() 
-    {
-        var myf = document.getElementById("sh_explorer_frame");
-		myf = myf.contentWindow.document || myf.contentDocument;	
-		var script   = myf.createElement("script");
-		script.type  = "text/javascript";
-		script.src   = "<?php echo $application_directory ?>/js/web-explorer-iframe.js?a="+(Math.random());// use this for linked script
-		myf.head.appendChild(script);
-		startTime = new Date().getTime();			
-    });	
-
+	$("#web-explorer-automatic-step1").fadeOut('fast', function(){
+		$("#web-explorer-automatic-step2").fadeIn('fast');
+		$("#web-explorer-viewer").fadeIn('fast');
+		webExplorer_specifyElements();
+		webExplorer_computeElements();
+		webExplorer_urlStart = $("#web-explorer-url").val();
+		$('#sh_explorer_frame').attr('src', webExplorer_urlStart);
+		$('#sh_explorer_frame').load(function() 
+		{
+			var myf = document.getElementById("sh_explorer_frame");
+			myf = myf.contentWindow.document || myf.contentDocument;	
+			var script   = myf.createElement("script");
+			script.type  = "text/javascript";
+			script.src   = webExplorer_applicationDirectory+"/js/web-explorer-iframe.js?a="+(Math.random());// use this for linked script
+			myf.head.appendChild(script);
+			startTime = new Date().getTime();			
+		});	
+	});	
 }
 
 //Classe Noeud
@@ -47,7 +91,7 @@ function webExplorer_Node(nodeHtmlContent, nodeDomTreePath, nodeDomTreeText, nod
 //Fonction permettant d'instancier un nouveau noeud à partir du code javascript de l'iFrame
 function webExplorer_newNode(nodeHtmlContent, nodeDomTreePath, nodeDomTreeText, nodeDocumentLocationHref, nodeType){
 	new webExplorer_Node(nodeHtmlContent, nodeDomTreePath,nodeDomTreeText, nodeDocumentLocationHref, nodeType);
-
+	
 }
 
 //Génère un nouvel identifiant unique pour un noeud
@@ -175,7 +219,7 @@ function webExplorer_setExternalLink(nodeId,nodeIdDest,elementPath){
 				webExplorer_consoleAlertNewExternalLink(nodeId,nodeIdDest)
 				//console.log("Lien sortant ajouté de "+nodeId+" vers "+nodeIdDest+" | element path : "+elementPath);
 			}
-
+			
 		}
 	}
 }
@@ -237,6 +281,7 @@ function webExplorer_consoleAlertNewNode(nodeId,nodeDocumentLocationHref,nodeTyp
 	consoleNodePopover += '</td>';
 	consoleNodePopover += '</tr>';
 	consoleNodePopover += '</table>';
+		
 	var consoleNodeContent = '<div id="webExplorer_consoleNode'+nodeId+'" class="alert alert-success" style="margin-bottom:2px;">';
 	consoleNodeContent += '<button type="button" class="close" data-dismiss="alert">×</button>';
 	consoleNodeContent += '<a href="#" rel="popover" data-original-title="Node '+nodeId+' details :" data-content="'+consoleNodePopover+'">';
@@ -280,11 +325,12 @@ function webExplorer_consolePopoverUpdate(nodeId){
 			consoleNodePopover += '</tr>';
 			consoleNodePopover += '</table>';
 		}
-
+		
 	}
-
+	
 	$('#webExplorer_consoleNode'+nodeId+' > a').attr('data-content',consoleNodePopover);
 }
+
 
 function webExplorer_nodeToXml(){
 	var nodeToXml = '<urlset>';
@@ -310,7 +356,47 @@ function webExplorer_nodeToXml(){
 		nodeToXml += '</url>';
 	}
 	nodeToXml += '</urlset>';
+	console.log(nodeToXml);
 	return nodeToXml;
 }
 
-</script>
+function webExplorer_nodeToJson(){
+	var nodeToJson = {
+		"url" : []
+	};
+	
+	for(var i=0;i<webExplorer_nodeList.length;i++){
+		nodeToJson.url.push({
+			"nodeid" : webExplorer_nodeList[i].id,
+			"href" : webExplorer_nodeList[i].nodeDocumentLocationHref,
+			"dom" : webExplorer_nodeList[i].nodeHtmlContent,	
+			"links" : []	
+		});
+		for(var j=0;j<webExplorer_nodeList[i].nodeExternalLink.length;j++){
+			for(h=0;h<webExplorer_nodeList.length;h++){
+				if(webExplorer_nodeList[h].id == webExplorer_nodeList[i].nodeExternalLink[j].nodeIdDest){
+					nodeToJson.url[i].links.push({
+						"nodeid" : webExplorer_nodeList[i].nodeExternalLink[j].nodeIdDest,
+						"path" : webExplorer_nodeList[i].nodeExternalLink[j].elementPath,
+						"href" : webExplorer_nodeList[h].nodeDocumentLocationHref,
+						"type" : webExplorer_nodeList[h].nodeType
+					});
+				}
+			}
+		}
+		
+	}
+	console.log(nodeToJson);
+}
+
+	
+
+
+
+
+
+
+
+
+
+
