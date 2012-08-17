@@ -25,9 +25,9 @@ if ($access != 'authorized')
 		</div>
 	</div>
 	<div class="span4">
+		<div id="status" class="alert alert-info"><?php /* status will be written here */ ?></div>
 		<h2>Nodes Info</h2>
 
-		<?php //@todo: make this dynamic and real ;) ?>
 		<table class="table table-bordered table-striped">
 			<colgroup>
 				<col class="span2"></col>
@@ -44,36 +44,36 @@ if ($access != 'authorized')
 					<td>
 						<code>Name</code>
 					</td>
+					<td id="jit-data-name"><?php // name will be written here ?></td>
+				</tr>
+				<tr>
 					<td>
-						Home
+						<code>Id</code>
 					</td>
+					<td id="jit-data-id"><?php // id will be written here ?></td>
 				</tr>
 				<tr>
 					<td>
 						<code>Type</code>
 					</td>
-					<td>
-						<span class="label label-important">Page</span>
-					</td>
+					<td id="jit-data-type"><?php // type will be written here ?></td>
 				</tr>
 				<tr>
 					<td>
 						<code>Path</code>
 					</td>
-					<td>
-						path/example/etc.
-					</td>
+					<td id="jit-data-path"><?php // path will be written here ?></td>
 				</tr>
 				<tr>
 					<td>
-						<code>Level</code>
+						<code>Weight</code>
 					</td>
-					<td>
-						<span class="badge">1</span>
-					</td>
+					<td id="jit-data-weight"><?php // weight will be written here ?></td>
 				</tr>
 			</tbody>
 		</table>
+
+		<div id="adjencies"><?php // adjencies will be written here ?></div>
 
 		<div class="btn-group-centered spacer">
 			<div class="btn-group">
