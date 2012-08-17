@@ -99,9 +99,6 @@ $application_directory = dirname($_SERVER['PHP_SELF']);
 
 	<?php /* Hidden elements below */ ?>
 
-	<?php /* Log */ ?>
-	<div id="log"></div>
-
 	<?php /* Help Modal */ ?>
 	<?php include("modal-help.php") ?>
 
@@ -111,7 +108,10 @@ $application_directory = dirname($_SERVER['PHP_SELF']);
 	<?php /* Upload Modal */ ?>
 	<?php include("modal-source-upload.php") ?>
 
-	<img class="homepage-icon" src="img/nodes/homepage.png" alt="Homepage" height="16" width="16" />
+	<?php // Those are the image used on the map ?>
+	<div id="images" style="display:none;position:absolute">
+		<img id="homepage-icon" src="img/nodes/homepage.png" alt="Icon" />
+	</div><!-- #images -->
 
 </body>
 </html>
