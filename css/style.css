@@ -146,3 +146,23 @@ a[rel="popover"]{
 a[rel="popover"]:hover{
 	text-decoration:none;
 }
+
+.web-explorer-controls{
+	padding-bottom:18px;
+}
+
+.web-explorer{
+	display:none;
+}
+
+#web-explorer-type{
+	display:block;
+}
+
+#web-explorer{
+	min-height:400px;
+}
+
+.t-center{
+	text-align:center;
+}
