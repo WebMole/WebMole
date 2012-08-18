@@ -22,18 +22,28 @@ function attachHandlers() {
   // Main compute button
   // compute graph with source's input json
   $('.action_compute').on('click', function(event) {
-    try
+    
+    // If input empty, use default graph
+    if ($('.source_input').val() == '')
     {
-      var json = JSON.parse($('.source_input').val());
-      create_graph(json);
-      $('#upload_modal').modal('hide');
+      create_graph('');
+      $('#source_modal').modal('hide');
     }
-    catch(err)
+    else
     {
-      txt="There was an with your json data.\n";
-      txt+="Error description: " + err.message + "\n\n";
-      txt+="you can try to validate it with JSONLint. You may also leave the textarea blank for default behaviour";
-      alert(txt);
+      try
+      {
+        var json = JSON.parse($('.source_input').val());
+        create_graph(json);
+        $('#source_modal').modal('hide');
+      }
+      catch(err)
+      {
+        txt="There was an with your json data.\n";
+        txt+="Error description: " + err.message + "\n\n";
+        txt+="you can try to validate it with JSONLint. You may also leave the textarea blank for default behaviour";
+        alert(txt);
+      }
     }
   });
   
@@ -41,6 +51,7 @@ function attachHandlers() {
   $('.drop-over').on('click', function() {
     var json = handle_json_file("data-map-example.json");
     create_graph(json);
+    $('#upload_modal').modal('hide');
   });
 
   // Editor Clear button
