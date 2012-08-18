@@ -100,13 +100,13 @@ $application_directory = dirname($_SERVER['PHP_SELF']);
 	<?php /* Hidden elements below */ ?>
 
 	<?php /* Help Modal */ ?>
-	<?php include("modal-help.php") ?>
+	<?php include("modals/modal-help.php") ?>
 
 	<?php /* Source form Modal */ ?>
-	<?php include("modal-source-form.php") ?>
+	<?php include("modals/modal-source-form.php") ?>
 
 	<?php /* Upload Modal */ ?>
-	<?php include("modal-source-upload.php") ?>
+	<?php include("modals/modal-source-upload.php") ?>
 
 	<?php // Those are the image used on the map ?>
 	<div id="images" style="display:none;position:absolute">
