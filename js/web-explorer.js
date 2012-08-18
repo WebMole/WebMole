@@ -4,7 +4,8 @@ var webExplorer_urlStart;//Adresse du noeud d'origine
 var webExplorer_nodeCurrentId,webExplorer_nodePreviousId;//Id du noeud en cours et du noeud précédent
 var webExplorer_elementPath = null;//Chemin relatif au dernier élément DOM visité
 var webExplorer_elementToExplore = "*";
-var webExplorer_elementToCompute = false;
+var webExplorer_stylesToCompute = new Array();
+var webExplorer_hasToComputeStyles = false;
 
 function webExplorer_go(where){
 	$(".web-explorer").hide(0);
@@ -33,7 +34,7 @@ function webExplorer_specifyElements(){
 			specifiedElements.push($(this).attr("element-name"));
 		});
 		var specifiedElementsList = specifiedElements.join(",");
-		console.log(specifiedElementsList);
+		//console.log(specifiedElementsList);
 		webExplorer_elementToExplore = specifiedElementsList;
 	}
 	else{
@@ -41,9 +42,23 @@ function webExplorer_specifyElements(){
 	}
 }
 
-function webExplorer_computeElements(){	
-	if($("#web-explorer-compute-element").is(":checked")){
-		webExplorer_elementToCompute = true;
+function webExplorer_computeStyles(){	
+	if($("#web-explorer-compute-style").is(":checked")){
+		webExplorer_hasToComputeStyles = true;		var hasToComputeStyles = false;
+		var computedStyles = new Array();
+		$(".web-explorer-compute-style:not(:checked)").each(function(index, element) {
+			hasToComputeStyles = true;
+			return false;
+		});
+		if(hasToComputeStyles){
+			$(".web-explorer-compute-style:checked").each(function(index, element) {
+				computedStyles.push($(this).attr("style-name"));
+			});
+			webExplorer_stylesToCompute = computedStyles;
+		}
+		else{
+			webExplorer_stylesToCompute = new Array();
+		}
 	}	
 }
 
@@ -56,7 +71,7 @@ function webExplorer_start(){
 		$("#web-explorer-automatic-step2").fadeIn('fast');
 		$("#web-explorer-viewer").fadeIn('fast');
 		webExplorer_specifyElements();
-		webExplorer_computeElements();
+		webExplorer_computeStyles();
 		webExplorer_urlStart = $("#web-explorer-url").val();
 		$('#sh_explorer_frame').attr('src', webExplorer_urlStart);
 		$('#sh_explorer_frame').load(function() 
@@ -356,7 +371,7 @@ function webExplorer_nodeToXml(){
 		nodeToXml += '</url>';
 	}
 	nodeToXml += '</urlset>';
-	console.log(nodeToXml);
+	//console.log(nodeToXml);
 	return nodeToXml;
 }
 

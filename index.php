@@ -46,6 +46,9 @@ $application_directory = dirname($_SERVER['PHP_SELF']);
 	<script language="javascript" type="text/javascript" src="js/ump-init.js"></script>
     
     <?php /* Web-explorer */ ?>
+    <script language="javascript" type="text/javascript">
+		var webExplorer_applicationDirectory = "<?php echo $application_directory ?>";
+	</script>
     <script language="javascript" type="text/javascript" src="js/web-explorer.js"></script>
 	<?php //include('js/web-explorer.js.php'); ?>
 

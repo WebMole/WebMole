@@ -20,12 +20,11 @@ XMLHttpRequest.prototype.open = newOpen;
 
 $(document).ready(function() {
 	var documentDom = $("body").find(webExplorer_getElementToExplore());//Variable qui sert à parcourir les éléments contenu dans la balise BODY
-	if(webExplorer_getElementToCompute()){
-		webExplorer_computeElements();
+	if(webExplorer_HasToComputeStyles()){
+		webExplorer_computeStyles();
 	}
 	var nodeHtmlContent = $("body").html();//Contenu de la balise BODY
-
-		
+	
 	//Si il n'existe aucun noeud, alors on crée le noeud initial
 	if(webExplorer_getNodeList() == 0){
 		webExplorer_newNode(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom),document.location.href,"normal");
@@ -44,8 +43,8 @@ $(document).ready(function() {
 function doClick(){
 	documentDom = $("body").find(webExplorer_getElementToExplore());
 	
-	if(webExplorer_getElementToCompute()){
-		webExplorer_computeElements();
+	if(webExplorer_HasToComputeStyles()){
+		webExplorer_computeStyles();
 	}
 	nodeHtmlContent = $("body").html();//Contenu de la balise BODY
 	
@@ -65,8 +64,8 @@ function doClick(){
 			else{				
 				$(this).click();
 				documentDom = $("body").find(webExplorer_getElementToExplore());
-				if(webExplorer_getElementToCompute()){
-					webExplorer_computeElements();
+				if(webExplorer_HasToComputeStyles()){
+					webExplorer_computeStyles();
 				}
 				nodeHtmlContent = $("body").html();//Contenu de la balise BODY
 				//console.log(nodeHtmlContent);
@@ -292,20 +291,25 @@ function webExplorer_getElementToExplore(){
 	return window.parent.webExplorer_elementToExplore;
 }
 
-function webExplorer_getElementToCompute(){
-	return window.parent.webExplorer_elementToCompute;
+function webExplorer_HasToComputeStyles(){
+	return window.parent.webExplorer_hasToComputeStyles;
 }
 
-function webExplorer_computeElements(){
+function webExplorer_getStylesToCompute(){
+	return window.parent.webExplorer_stylesToCompute;
+}
+
+
+function webExplorer_computeStyles(){
 	$(webExplorer_getElementToExplore()).each(function(index, element) {
 		if($(this).attr("style")==null){
 			$(this).attr("style","");
 		}
-		var toto = new Array("height", "width", "display");
-		for(var i=0;i<toto.length;i++){
-			var cssStylePattern = new RegExp("("+toto[i]+"\s*:\s*)");
+		var webExplorer_getStylesToComputeList = webExplorer_getStylesToCompute();
+		for(var i=0;i<webExplorer_getStylesToComputeList.length;i++){
+			var cssStylePattern = new RegExp("("+webExplorer_getStylesToComputeList[i]+"\s*:\s*)");
 			if(cssStylePattern.test($(this).attr("style"))==false){
-				$(this).attr("style",$(this).attr("style")+""+toto[i]+":"+window.getComputedStyle(element, null).getPropertyValue(toto[i])+";");
+				$(this).attr("style",$(this).attr("style")+""+webExplorer_getStylesToComputeList[i]+":"+window.getComputedStyle(element, null).getPropertyValue(webExplorer_getStylesToComputeList[i])+";");
 			}
 		}
 		
