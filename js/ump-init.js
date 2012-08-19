@@ -16,8 +16,29 @@ $(document).ready(function() {
 
 function attachHandlers() {
   
+  //Color picker for manual exploration
+  $('.web-explorer-manual-color').each(function(index, element){
+	  var colorPickerelement = $(this);
+	  $(colorPickerelement).ColorPicker({
+		color: '#999999',
+		onShow: function (colpkr) {
+			$(colpkr).fadeIn('fast');
+			return false;
+		},
+		onHide: function (colpkr) {
+			$(colpkr).fadeOut('fast');
+			return false;
+		},
+		onChange: function (hsb, hex, rgb) {
+			$(colorPickerelement).css('background-color','#'+hex);
+			webExplorer_manualSetActiveColor();
+		}
+	});	  
+  });
+  
+  
   // Init tooltip for btn with 'btn-tooltip' class
-  $(".btn-tooltip").tooltip();
+  $('.btn-tooltip').tooltip();
 
   // Main compute button
   // compute graph with source's input json

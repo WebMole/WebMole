@@ -8,7 +8,9 @@ if ($access != 'authorized')
 	<div class="span12 web-explorer-controls">        
         <?php include ("web-explorer/web-explorer-type.php");?>        
         <?php include ("web-explorer/web-explorer-automatic-step1.php");?>        
-        <?php include ("web-explorer/web-explorer-automatic-step2.php");?>        
+        <?php include ("web-explorer/web-explorer-automatic-step2.php");?>         
+        <?php include ("web-explorer/web-explorer-manual-step1.php");?>           
+        <?php include ("web-explorer/web-explorer-manual-step2.php");?>               
         <?php include ("web-explorer/web-explorer-automatic-options.php");?>        
         <?php include ("web-explorer/web-explorer-automatic-option-specify.php");?>        
         <?php include ("web-explorer/web-explorer-automatic-option-computed.php");?>         

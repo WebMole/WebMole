@@ -6,6 +6,35 @@ var webExplorer_elementPath = null;//Chemin relatif au dernier élément DOM vis
 var webExplorer_elementToExplore = "*";
 var webExplorer_stylesToCompute = new Array();
 var webExplorer_hasToComputeStyles = false;
+var webExplorer_manualActiveColorType = new Array();
+var webExplorer_manualActiveColorLink = new Array();
+var webExplorer_manualActiveColorC = new Array();
+
+
+function webExplorer_manualActiveColor(element){
+	if($('#web-explorer-manual-color-'+element+'-c').is(":checked")){
+		$('#web-explorer-manual-color-'+element).fadeIn('fast');
+	}
+	else{
+		$('#web-explorer-manual-color-'+element).fadeOut('fast');
+	}
+	webExplorer_manualSetActiveColor();
+}
+
+function webExplorer_manualSetActiveColor(){
+	webExplorer_manualActiveColorType = new Array();
+	webExplorer_manualActiveColorLink = new Array();
+	webExplorer_manualActiveColorC = new Array();
+	$('.web-explorer-manual-color-c').each(function(index,element){
+		if($(this).is(':checked')){
+			webExplorer_manualActiveColorType.push($(this).attr('css-type'));
+			webExplorer_manualActiveColorLink.push($(this).attr('link-type'));
+			webExplorer_manualActiveColorC.push($('#web-explorer-manual-color-'+$(this).attr('css-type')+'-'+$(this).attr('link-type')).css('background-color'));
+		}
+	});
+	console.log(webExplorer_manualActiveColorC);
+}
+
 
 function webExplorer_go(where){
 	$(".web-explorer").hide(0);
@@ -66,13 +95,14 @@ function webExplorer_computeStyles(){
 
 
 //Charge la page désirée dans l'iframe et injecte le script de cartographie javascript
-function webExplorer_start(){
-	$("#web-explorer-automatic-step1").fadeOut('fast', function(){
-		$("#web-explorer-automatic-step2").fadeIn('fast');
+function webExplorer_start(type){
+	$("#web-explorer-"+type+"-step1").fadeOut('fast', function(){
+		$("#web-explorer-"+type+"-step2").fadeIn('fast');
 		$("#web-explorer-viewer").fadeIn('fast');
 		webExplorer_specifyElements();
 		webExplorer_computeStyles();
-		webExplorer_urlStart = $("#web-explorer-url").val();
+		webExplorer_manualSetActiveColor();
+		webExplorer_urlStart = $("#web-explorer-"+type+"-url").val();
 		$('#sh_explorer_frame').attr('src', webExplorer_urlStart);
 		$('#sh_explorer_frame').load(function() 
 		{
@@ -80,7 +110,7 @@ function webExplorer_start(){
 			myf = myf.contentWindow.document || myf.contentDocument;	
 			var script   = myf.createElement("script");
 			script.type  = "text/javascript";
-			script.src   = webExplorer_applicationDirectory+"/js/web-explorer-iframe.js?a="+(Math.random());// use this for linked script
+			script.src   = webExplorer_applicationDirectory+"/js/web-explorer-"+type+".js?a="+(Math.random());// use this for linked script
 			myf.head.appendChild(script);
 			startTime = new Date().getTime();			
 		});	

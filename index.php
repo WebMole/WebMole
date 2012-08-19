@@ -22,14 +22,18 @@ $application_directory = dirname($_SERVER['PHP_SELF']);
 
 	<?php /* jQuery */ ?>
 	<script language="javascript" type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
-
-	<?php /* Twitter Bootstrap (Amazing layout and style, etc.) */ ?>
+    
+    <?php /* Twitter Bootstrap (Amazing layout and style, etc.) */ ?>
 	<link type="text/css" href="css/bootstrap.min.css" rel="stylesheet" />
 	<script language="javascript" type="text/javascript" src="js/bootstrap.min.js"></script>
 
 	<?php /* Prettyprint (Syntax highlighting) */ ?>
 	<link type="text/css" href="css/prettify.css" rel="stylesheet" />
 	<script type="text/javascript" src="js/prettify.js"></script>
+    
+    <?php /* ColorPicker */ ?>
+	<link type="text/css" href="css/colorpicker.css" rel="stylesheet" />
+	<script language="javascript" type="text/javascript" src="js/colorpicker.js"></script>
 
 	<?php /* JIT Library */ ?>
 	<script language="javascript" type="text/javascript" src="js/jit.js"></script>

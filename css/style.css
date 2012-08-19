@@ -166,3 +166,13 @@ a[rel="popover"]:hover{
 .t-center{
 	text-align:center;
 }
+
+.web-explorer-manual-color{
+	width:100px;
+	height:18px;
+	background-color:#999999;
+	margin-left:auto;
+	margin-right:auto;
+	border-radius:5px;
+	cursor:pointer;
+}

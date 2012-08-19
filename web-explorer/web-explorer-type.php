@@ -8,7 +8,7 @@ if ($access != 'authorized')
         <button class="btn btn-success btn-tooltip" data-original-title="For automatic exploration blablabla" onclick="webExplorer_go('automatic-step1');">
         	<i class="icon-play icon-white"></i> Automatic
         </button>
-        <button class="btn btn-success btn-tooltip" data-original-title="For manual exploration blablabla" onclick="webExplorer_go('manual');">
+        <button class="btn btn-success btn-tooltip" data-original-title="For manual exploration blablabla" onclick="webExplorer_go('manual-step1');">
         	<i class="icon-hand-up icon-white"></i> Manual
         </button>
     </div>	

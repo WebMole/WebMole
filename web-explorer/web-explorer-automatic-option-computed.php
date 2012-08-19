@@ -9,9 +9,9 @@ if ($access != 'authorized')
     <table class="table table-condensed">
         <tr>
             <th style="text-align:center;">Select</th>
-            <th>Tag</th>
+            <th>Style</th>
             <th style="text-align:center;">Select</th>
-            <th>Tag</th>
+            <th>Style</th>
         </tr>
         <?php
 			$cssToCompute_nbProperties = 0;
