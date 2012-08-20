@@ -176,3 +176,11 @@ a[rel="popover"]:hover{
 	border-radius:5px;
 	cursor:pointer;
 }
+
+#web-explorer-compute-style-list{
+	display:none;
+}
+
+.web-explorer a{
+	cursor:pointer;
+}

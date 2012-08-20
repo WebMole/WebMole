@@ -22,7 +22,9 @@ if ($access != 'authorized')
         </div>
         <div class="span7">
             <h2>Viewer</h2>
-            <iframe id="sh_explorer_frame"></iframe>
+            <div id="sh_explorer_frame_container">
+            	<iframe id="sh_explorer_frame"></iframe>
+            </div>
         </div>
     </div>    
 </div><!-- /#web-explorer -->

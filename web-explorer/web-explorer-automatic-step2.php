@@ -10,7 +10,7 @@ if ($access != 'authorized')
     <button type="button" class="btn btn-info" id="web-explorer-btn-automatic-extract-map" onclick="webExplorer_nodeToJson();">
     	<i class="icon-download-alt icon-white"></i> Extract map
     </button>
-    <button type="button" class="btn btn-danger" id="web-explorer-btn-automatic-stop" onclick="">
+    <button type="button" class="btn btn-danger" id="web-explorer-btn-automatic-stop" onclick="webExplorer_setStop();">
     	<i class="icon-stop icon-white"></i> Stop
     </button>
     <button class="btn btn-inverse"  onclick="webExplorer_go('automatic-step1');">

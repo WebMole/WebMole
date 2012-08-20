@@ -11,9 +11,6 @@ if ($access != 'authorized')
         <button type="button" class="btn btn-info" id="web-explorer-btn-manual-extract-map" onclick="webExplorer_nodeToJson();">
             <i class="icon-download-alt icon-white"></i> Extract map
         </button>
-        <button type="button" class="btn btn-danger" id="web-explorer-btn-manual-stop" onclick="">
-            <i class="icon-stop icon-white"></i> Stop
-        </button>
         <button class="btn btn-inverse"  onclick="webExplorer_go('manual-step1');">
             <i class="icon-share-alt icon-white"></i> Back
         </button> 

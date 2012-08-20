@@ -19,16 +19,21 @@ $(document).ready(function() {
 	
 	//Si il n'existe aucun noeud, alors on crée le noeud initial
 	if(webExplorer_getNodeList() == 0){
+		window.parent.webExplorer_reset();
 		webExplorer_newNode(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom),document.location.href,"normal");
+		webExplorer_setCurrentNode(webExplorer_getNodeId(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom)));
 	}
-	
-	webExplorer_checker(documentDom,nodeHtmlContent);		
+	if(webExplorer_stop()==false){
+		webExplorer_checker(documentDom,nodeHtmlContent);	
+	}
 	
 	//Traitement lorsqu'un élément quelconque de la page est cliqué
 	$("*").click(function (e) {
 		e.stopImmediatePropagation();			
 	});
-	doClick();	
+	if(webExplorer_stop()==false){
+		doClick();
+	}
 });
 
 //Fonction qui va cliquer si besoin les différents éléments de la page
@@ -87,7 +92,9 @@ function doClick(){
 					}
 					
 				}
-				doClick();
+				if(webExplorer_stop()==false){
+					doClick();
+				}
 			}
 			return false;		
 		}
@@ -112,7 +119,9 @@ function doClick(){
 						var elementNext = $(this);
 						elementNext.click();						
 					}
-					doClick();										
+					if(webExplorer_stop()==false){
+						doClick();	
+					}
 				}
 				return false;				
 			}			
@@ -303,6 +312,9 @@ function webExplorer_getStylesToCompute(){
 	return window.parent.webExplorer_stylesToCompute;
 }
 
+function webExplorer_stop(){
+	return window.parent.webExplorer_stop;
+}
 
 function webExplorer_computeStyles(){
 	$(webExplorer_getElementToExplore()).each(function(index, element) {

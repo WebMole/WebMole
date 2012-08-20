@@ -9,7 +9,28 @@ var webExplorer_hasToComputeStyles = false;
 var webExplorer_manualActiveColorType = new Array();
 var webExplorer_manualActiveColorLink = new Array();
 var webExplorer_manualActiveColorC = new Array();
+var webExplorer_stop = false;
 
+Array.prototype.clear = function() { this.splice(0, this.length) }
+
+function webExplorer_reset(){
+	webExplorer_nodeId = 0; 
+	webExplorer_urlStart,webExplorer_nodeCurrentId,webExplorer_nodePreviousId,webExplorer_nodeCurrentId,webExplorer_nodePreviousId = '';
+	webExplorer_elementPath = null;
+	webExplorer_elementToExplore = "*";
+	webExplorer_hasToComputeStyles = false;
+	webExplorer_nodeList.clear();
+	webExplorer_stylesToCompute.clear();
+	webExplorer_manualActiveColorType.clear();
+	webExplorer_manualActiveColorLink.clear();
+	webExplorer_manualActiveColorC.clear();
+	$('#sh_explorer_frame').attr('src', '');
+	$(".webExplorer_console").remove();
+}
+
+function webExplorer_setStop(){
+	webExplorer_stop = true;
+}
 
 function webExplorer_manualActiveColor(element){
 	if($('#web-explorer-manual-color-'+element+'-c').is(":checked")){
@@ -36,9 +57,29 @@ function webExplorer_manualSetActiveColor(){
 }
 
 
+function webExplorer_selectAllCheckbox(classC,how){
+	$('.'+classC).each(function(index,element){
+		if(how=='true'){
+			$(this).attr('checked',true);
+		}
+		else{			
+			$(this).attr('checked',false);
+		}
+	});
+}
+
 function webExplorer_go(where){
 	$(".web-explorer").hide(0);
 	$("#web-explorer-"+where).fadeIn('fast');
+}
+
+function webExplorer_showComputeStyles(){
+	if($('#web-explorer-compute-style').is(':checked')){
+		$('#web-explorer-compute-style-list').fadeIn('fast');
+	}
+	else{
+		$('#web-explorer-compute-style-list').fadeOut('fast');		
+	}
 }
 
 function webExplorer_automaticOption(option){
@@ -96,12 +137,19 @@ function webExplorer_computeStyles(){
 
 //Charge la page désirée dans l'iframe et injecte le script de cartographie javascript
 function webExplorer_start(type){
+	$('#sh_explorer_frame').remove();
+	$('#sh_explorer_frame_container').html('<iframe id="sh_explorer_frame"></iframe>');
 	$("#web-explorer-"+type+"-step1").fadeOut('fast', function(){
 		$("#web-explorer-"+type+"-step2").fadeIn('fast');
 		$("#web-explorer-viewer").fadeIn('fast');
-		webExplorer_specifyElements();
-		webExplorer_computeStyles();
-		webExplorer_manualSetActiveColor();
+		webExplorer_reset();
+		if(type=='automatic'){
+			webExplorer_specifyElements();
+			webExplorer_computeStyles();
+		}
+		else{
+			webExplorer_manualSetActiveColor();
+		}
 		webExplorer_urlStart = $("#web-explorer-"+type+"-url").val();
 		$('#sh_explorer_frame').attr('src', webExplorer_urlStart);
 		$('#sh_explorer_frame').load(function() 
@@ -327,7 +375,7 @@ function webExplorer_consoleAlertNewNode(nodeId,nodeDocumentLocationHref,nodeTyp
 	consoleNodePopover += '</tr>';
 	consoleNodePopover += '</table>';
 		
-	var consoleNodeContent = '<div id="webExplorer_consoleNode'+nodeId+'" class="alert alert-success" style="margin-bottom:2px;">';
+	var consoleNodeContent = '<div id="webExplorer_consoleNode'+nodeId+'" class="alert alert-success webExplorer_console" style="margin-bottom:2px;">';
 	consoleNodeContent += '<button type="button" class="close" data-dismiss="alert">×</button>';
 	consoleNodeContent += '<a href="#" rel="popover" data-original-title="Node '+nodeId+' details :" data-content="'+consoleNodePopover+'">';
 	consoleNodeContent += '<i class="'+iconNodeType+' icon-white"></i> <strong>Node '+nodeId+'</strong>';
@@ -338,7 +386,7 @@ function webExplorer_consoleAlertNewNode(nodeId,nodeDocumentLocationHref,nodeTyp
 }
 
 function webExplorer_consoleAlertNewExternalLink(nodeId,nodeIdDest){
-	$("#web-explorer-console").append('<div class="alert alert-info" style="margin-bottom:2px;"><button type="button" class="close" data-dismiss="alert">×</button><i class="icon-arrow-right icon-white"></i> <strong>External link </strong>from node '+nodeId+' to  node '+nodeIdDest+'</div>');
+	$("#web-explorer-console").append('<div class="alert alert-info webExplorer_console" style="margin-bottom:2px;"><button type="button" class="close" data-dismiss="alert">×</button><i class="icon-arrow-right icon-white"></i> <strong>External link </strong>from node '+nodeId+' to  node '+nodeIdDest+'</div>');
 	webExplorer_consolePopoverUpdate(nodeId);
 	$("[rel=popover]").popover();
 }
