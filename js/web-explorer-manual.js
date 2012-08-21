@@ -8,30 +8,28 @@ var webExplorer_isNodeAjax = false;
 var mustBeClicked;//Variable qui indique si l'élément doit être cliqué ou non
 
 $(document).ready(function() {
-	var documentDom = $("body").find(webExplorer_getElementToExplore());//Variable qui sert à parcourir les éléments contenu dans la balise BODY
-	if(webExplorer_HasToComputeStyles()){
-		webExplorer_computeStyles();
-	}
+	webExplorer_setIframeLoaded();
+	var documentDom = $("body").find('*');//Variable qui sert à parcourir les éléments contenu dans la balise BODY
 	var nodeHtmlContent = $("body").html();//Contenu de la balise BODY
 	
 	if(webExplorer_getNodeList() == 0){
 		webExplorer_newNode(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom),document.location.href,"normal");
 	}
 	
-	webExplorer_checker(documentDom,nodeHtmlContent);		
-	
+	webExplorer_checker(documentDom,nodeHtmlContent);
+		
+	webExplorer_manualSetColor(webExplorer_getNodeId(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom)));
 	
 	$("*").click(function (e) {
 		e.stopImmediatePropagation();
 		var elementPath = getElementPath($(this));
 		webExplorer_setElementPath(elementPath);
-		if(webExplorer_hasBeenVisitedElementPath(webExplorer_getNodeCurrentId(),elementPath)==false){
+		webExplorer_manualRemoveColor(documentDom);
+		if(webExplorer_hasBeenVisitedElementPath(webExplorer_getNodeId(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom)),elementPath)==false){
+			
 			webExplorer_setElementPathVisited(webExplorer_getNodeCurrentId(),elementPath);
-			documentDom = $("body").find(webExplorer_getElementToExplore());
-			if(webExplorer_HasToComputeStyles()){
-				webExplorer_computeStyles();
-			}
-			nodeHtmlContent = $("body").html();
+			documentDom = $("body").find('*');
+			nodeHtmlContent = $("body").html();			
 			if(webExplorer_nodeAlreadySeen(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom))==false){
 				webExplorer_setPreviousNode(webExplorer_getNodeCurrentId());
 				var nodeType;
@@ -47,16 +45,15 @@ $(document).ready(function() {
 				webExplorer_setExternalLink(webExplorer_getNodePreviousId(),webExplorer_getNodeCurrentId(),webExplorer_getElementPath());										
 			}
 			else{
-				if(webExplorer_getNodeCurrentId() != webExplorer_getNodeId(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom))){					
+				if(webExplorer_getNodeCurrentId() != webExplorer_getNodeId(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom))){
 					webExplorer_setPreviousNode(webExplorer_getNodeCurrentId());
 					webExplorer_setCurrentNode(webExplorer_getNodeId(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom)));
 					webExplorer_setExternalLink(webExplorer_getNodePreviousId(),webExplorer_getNodeCurrentId(),webExplorer_getElementPath());
 					webExplorer_setExternalLinkVisited(webExplorer_getNodePreviousId(),webExplorer_getElementPath());					
-				}
-				
+				}	
 			}							
 		}
-		if(webExplorer_isExternalLink(webExplorer_getNodeCurrentId(),elementPath)==true){	
+		if(webExplorer_isExternalLink(webExplorer_getNodeCurrentId(),elementPath)==true){
 			if(webExplorer_hasBeenVisitedExternalLink(webExplorer_getNodeCurrentId(),elementPath)==false){
 				webExplorer_setElementPath(elementPath);//On stocke dans la variable globale le chemin de l'élément cliqué
 				if(webExplorer_nodeAlreadySeen(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom))==true){
@@ -66,7 +63,10 @@ $(document).ready(function() {
 					}
 				}
 			}
-		}			
+		}
+		documentDom = $("body").find('*');
+		nodeHtmlContent = $("body").html();	
+		webExplorer_manualSetColor(webExplorer_getNodeId(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom)));			
 	});		
 });
 
@@ -95,6 +95,7 @@ function webExplorer_checker(documentDom,nodeHtmlContent){
 			//On indique qu'il a été visité
 			webExplorer_setExternalLinkVisited(webExplorer_getNodePreviousId(),webExplorer_getElementPath());
 		}		
+		//webExplorer_manualSetColor(webExplorer_getNodeId(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom)), documentDom, nodeHtmlContent);		
 	}
 	//Sinon si le noeud n'existe pas alors :
 	else{
@@ -110,7 +111,7 @@ function webExplorer_checker(documentDom,nodeHtmlContent){
 		//On ajoute un lien sortant au noeud précédent à destination du noeud courant
 		webExplorer_setExternalLink(webExplorer_getNodePreviousId(),webExplorer_getNodeCurrentId(),webExplorer_getElementPath());
 	}
-	webExplorer_manualSetColor(webExplorer_getNodeId(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom)),documentDom);
+	
 
 }
 
@@ -255,6 +256,14 @@ function webExplorer_getManualActiveColorC(){
 	return window.parent.webExplorer_manualActiveColorC;
 }
 
+function webExplorer_setNewNodeHtmlContent(nodeId,newNodeHtmlContent){
+	window.parent.webExplorer_setNewNodeHtmlContent(nodeId,newNodeHtmlContent);
+}
+
+function webExplorer_setIframeLoaded(){
+	window.parent.webExplorer_iframeLoaded = true;
+}
+
 
 
 
@@ -273,7 +282,8 @@ function webExplorer_computeStyles(){
 	});
 }
 
-function webExplorer_manualSetColor(nodeId, documentDom){
+function webExplorer_manualSetColor(nodeId){
+	documentDom = $('body').find('*');
 	var nodeList = webExplorer_getNodeList();
 	for(var i=0;i<nodeList.length;i++){
 		if(nodeId==nodeList[i].id){
@@ -291,16 +301,19 @@ function webExplorer_manualSetColor(nodeId, documentDom){
 										switch(webExplorer_linkType){
 											case 'em':
 												$(webExplorer_element).css('background-color',webExplorer_color);
+												$(webExplorer_element).addClass('web-explorer-manual-background-em-color');
 												break;
 											case 'el':
 												if(webExplorer_isExternalLink(nodeId, nodeList[i].nodeDomTreePath[j])){
 													$(webExplorer_element).css('background-color',webExplorer_color);
+													$(webExplorer_element).addClass('web-explorer-manual-background-el-color');
 												}
 												break;
 											case 'elv':
 												if(webExplorer_isExternalLink(nodeId, nodeList[i].nodeDomTreePath[j]) && 
 													webExplorer_hasBeenVisitedExternalLink(nodeId, nodeList[i].nodeDomTreePath[j])){
-													$(webExplorer_element).css('background-color',webExplorer_color);												
+													$(webExplorer_element).css('background-color',webExplorer_color);
+													$(webExplorer_element).addClass('web-explorer-manual-background-elv-color');											
 												}
 												break;
 										}
@@ -308,17 +321,20 @@ function webExplorer_manualSetColor(nodeId, documentDom){
 									case 'border':
 										switch(webExplorer_linkType){
 											case 'em':
-												$(webExplorer_element).css('border',webExplorer_color);
+												$(webExplorer_element).css('border-color',webExplorer_color);
+												$(webExplorer_element).addClass('web-explorer-manual-border-em-color');
 												break;
 											case 'el':
 												if(webExplorer_isExternalLink(nodeId, nodeList[i].nodeDomTreePath[j])){
-													$(webExplorer_element).css('border',webExplorer_color);
+													$(webExplorer_element).css('border-color',webExplorer_color);
+													$(webExplorer_element).addClass('web-explorer-manual-border-el-color');
 												}
 												break;
 											case 'elv':
 												if(webExplorer_isExternalLink(nodeId, nodeList[i].nodeDomTreePath[j]) && 
-													webExplorer_hasBeenVisitedExternalLink(nodeId, nodeList[i].nodeDomTreePath[j])){
-													$(webExplorer_element).css('border',webExplorer_color);												
+													webExplorer_hasBeenVisitedExternalLink(nodeId, nodeList[i].nodeDomTreePath[j])){													
+													$(webExplorer_element).css('border-color',webExplorer_color);
+													$(webExplorer_element).addClass('web-explorer-manual-border-elv-color');												
 												}
 												break;
 										}
@@ -327,16 +343,19 @@ function webExplorer_manualSetColor(nodeId, documentDom){
 										switch(webExplorer_linkType){
 											case 'em':
 												$(webExplorer_element).css('color',webExplorer_color);
+												$(webExplorer_element).addClass('web-explorer-manual-text-em-color');
 												break;
 											case 'el':
 												if(webExplorer_isExternalLink(nodeId, nodeList[i].nodeDomTreePath[j])){
 													$(webExplorer_element).css('color',webExplorer_color);
+													$(webExplorer_element).addClass('web-explorer-manual-text-el-color');
 												}
 												break;
 											case 'elv':
 												if(webExplorer_isExternalLink(nodeId, nodeList[i].nodeDomTreePath[j]) && 
 													webExplorer_hasBeenVisitedExternalLink(nodeId, nodeList[i].nodeDomTreePath[j])){
-													$(webExplorer_element).css('color',webExplorer_color);												
+													$(webExplorer_element).css('color',webExplorer_color);
+													$(webExplorer_element).addClass('web-explorer-manual-text-elv-color');											
 												}
 												break;
 										}
@@ -346,10 +365,115 @@ function webExplorer_manualSetColor(nodeId, documentDom){
 						}
 					});
 				}				
-			}			
+			}		
 		}
-	}
+	}	
 }
+
+
+function webExplorer_manualRemoveColor(documentDom){
+	documentDom.each(function(index,element){
+		var webExplorer_element = $(this);							
+		for(var k=0;k<webExplorer_getManualActiveColorType().length;k++){
+			var webExplorer_cssType = webExplorer_getManualActiveColorType()[k];
+			var webExplorer_linkType = webExplorer_getManualActiveColorLink()[k];
+			var webExplorer_color = webExplorer_getManualActiveColorC()[k];	
+			switch(webExplorer_cssType){
+				case 'background':
+					switch(webExplorer_linkType){
+						case 'em':
+							if($(webExplorer_element).hasClass('web-explorer-manual-background-em-color')){
+								if($(webExplorer_element).css('background-color')==webExplorer_color){
+									$(webExplorer_element).css('background-color','');
+								}
+								$(webExplorer_element).removeClass('web-explorer-manual-background-em-color');
+							}
+							break;
+						case 'el':
+							if($(webExplorer_element).hasClass('web-explorer-manual-background-el-color')){
+								if($(webExplorer_element).css('background-color')==webExplorer_color){
+									$(webExplorer_element).css('background-color','');
+								}
+								$(webExplorer_element).removeClass('web-explorer-manual-background-el-color');
+							}
+							break;
+						case 'elv':
+							if($(webExplorer_element).hasClass('web-explorer-manual-background-elv-color')){
+								if($(webExplorer_element).css('background-color')==webExplorer_color){
+									$(webExplorer_element).css('background-color','');
+								}
+								$(webExplorer_element).removeClass('web-explorer-manual-background-elv-color');
+							}
+							break;
+					}
+					break;
+				case 'border':
+					switch(webExplorer_linkType){
+						case 'em':
+							if($(webExplorer_element).hasClass('web-explorer-manual-border-em-color')){
+								if($(webExplorer_element).css('border-color')==webExplorer_color){
+									$(webExplorer_element).css('border-color','');
+								}
+								$(webExplorer_element).removeClass('web-explorer-manual-border-em-color');
+							}
+							break;
+						case 'el':
+							if($(webExplorer_element).hasClass('web-explorer-manual-border-el-color')){
+								if($(webExplorer_element).css('border-color')==webExplorer_color){
+									$(webExplorer_element).css('border-color','');
+								}
+								$(webExplorer_element).removeClass('web-explorer-manual-border-el-color');
+							}
+							break;
+						case 'elv':
+							if($(webExplorer_element).hasClass('web-explorer-manual-border-elv-color')){
+								if($(webExplorer_element).css('border-color')==webExplorer_color){
+									$(webExplorer_element).css('border-color','');
+								}
+								$(webExplorer_element).removeClass('web-explorer-manual-border-elv-color');
+							}
+							break;
+					}
+					break;
+				case 'text':
+					switch(webExplorer_linkType){
+						case 'em':
+							if($(webExplorer_element).hasClass('web-explorer-manual-text-em-color')){
+								if($(webExplorer_element).css('color')==webExplorer_color){
+									$(webExplorer_element).css('color','');
+								}
+								$(webExplorer_element).removeClass('web-explorer-manual-text-em-color');
+							}
+							break;
+						case 'el':
+							if($(webExplorer_element).hasClass('web-explorer-manual-text-el-color')){
+								if($(webExplorer_element).css('color')==webExplorer_color){
+									$(webExplorer_element).css('color','');
+								}
+								$(webExplorer_element).removeClass('web-explorer-manual-text-el-color');
+							}
+							break;
+						case 'elv':
+							if($(webExplorer_element).hasClass('web-explorer-manual-text-elv-color')){
+								if($(webExplorer_element).css('color')==webExplorer_color){
+									$(webExplorer_element).css('color','');
+								}
+								$(webExplorer_element).removeClass('web-explorer-manual-text-elv-color');
+							}
+							break;
+					}
+					break;
+			}																	
+		}
+		if($(this).attr('style')==''){
+			$(webExplorer_element).removeAttr('style');
+		}
+		if($(this).attr('class')==''){
+			$(webExplorer_element).removeAttr('class');
+		}	
+	});
+}
+
 
 
 

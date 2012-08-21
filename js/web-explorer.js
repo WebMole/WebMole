@@ -10,8 +10,23 @@ var webExplorer_manualActiveColorType = new Array();
 var webExplorer_manualActiveColorLink = new Array();
 var webExplorer_manualActiveColorC = new Array();
 var webExplorer_stop = false;
+var webExplorer_iframeLoaded = false;
 
 Array.prototype.clear = function() { this.splice(0, this.length) }
+
+function webExplorer_setNewNodeHtmlContent(nodeId,newNodeHtmlContent){
+	for(var h=0;h<webExplorer_nodeList.length;h++){
+		if(	webExplorer_nodeList[h].id == nodeId){
+			webExplorer_nodeList[h].nodeHtmlContent = newNodeHtmlContent;
+		}
+	}
+}
+
+function webExplorer_manualGoToOriginalNode(){
+	webExplorer_elementPath = null;
+	$('#sh_explorer_frame').attr('src', webExplorer_urlStart);
+}
+
 
 function webExplorer_reset(){
 	webExplorer_nodeId = 0; 
@@ -53,7 +68,9 @@ function webExplorer_manualSetActiveColor(){
 			webExplorer_manualActiveColorC.push($('#web-explorer-manual-color-'+$(this).attr('css-type')+'-'+$(this).attr('link-type')).css('background-color'));
 		}
 	});
-	console.log(webExplorer_manualActiveColorC);
+	if(webExplorer_iframeLoaded){
+		document.getElementById('sh_explorer_frame').contentWindow.webExplorer_manualSetColor(webExplorer_nodeCurrentId);
+	}
 }
 
 
@@ -104,7 +121,6 @@ function webExplorer_specifyElements(){
 			specifiedElements.push($(this).attr("element-name"));
 		});
 		var specifiedElementsList = specifiedElements.join(",");
-		//console.log(specifiedElementsList);
 		webExplorer_elementToExplore = specifiedElementsList;
 	}
 	else{
@@ -167,7 +183,6 @@ function webExplorer_start(type){
 
 //Classe Noeud
 function webExplorer_Node(nodeHtmlContent, nodeDomTreePath, nodeDomTreeText, nodeDocumentLocationHref, nodeType) {
-	//console.log(nodeHtmlContent);
 	this.id=webExplorer_newNodeId();
 	this.nodeHtmlContent = nodeHtmlContent;//Contenu entier de la page HTML
 	this.nodeDomTreePath = nodeDomTreePath;//Tableau des différents éléments DOM de la page
@@ -178,7 +193,6 @@ function webExplorer_Node(nodeHtmlContent, nodeDomTreePath, nodeDomTreeText, nod
 	this.nodeExternalLink = new Array();//Tableau des liens sortants
 	webExplorer_nodeList.push(this);
 	webExplorer_consoleAlertNewNode(this.id,this.nodeDocumentLocationHref,this.nodeType);
-	//console.log("Nouveau noeud"+this.id);
 }
 
 //Fonction permettant d'instancier un nouveau noeud à partir du code javascript de l'iFrame
@@ -227,7 +241,6 @@ function webExplorer_setElementPathVisited(nodeId,elementPath){
 			for(var i=0;i<webExplorer_nodeList[h].nodeDomTreePath.length;i++){
 				if(webExplorer_nodeList[h].nodeDomTreePath[i] == elementPath && webExplorer_nodeList[h].nodeDomTreeVisited[i]==false){
 					webExplorer_nodeList[h].nodeDomTreeVisited[i]=true;
-					//console.log("Dom "+webExplorer_nodeList[h].nodeDomTreePath[i]+" pour le noeud "+nodeId+" visité");
 				}
 			}
 		}
@@ -289,7 +302,6 @@ function webExplorer_isExternalLink(nodeId,elementPath){
 function ExternalLink(nodeIdDest,elementPath){
 	this.nodeIdDest=nodeIdDest;//Id du noeud de destination
 	this.elementPath=elementPath;//Chemin du lien sortant du noeud relatif
-	//console.log("Nouveau lien sortant : "+elementPath +"|"+nodeIdDest);
 }
 
 
@@ -309,8 +321,7 @@ function webExplorer_setExternalLink(nodeId,nodeIdDest,elementPath){
 			if(exist==false){
 				var externalLink = new ExternalLink(nodeIdDest,elementPath);
 				webExplorer_nodeList[h].nodeExternalLink.push(externalLink);
-				webExplorer_consoleAlertNewExternalLink(nodeId,nodeIdDest)
-				//console.log("Lien sortant ajouté de "+nodeId+" vers "+nodeIdDest+" | element path : "+elementPath);
+				webExplorer_consoleAlertNewExternalLink(nodeId,nodeIdDest);
 			}
 			
 		}
@@ -324,7 +335,6 @@ function webExplorer_setExternalLinkVisited(nodeId,elementPath){
 			for(var i=0;i<webExplorer_nodeList[h].nodeExternalLink.length;i++){
 				if(webExplorer_nodeList[h].nodeExternalLink[i].elementPath==elementPath){
 					webExplorer_nodeList[h].nodeExternalLink[i].visited=true;
-					//console.log("Lien sortant '"+elementPath+"' pour le noeud "+nodeId+" visité");
 				}
 			}
 		}
@@ -449,7 +459,6 @@ function webExplorer_nodeToXml(){
 		nodeToXml += '</url>';
 	}
 	nodeToXml += '</urlset>';
-	//console.log(nodeToXml);
 	return nodeToXml;
 }
 
