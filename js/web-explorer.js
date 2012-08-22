@@ -32,13 +32,15 @@ function webExplorer_reset(){
 	webExplorer_nodeId = 0; 
 	webExplorer_urlStart,webExplorer_nodeCurrentId,webExplorer_nodePreviousId,webExplorer_nodeCurrentId,webExplorer_nodePreviousId = '';
 	webExplorer_elementPath = null;
-	webExplorer_elementToExplore = "*";
-	webExplorer_hasToComputeStyles = false;
-	webExplorer_nodeList.clear();
-	webExplorer_stylesToCompute.clear();
+	webExplorer_nodeList.clear();	 
 	webExplorer_manualActiveColorType.clear();
 	webExplorer_manualActiveColorLink.clear();
 	webExplorer_manualActiveColorC.clear();
+	webExplorer_iframeLoaded = false;
+	$('#web-explorer-node-n-number').val(0);
+	$('#web-explorer-node-j-number').val(0);
+	$('#web-explorer-node-a-number').val(0);
+	$('#web-explorer-el-number').val(0);
 	$('#sh_explorer_frame').attr('src', '');
 	$(".webExplorer_console").remove();
 }
@@ -130,22 +132,17 @@ function webExplorer_specifyElements(){
 
 function webExplorer_computeStyles(){	
 	if($("#web-explorer-compute-style").is(":checked")){
-		webExplorer_hasToComputeStyles = true;		var hasToComputeStyles = false;
-		var computedStyles = new Array();
-		$(".web-explorer-compute-style:not(:checked)").each(function(index, element) {
-			hasToComputeStyles = true;
-			return false;
+		webExplorer_hasToComputeStyles = true;		
+		var computedStylesList = new Array();
+		$(".web-explorer-compute-style:checked").each(function(index, element) {
+			computedStylesList.push($(this).attr("style-name"));
 		});
-		if(hasToComputeStyles){
-			$(".web-explorer-compute-style:checked").each(function(index, element) {
-				computedStyles.push($(this).attr("style-name"));
-			});
-			webExplorer_stylesToCompute = computedStyles;
-		}
-		else{
-			webExplorer_stylesToCompute = new Array();
-		}
+		webExplorer_stylesToCompute =  computedStylesList;
 	}	
+	else{
+		webExplorer_hasToComputeStyles = false;	
+		webExplorer_stylesToCompute.clear();
+	}
 }
 
 
@@ -361,12 +358,18 @@ function webExplorer_hasBeenVisitedExternalLink(nodeId,elementPath){
 
 
 function webExplorer_consoleAlertNewNode(nodeId,nodeDocumentLocationHref,nodeType){
-	var iconNodeType = "icon-certificate";
-	if(nodeType=="javascript"){
+	var iconNodeType;
+	if(nodeType=="javascript"){		
+		$('#web-explorer-node-j-number').val(parseInt($('#web-explorer-node-j-number').val())+1);
 		iconNodeType = "icon-repeat";
 	}
-	else if(nodeType == "ajax"){
+	else if(nodeType == "ajax"){		
+		$('#web-explorer-node-a-number').val(parseInt($('#web-explorer-node-a-number').val())+1);
 		iconNodeType = "icon-cog";		
+	}
+	else{		
+		$('#web-explorer-node-n-number').val(parseInt($('#web-explorer-node-n-number').val())+1);
+		iconNodeType = "icon-certificate";
 	}
 	var consoleNodePopover = '<table class=\'table\'>';
 	consoleNodePopover += '<tr>';
@@ -396,6 +399,7 @@ function webExplorer_consoleAlertNewNode(nodeId,nodeDocumentLocationHref,nodeTyp
 }
 
 function webExplorer_consoleAlertNewExternalLink(nodeId,nodeIdDest){
+	$('#web-explorer-el-number').val(parseInt($('#web-explorer-el-number').val())+1);
 	$("#web-explorer-console").append('<div class="alert alert-info webExplorer_console" style="margin-bottom:2px;"><button type="button" class="close" data-dismiss="alert">×</button><i class="icon-arrow-right icon-white"></i> <strong>External link </strong>from node '+nodeId+' to  node '+nodeIdDest+'</div>');
 	webExplorer_consolePopoverUpdate(nodeId);
 	$("[rel=popover]").popover();

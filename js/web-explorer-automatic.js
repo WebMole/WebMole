@@ -317,13 +317,13 @@ function webExplorer_stop(){
 }
 
 function webExplorer_computeStyles(){
-	$(webExplorer_getElementToExplore()).each(function(index, element) {
+	$("body").find(webExplorer_getElementToExplore()).each(function(index, element) {
 		if($(this).attr("style")==null){
 			$(this).attr("style","");
 		}
-		var webExplorer_getStylesToComputeList = webExplorer_getStylesToCompute();
+		var webExplorer_getStylesToComputeList = webExplorer_getStylesToCompute();		
 		for(var i=0;i<webExplorer_getStylesToComputeList.length;i++){
-			var cssStylePattern = new RegExp("("+webExplorer_getStylesToComputeList[i]+"\s*:\s*)");
+			var cssStylePattern = new RegExp("("+webExplorer_getStylesToComputeList[i]+"\s*:\s*)");			
 			if(cssStylePattern.test($(this).attr("style"))==false){
 				$(this).attr("style",$(this).attr("style")+""+webExplorer_getStylesToComputeList[i]+":"+window.getComputedStyle(element, null).getPropertyValue(webExplorer_getStylesToComputeList[i])+";");
 			}
