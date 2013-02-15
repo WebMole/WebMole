@@ -12,6 +12,12 @@ var webExplorer_manualActiveColorC = new Array();
 var webExplorer_stop = false;
 var webExplorer_iframeLoaded = false;
 
+// Oracles
+var webExplorer_testOracle;
+var webExplorer_stopOracle;
+var webExplorer_useTestOracle = true;
+var webExplorer_useStopOracle = true;
+
 Array.prototype.clear = function() { this.splice(0, this.length) }
 
 function webExplorer_setNewNodeHtmlContent(nodeId,newNodeHtmlContent){
@@ -130,7 +136,7 @@ function webExplorer_specifyElements(){
 	}
 }
 
-function webExplorer_computeStyles(){	
+function webExplorer_computeStyles(){
 	if($("#web-explorer-compute-style").is(":checked")){
 		webExplorer_hasToComputeStyles = true;		
 		var computedStylesList = new Array();
@@ -178,9 +184,32 @@ function webExplorer_start(type){
 	});	
 }
 
+
+// iFrame Generator, could be usefull.
+function prepareFrame() {
+	ifrm = document.createElement("IFRAME");
+	ifrm.setAttribute("src", "http://google.com/");
+	ifrm.style.width = 640+"px";
+	ifrm.style.height = 480+"px";
+	document.body.appendChild(ifrm);
+}
+
+
 //Classe Noeud
-function webExplorer_Node(nodeHtmlContent, nodeDomTreePath, nodeDomTreeText, nodeDocumentLocationHref, nodeType) {
+function webExplorer_Node(nodeHtmlContent, nodeDomTreePath, nodeDomTreeText, nodeDocumentLocationHref, nodeType, domdocument) {
 	this.id=webExplorer_newNodeId();
+
+	// // Traitement d'oracles
+	if (webExplorer_useTestOracle)
+	{
+		var testResult = testOracleFunction(domdocument);
+	}
+	if (webExplorer_useStopOracle)
+	{
+		var stopResult = stopOracleFunction(domdocument);
+	}
+
+	// Ajout des éléments aux noeud
 	this.nodeHtmlContent = nodeHtmlContent;//Contenu entier de la page HTML
 	this.nodeDomTreePath = nodeDomTreePath;//Tableau des différents éléments DOM de la page
 	this.nodeDomTreeText = nodeDomTreeText;//Tableau du texte des différents éléments DOM de la page
@@ -189,13 +218,14 @@ function webExplorer_Node(nodeHtmlContent, nodeDomTreePath, nodeDomTreeText, nod
 	this.nodeType = nodeType;
 	this.nodeExternalLink = new Array();//Tableau des liens sortants
 	webExplorer_nodeList.push(this);
-	webExplorer_consoleAlertNewNode(this.id,this.nodeDocumentLocationHref,this.nodeType);
+	webExplorer_consoleAlertNewNode(this.id, this.nodeDocumentLocationHref,this.nodeType, testResult, stopResult);
+
+	if(stopResult == true) webExplorer_stop = true;
 }
 
 //Fonction permettant d'instancier un nouveau noeud à partir du code javascript de l'iFrame
-function webExplorer_newNode(nodeHtmlContent, nodeDomTreePath, nodeDomTreeText, nodeDocumentLocationHref, nodeType){
-	new webExplorer_Node(nodeHtmlContent, nodeDomTreePath,nodeDomTreeText, nodeDocumentLocationHref, nodeType);
-	
+function webExplorer_newNode(nodeHtmlContent, nodeDomTreePath, nodeDomTreeText, nodeDocumentLocationHref, nodeType, domdocument){
+	new webExplorer_Node(nodeHtmlContent, nodeDomTreePath, nodeDomTreeText, nodeDocumentLocationHref, nodeType, domdocument);
 }
 
 //Génère un nouvel identifiant unique pour un noeud
@@ -357,8 +387,32 @@ function webExplorer_hasBeenVisitedExternalLink(nodeId,elementPath){
 }
 
 
-function webExplorer_consoleAlertNewNode(nodeId,nodeDocumentLocationHref,nodeType){
+function webExplorer_consoleAlertNewNode(nodeId, nodeDocumentLocationHref, nodeType, isTestNode, isStopNode){
 	var iconNodeType;
+	var nodeColor = "alert-success";
+	var testText = "<span class='label'>false</span>";
+	var stopText = "<span class='label'>false</span>";
+
+	isTestNode = typeof isTestNode !== 'undefined' ? isTestNode : false;
+	isStopNode = typeof isStopNode !== 'undefined' ? isStopNode : false;
+
+	// Flags
+	if(isTestNode)
+	{
+		nodeColor = "alert-warning";
+		testText = "<span class='label label-warning'>True</span>";
+	}
+	if(isStopNode)
+	{
+		nodeColor = "alert-error";
+		stopText = "<span class='label label-important'>True</span>";
+	}
+	if(isTestNode && isStopNode)
+	{
+		nodeColor = "alert-teststop";
+	}
+
+	// node types
 	if(nodeType=="javascript"){		
 		$('#web-explorer-node-j-number').val(parseInt($('#web-explorer-node-j-number').val())+1);
 		iconNodeType = "icon-repeat";
@@ -371,31 +425,52 @@ function webExplorer_consoleAlertNewNode(nodeId,nodeDocumentLocationHref,nodeTyp
 		$('#web-explorer-node-n-number').val(parseInt($('#web-explorer-node-n-number').val())+1);
 		iconNodeType = "icon-certificate";
 	}
-	var consoleNodePopover = '<table class=\'table\'>';
+
+	var consoleNodePopover = '<div id=\'NodePopovercontent'+nodeId+'\' style="display: none;">';
+	consoleNodePopover += '<table class=\'table\'">';
 	consoleNodePopover += '<tr>';
 	consoleNodePopover += '<td>Type</td>';
 	consoleNodePopover += '<td>'+nodeType+'</td>';
 	consoleNodePopover += '</tr>';
 	consoleNodePopover += '<tr>';
-	consoleNodePopover += '<td>Document location href</td>';
-	consoleNodePopover += '<td>'+nodeDocumentLocationHref+'</td>';
+	consoleNodePopover += '<td>Document location</td>';
+	consoleNodePopover += '<td><a href="'+nodeDocumentLocationHref+'" target="_blank">'+nodeDocumentLocationHref+'</a></td>';
 	consoleNodePopover += '</tr>';
 	consoleNodePopover += '<tr>';
 	consoleNodePopover += '<td>External links</td>';
 	consoleNodePopover += '<td>';
-	consoleNodePopover += '<ul></ul>';
+	consoleNodePopover += '<ul id=\'webExplorer_consoleNodeLinks'+nodeId+'\'></ul>';
 	consoleNodePopover += '</td>';
 	consoleNodePopover += '</tr>';
+
+	consoleNodePopover += '<tr><td>Flags</td>';
+	consoleNodePopover += '<td><ul>';
+	
+	if(webExplorer_useTestOracle)
+	{
+		consoleNodePopover += '<li>Test oracle: '+testText+'</li>';
+	}
+	if(webExplorer_useStopOracle)
+	{
+		consoleNodePopover += '<li>Stop oracle: '+stopText+'</li>';
+	}
+	consoleNodePopover += '</ul></td></tr>';
 	consoleNodePopover += '</table>';
+	consoleNodePopover += '</div>';
 		
-	var consoleNodeContent = '<div id="webExplorer_consoleNode'+nodeId+'" class="alert alert-success webExplorer_console" style="margin-bottom:2px;">';
-	consoleNodeContent += '<button type="button" class="close" data-dismiss="alert">×</button>';
-	consoleNodeContent += '<a href="#" rel="popover" data-original-title="Node '+nodeId+' details :" data-content="'+consoleNodePopover+'">';
-	consoleNodeContent += '<i class="'+iconNodeType+' icon-white"></i> <strong>Node '+nodeId+'</strong>';
+	var consoleNodeContent = '<div id="webExplorer_consoleNode'+nodeId+'" data-original-title="Node '+nodeId+' details :" class="alert '+nodeColor+' webExplorer_console" style="margin-bottom:2px;">';
+	consoleNodeContent += '<a href="#">';
+	consoleNodeContent += '<i class="'+iconNodeType+'"></i> <strong>Node '+nodeId+'</strong>';
 	consoleNodeContent += '</a>';
 	consoleNodeContent += '</div>';
 	$('#web-explorer-console').append(consoleNodeContent);
-	$('#webExplorer_consoleNode'+nodeId).popover();
+	$('#web-explorer-console').append(consoleNodePopover);
+	$('#webExplorer_consoleNode'+nodeId).popover({ 
+    html : true,
+    content: function() {
+      return $('#NodePopovercontent'+nodeId).html();
+    }
+  });
 }
 
 function webExplorer_consoleAlertNewExternalLink(nodeId,nodeIdDest){
@@ -406,36 +481,18 @@ function webExplorer_consoleAlertNewExternalLink(nodeId,nodeIdDest){
 }
 
 function webExplorer_consolePopoverUpdate(nodeId){
-	var consoleNodePopover;
+	var nodeExternalLinks;
 	for(var i=0;i<webExplorer_nodeList.length;i++){
 		if(webExplorer_nodeList[i].id==nodeId){			
 			var nodeType = webExplorer_nodeList[i].nodeType;
 			var nodeDocumentLocationHref = webExplorer_nodeList[i].nodeDocumentLocationHref;
-			var consoleNodePopover = '<table class=\'table\'>';
-			consoleNodePopover += '<tr>';
-			consoleNodePopover += '<td>Type</td>';
-			consoleNodePopover += '<td>'+nodeType+'</td>';
-			consoleNodePopover += '</tr>';
-			consoleNodePopover += '<tr>';
-			consoleNodePopover += '<td>Document location href</td>';
-			consoleNodePopover += '<td>'+nodeDocumentLocationHref+'</td>';
-			consoleNodePopover += '</tr>';
-			consoleNodePopover += '<tr>';
-			consoleNodePopover += '<td>External links</td>';
-			consoleNodePopover += '<td>';
-			consoleNodePopover += '<ul>';
+
 			for(var j=0;j<webExplorer_nodeList[i].nodeExternalLink.length;j++){
-				consoleNodePopover += '<li>Node '+webExplorer_nodeList[i].nodeExternalLink[j].nodeIdDest+' : '+webExplorer_nodeList[i].nodeExternalLink[j].elementPath+'</li>';
+				nodeExternalLinks += '<li>Node '+webExplorer_nodeList[i].nodeExternalLink[j].nodeIdDest+' : '+webExplorer_nodeList[i].nodeExternalLink[j].elementPath+'</li>';
 			}
-			consoleNodePopover += '</ul>';
-			consoleNodePopover += '</td>';
-			consoleNodePopover += '</tr>';
-			consoleNodePopover += '</table>';
 		}
-		
 	}
-	
-	$('#webExplorer_consoleNode'+nodeId+' > a').attr('data-content',consoleNodePopover);
+	$('#webExplorer_consoleNodeLinks'+nodeId).append(nodeExternalLinks);
 }
 
 
@@ -492,7 +549,7 @@ function webExplorer_nodeToJson(){
 		}
 		
 	}
-	console.log(nodeToJson);
+	mapViewerInput.getSession().setValue(JSON.stringify(nodeToJson, null, '\t'));
 }
 
 	

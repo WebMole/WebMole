@@ -1,5 +1,5 @@
-Urlset Manager Project
-======================
+WebMole
+=======
 A project for managing custom web maps and viewing web paths with automatic tools and javascript libraries
 
 Usage
@@ -17,7 +17,7 @@ Requirements
 Disclaimer
 ----------
 
-URLset Manager Project does not provide any way to hacks nor encourage hacking. The project is delivered as-is
+Webmole does not provide any way to hack a website nor encourage hacking. The project is delivered as-is for research purpouses and web maps generation and analysis.
 
 Credits
 -------
@@ -29,6 +29,12 @@ Developpement
 
 Changelog
 ---------
+
+## 0.3
+* Added Oracle Editing cappabilitie (will execute custom javascript on each nodes to filter the map)
+* Changed google's Prettyprint for [Ace web editor](http://ace.ajax.org/) wich is an awesome opensource web editor that allow alot of options such as edit/read-only, alot of langages, etc. :)
+* Separated the libraries from the app (makes it easier to locate custom scripts and app's code)
+* Renamed project to "WebMole"
 
 ## 0.2
 * Added working Web Explorer

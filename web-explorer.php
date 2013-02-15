@@ -75,22 +75,37 @@ if ($access != 'authorized')
             <h2>Captions</h2>
             <div class="alert alert-success" style="margin-bottom:2px;">
             	<a href="#" style="text-decoration:none;">
-                	<i class="icon-certificate icon-white"></i> <strong>Normal node</strong> 
+                	<i class="icon-certificate"></i> <strong>Normal node</strong> 
                 </a>               
             </div>
             <div class="alert alert-success" style="margin-bottom:2px;">
             	<a href="#" style="text-decoration:none;">
-                	<i class="icon-repeat icon-white"></i> <strong>Javascript node</strong> 
+                	<i class="icon-repeat"></i> <strong>Javascript node</strong> 
                 </a>               
             </div>
             <div class="alert alert-success" style="margin-bottom:2px;">
             	<a href="#" style="text-decoration:none;">
-                	<i class="icon-cog icon-white"></i> <strong>Ajax node</strong> 
+                	<i class="icon-cog"></i> <strong>Ajax node</strong> 
                 </a>               
             </div>
             <div class="alert alert-info" style="margin-bottom:2px;">
             	<a href="#" style="text-decoration:none;">
                 	<i class="icon-arrow-right icon-white"></i> <strong>External link</strong> 
+                </a>               
+            </div>
+            <div class="alert alert-error" style="margin-bottom:2px;">
+                <a href="#" style="text-decoration:none;">
+                    <i class="icon-certificate"></i> <strong>Stop node</strong> 
+                </a>               
+            </div>
+            <div class="alert alert-warning" style="margin-bottom:2px;">
+                <a href="#" style="text-decoration:none;">
+                    <i class="icon-certificate"></i> <strong>Flagged test node</strong> 
+                </a>               
+            </div>
+            <div class="alert alert-teststop" style="margin-bottom:2px;">
+                <a href="#" style="text-decoration:none;">
+                    <i class="icon-certificate"></i> <strong>Flagged test and Stop node</strong> 
                 </a>               
             </div>
         </div>

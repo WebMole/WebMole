@@ -10,7 +10,7 @@ if ($access != 'authorized')
 		<h3>Manually insert the data</h3>
 	</div>
 	<div class="modal-body">
-		<textarea class="source_input">Insert your data here</textarea>
+		<div id="map-viewer-input" class="editor"></div>
 		<div class="clear"></div>
 		<a href="#" class="btn action_clear">Clear</a>
 	</div>

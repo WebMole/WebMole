@@ -20,6 +20,31 @@ body {
 	height: 300px;
 }
 
+/* Editor (Ace) */
+.editor
+{
+	height: 566px;
+	border: 1px solid #DDD;
+	border-radius: 4px;
+	border-bottom-right-radius: 0px;
+	margin-top: 5px;
+	position: relative;
+}
+
+/* popover widthfix */
+.popover-inner
+{
+	width: 100%;
+}
+
+.alert-teststop
+{
+	color: #fff;
+	background-color: #DBBDD6;
+	border-color: #A65999
+}
+
+
 /* Drag and drop Upload */
 
 #drop-area {

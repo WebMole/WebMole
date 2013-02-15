@@ -1,0 +1,126 @@
+header h1
+{
+	font-size: 52px;
+	line-height: 61px;
+	letter-spacing: -1px;
+	font-family: "Georgia", "Times New Roman", Helvetica, Arial, sans-serif;
+	text-align: center;
+	padding: 30px;
+	border-bottom: 1px solid grey;
+	color: white;
+	background: #333;
+	margin:0;
+}
+
+h1, h2, h3, h4, h5, h6
+{
+	font-weight: bold;
+}
+
+header #logo
+{
+	text-align: center;
+	padding: 10px 0;
+}
+
+html
+{
+	background: url("../images/background.gif") repeat;
+}
+
+body
+{
+	background: none;
+}
+
+footer
+{
+	text-align: center
+}
+
+footer .widgets
+{
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+	color: white;
+	background: #333;
+	box-shadow: 0px 0px 10px 3px hsla(0,0%,0%,.25);
+	border-radius: 10px;
+}
+
+footer .widgets a
+{
+	color: #ccc;
+}
+
+footer .widgets h2
+{
+	color: #ddd;
+}
+
+#content
+{
+	background: white;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	box-shadow: 0px 0px 10px 3px hsla(0,0%,0%,.25);
+	border: 1px solid grey;
+	border-radius: 10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding: 10px;
+}
+
+#content img
+{
+	max-width: 100%;
+}
+
+/* Menu */
+#mainMenu {
+   float:left;
+   width:100%;
+   background:#999;
+   border-bottom:4px solid #000;
+   overflow:hidden;
+   position:relative;
+}
+#mainMenu ul {
+   clear:left;
+   float:left;
+   list-style:none;
+   margin:0;
+   padding:0;
+   position:relative;
+   left:50%;
+   text-align:center;
+}
+#mainMenu ul li {
+   display:block;
+   float:left;
+   list-style:none;
+   margin:0;
+   padding:0;
+   position:relative;
+   right:50%;
+}
+#mainMenu ul li a {
+   display:block;
+   margin:0 0 0 1px;
+   padding:3px 10px;
+   background:#ddd;
+   color:#000;
+   text-decoration:none;
+   line-height:2em;
+}
+#mainMenu ul li a:hover {
+   background:#369;
+   color:#fff;
+}
+#mainMenu ul li a.active,
+#mainMenu ul li a.active:hover {
+   color:#fff;
+   background:#000;
+   font-weight:bold;
+}
