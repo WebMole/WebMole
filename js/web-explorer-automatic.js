@@ -6,103 +6,118 @@ return(!i||i!==r&&!b.contains(r,i))&&(e.type=o.origType,n=o.handler.apply(this,a
 
 
 var webExplorer_isNodeAjax = false;
-var mustBeClicked;//Variable qui indique si l'élément doit être cliqué ou non
-
-
-jQuery(document).ready(function($) {
-	var documentDom = $("body").find(webExplorer_getElementToExplore());//Variable qui sert à parcourir les éléments contenu dans la balise BODY
-	if(webExplorer_HasToComputeStyles()){
+var mustBeClicked; //Variable qui indique si l'élément doit être cliqué ou non
+jQuery(document).ready(function ($)
+{
+	var documentDom = $("body").find(webExplorer_getElementToExplore()); //Variable qui sert à parcourir les éléments contenu dans la balise BODY
+	if (webExplorer_HasToComputeStyles())
+	{
 		webExplorer_computeStyles();
 	}
-	var nodeHtmlContent = $("body").html();//Contenu de la balise BODY
-	
+	var nodeHtmlContent = $("body").html(); //Contenu de la balise BODY
 	//Si il n'existe aucun noeud, alors on crée le noeud initial
-	if(webExplorer_getNodeList() == 0){
+	if (webExplorer_getNodeList() == 0)
+	{
 		window.parent.webExplorer_reset();
-		webExplorer_newNode(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom),document.location.href,"normal", document);
+		webExplorer_newNode(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom), document.location.href, "normal", document);
 		webExplorer_setCurrentNode(webExplorer_getNodeId(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom)));
 	}
-	if(webExplorer_stop()==false){
-		webExplorer_checker(documentDom,nodeHtmlContent);	
+	if (webExplorer_stop() == false)
+	{
+		webExplorer_checker(documentDom, nodeHtmlContent);
 	}
-	
 	//Traitement lorsqu'un élément quelconque de la page est cliqué
-	$("*").click(function (e) {
-		e.stopImmediatePropagation();			
+	$("*").click(function (e)
+	{
+		e.stopImmediatePropagation();
 	});
-	if(webExplorer_stop()==false){
+	if (webExplorer_stop() == false)
+	{
 		doClick();
 	}
 });
-
 //Fonction qui va cliquer si besoin les différents éléments de la page
-function doClick(){
+function doClick()
+{
 	documentDom = $("body").find(webExplorer_getElementToExplore());
-	
-	if(webExplorer_HasToComputeStyles()){
+	if (webExplorer_HasToComputeStyles())
+	{
 		webExplorer_computeStyles();
 	}
-	nodeHtmlContent = $("body").html();//Contenu de la balise BODY
-	
+	nodeHtmlContent = $("body").html(); //Contenu de la balise BODY
 	var i = documentDom.length;
 	var end = true;
-	documentDom.each(function(index, element) {	
-		var mustBeClicked = true;		
-		var elementPath = getElementPath($(this));//Chemin de l'élément cliqué		
+	documentDom.each(function (index, element)
+	{
+		var mustBeClicked = true;
+		var elementPath = getElementPath($(this)); //Chemin de l'élément cliqué		
 		i--;
-		if(webExplorer_hasBeenVisitedElementPath(webExplorer_getNodeCurrentId(),elementPath)==false){
-			webExplorer_setElementPath(elementPath);//On stocke dans la variable globale le chemin de l'élément cliqué
-			webExplorer_setElementPathVisited(webExplorer_getNodeCurrentId(),elementPath);//On indique que l'élément a été visité
+		if (webExplorer_hasBeenVisitedElementPath(webExplorer_getNodeCurrentId(), elementPath) == false)
+		{
+			webExplorer_setElementPath(elementPath); //On stocke dans la variable globale le chemin de l'élément cliqué
+			webExplorer_setElementPathVisited(webExplorer_getNodeCurrentId(), elementPath); //On indique que l'élément a été visité
 			end = false;
-			if($(this).get(0).tagName == "A"){
-				document.location.href = $(this).attr("href");				
+			if ($(this).get(0).tagName == "A")
+			{
+				document.location.href = $(this).attr("href");
 			}
-			else{				
+			else
+			{
 				$(this).click();
 				documentDom = $("body").find(webExplorer_getElementToExplore());
-				if(webExplorer_HasToComputeStyles()){
+				if (webExplorer_HasToComputeStyles())
+				{
 					webExplorer_computeStyles();
 				}
-				nodeHtmlContent = $("body").html();//Contenu de la balise BODY
+				nodeHtmlContent = $("body").html(); //Contenu de la balise BODY
 				//console.log(nodeHtmlContent);
-				if(webExplorer_nodeAlreadySeen(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom))==false){
+				if (webExplorer_nodeAlreadySeen(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom)) == false)
+				{
 					//On change la valeur du noeud précédent
 					webExplorer_setPreviousNode(webExplorer_getNodeCurrentId());
 					//On crée un nouveau noeud
 					var nodeType;
-					if(webExplorer_isNodeAjax == true){										
+					if (webExplorer_isNodeAjax == true)
+					{
 						nodeType = "ajax";
 						webExplorer_isNodeAjax = false;
 					}
-					else{
+					else
+					{
 						nodeType = "javascript";
 					}
-					webExplorer_newNode(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom),document.location.href, nodeType, document);
+					webExplorer_newNode(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom), document.location.href, nodeType, document);
 					//On change la valeur du noeud courant
 					webExplorer_setCurrentNode(webExplorer_getNodeId(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom)));
-					webExplorer_setExternalLink(webExplorer_getNodePreviousId(),webExplorer_getNodeCurrentId(),webExplorer_getElementPath());										
+					webExplorer_setExternalLink(webExplorer_getNodePreviousId(), webExplorer_getNodeCurrentId(), webExplorer_getElementPath());
 				}
-				else{
-					if(webExplorer_getNodeCurrentId() != webExplorer_getNodeId(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom))){					
+				else
+				{
+					if (webExplorer_getNodeCurrentId() != webExplorer_getNodeId(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom)))
+					{
 						webExplorer_setPreviousNode(webExplorer_getNodeCurrentId());
 						webExplorer_setCurrentNode(webExplorer_getNodeId(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom)));
-						webExplorer_setExternalLink(webExplorer_getNodePreviousId(),webExplorer_getNodeCurrentId(),webExplorer_getElementPath());
-						webExplorer_setExternalLinkVisited(webExplorer_getNodePreviousId(),webExplorer_getElementPath());					
+						webExplorer_setExternalLink(webExplorer_getNodePreviousId(), webExplorer_getNodeCurrentId(), webExplorer_getElementPath());
+						webExplorer_setExternalLinkVisited(webExplorer_getNodePreviousId(), webExplorer_getElementPath());
 					}
-					
 				}
-				if(webExplorer_stop()==false){
+				if (webExplorer_stop() == false)
+				{
 					doClick();
 				}
 			}
-			return false;		
+			return false;
 		}
-		if(webExplorer_isExternalLink(webExplorer_getNodeCurrentId(),elementPath)==true){			
+		if (webExplorer_isExternalLink(webExplorer_getNodeCurrentId(), elementPath) == true)
+		{
 			//Si le lien sortant n'a pas été visité alors :
-			if(webExplorer_hasBeenVisitedExternalLink(webExplorer_getNodeCurrentId(),elementPath)==false){
-				webExplorer_setElementPath(elementPath);//On stocke dans la variable globale le chemin de l'élément cliqué
-				if(webExplorer_nodeAlreadySeen(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom))==true){
-					if(webExplorer_getNodeId(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom))!= webExplorer_getNodeCurrentId()){
+			if (webExplorer_hasBeenVisitedExternalLink(webExplorer_getNodeCurrentId(), elementPath) == false)
+			{
+				webExplorer_setElementPath(elementPath); //On stocke dans la variable globale le chemin de l'élément cliqué
+				if (webExplorer_nodeAlreadySeen(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom)) == true)
+				{
+					if (webExplorer_getNodeId(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom)) != webExplorer_getNodeCurrentId())
+					{
 						webExplorer_setPreviousNode(webExplorer_getNodeCurrentId());
 						//On change la valeur du noeud courant
 						webExplorer_setCurrentNode(webExplorer_getNodeId(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom)));
@@ -110,112 +125,118 @@ function doClick(){
 					}
 				}
 				end = false;
-				if($(this).get(0).tagName == "A"){
-					document.location.href = $(this).attr("href");					
+				if ($(this).get(0).tagName == "A")
+				{
+					document.location.href = $(this).attr("href");
 				}
-				else{
-					if(mustBeClicked==true){
+				else
+				{
+					if (mustBeClicked == true)
+					{
 						var elementNext = $(this);
-						elementNext.click();						
+						elementNext.click();
 					}
-					if(webExplorer_stop()==false){
-						doClick();	
+					if (webExplorer_stop() == false)
+					{
+						doClick();
 					}
 				}
-				return false;				
-			}			
-		}						
-    });
-	
+				return false;
+			}
+		}
+	});
 	//Si on est pas sur le noeud initial et que tout les éléments de la page on été visité alors :
-	if(webExplorer_getNodeCurrentId()!="1" && i==0 && webExplorer_getElementPath()!=null && end==true){
+	if (webExplorer_getNodeCurrentId() != "1" && i == 0 && webExplorer_getElementPath() != null && end == true)
+	{
 		//Le lien sortant du noeud précédent est considéré comme visité
-		webExplorer_setExternalLinkVisited(webExplorer_getNodePreviousId(),webExplorer_getElementPath());
+		webExplorer_setExternalLinkVisited(webExplorer_getNodePreviousId(), webExplorer_getElementPath());
 		//On repart à l'état initial de l'application
 		document.location.href = window.parent.getUrlStart();
 		webExplorer_setElementPath(null);
 	}
 }
-
-
-
 //XMlHttpRequestOpen
 XMLHttpRequest.prototype.oldOpen = XMLHttpRequest.prototype.open;
-var newOpen = function(method, url, async, user, password) {
+var newOpen = function (method, url, async, user, password)
+{
 	webExplorer_isNodeAjax = true;
 	var xhr = this;
-	this.oldOpen(method, url, false, user, password);	
+	this.oldOpen(method, url, false, user, password);
 }
 XMLHttpRequest.prototype.open = newOpen;
-
-
 //Fonction appelée lorsqu'une page est chargée pour définir s'il s'agit d'un noeud ou non
-function webExplorer_checker(documentDom,nodeHtmlContent){
+function webExplorer_checker(documentDom, nodeHtmlContent)
+{
 	//Si le noeud existe deja alors :
-	if(webExplorer_nodeAlreadySeen(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom))==true){
+	if (webExplorer_nodeAlreadySeen(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom)) == true)
+	{
 		//On change la valeur du noeud précédent
 		webExplorer_setPreviousNode(webExplorer_getNodeCurrentId());
 		//On change la valeur du noeud courant
 		webExplorer_setCurrentNode(webExplorer_getNodeId(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom)));
 		//Si l'id du noeud courant est inférieure à celle du noeud précédent alors :
-		if(webExplorer_getNodeCurrentId()<webExplorer_getNodePreviousId() && webExplorer_getElementPath()!=null){
+		if (webExplorer_getNodeCurrentId() < webExplorer_getNodePreviousId() && webExplorer_getElementPath() != null)
+		{
 			//On ajoute un lien sortant au noeud précédent à destination du noeud courant
-			webExplorer_setExternalLink(webExplorer_getNodePreviousId(),webExplorer_getNodeCurrentId(),webExplorer_getElementPath());
+			webExplorer_setExternalLink(webExplorer_getNodePreviousId(), webExplorer_getNodeCurrentId(), webExplorer_getElementPath());
 			//On indique qu'il a été visité
-			webExplorer_setExternalLinkVisited(webExplorer_getNodePreviousId(),webExplorer_getElementPath());
+			webExplorer_setExternalLinkVisited(webExplorer_getNodePreviousId(), webExplorer_getElementPath());
 		}
-		
 	}
 	//Sinon si le noeud n'existe pas alors :
-	else{
+	else
+	{
 		//On change la valeur du noeud précédent
 		webExplorer_setPreviousNode(webExplorer_getNodeCurrentId());
 		//On crée un nouveau noeud
-		webExplorer_newNode(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom),document.location.href,"normal", document);
+		webExplorer_newNode(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom), document.location.href, "normal", document);
 		//On change la valeur du noeud courant
 		webExplorer_setCurrentNode(webExplorer_getNodeId(nodeHtmlContent, getDomTreePath(documentDom), getDomTreeText(documentDom)));
 	}
 	//Si la variable qui stocke le chemin possède une valeur différente de null (afin de déterminer s'il s'agit d'un retour à l'état initial ou d'un lien sortant vers le noeud initial)
-	if(webExplorer_getElementPath()!=null){
+	if (webExplorer_getElementPath() != null)
+	{
 		//On ajoute un lien sortant au noeud précédent à destination du noeud courant
-		webExplorer_setExternalLink(webExplorer_getNodePreviousId(),webExplorer_getNodeCurrentId(),webExplorer_getElementPath());
+		webExplorer_setExternalLink(webExplorer_getNodePreviousId(), webExplorer_getNodeCurrentId(), webExplorer_getElementPath());
 	}
 }
-
-
 //Retourne le chemin de l'élément passé en paramètre
 function getElementPath(element)
 {
-    return "/" + $(element).parents().andSelf().map(function() {
-        var $this = $(this);
-        var tagName = this.nodeName;
-        if ($this.siblings(tagName).length > 0) {
-            tagName += "[" + $this.prevAll(tagName).length + "]";
-        }
-        return tagName;
-    }).get().join("/").toUpperCase();
+	return "/" + $(element).parents().andSelf().map(function ()
+	{
+		var $this = $(this);
+		var tagName = this.nodeName;
+		if ($this.siblings(tagName).length > 0)
+		{
+			tagName += "[" + $this.prevAll(tagName).length + "]";
+		}
+		return tagName;
+	}).get().join("/").toUpperCase();
 }
-
 //Retourne le tableau contenant le texte des différents élément du noeud
-function getDomTreeText(documentDom){
+function getDomTreeText(documentDom)
+{
 	var domTreeElemText = new Array();
-	documentDom.each(function(index, element){
+	documentDom.each(function (index, element)
+	{
 		domTreeElemText.push($(this).text());
 	});
 	return domTreeElemText;
 }
-
 //Retourne le tableau contenant le chemin des différents élément du noeud
-function getDomTreePath(documentDom){
+function getDomTreePath(documentDom)
+{
 	var domTreeElemPath = new Array();
-	documentDom.each(function(index, element){
+	documentDom.each(function (index, element)
+	{
 		domTreeElemPath.push(getElementPath($(this)));
 	});
 	return domTreeElemPath;
 }
 
-
-function getDomainName() {
+function getDomainName()
+{
 	var url = window.location.href;
 	var url_parts = url.split('/');
 	var domain_name_parts = url_parts[2].split(':');
@@ -223,113 +244,136 @@ function getDomainName() {
 	return domain_name;
 }
 
-function getPortNumber() {
-	var url = window.location.href;	
-	var url_parts = url.split('/');	
-	var domain_name_parts = url_parts[2].split(':');	
-	var port_number = domain_name_parts[1];	
-	if(port_number!=""){
-		port_number = ":"+port_number;
+function getPortNumber()
+{
+	var url = window.location.href;
+	var url_parts = url.split('/');
+	var domain_name_parts = url_parts[2].split(':');
+	var port_number = domain_name_parts[1];
+	if (port_number != "")
+	{
+		port_number = ":" + port_number;
 	}
 	return port_number;
-
 }
 
-function webExplorer_nodeAlreadySeen(nodeHtmlContent, nodeDomTreePath, nodeDomTreeText){
+function webExplorer_nodeAlreadySeen(nodeHtmlContent, nodeDomTreePath, nodeDomTreeText)
+{
 	return window.parent.webExplorer_nodeAlreadySeen(nodeHtmlContent, nodeDomTreePath, nodeDomTreeText);
 }
 
-function webExplorer_newNode(nodeHtmlContent, nodeDomTreePath, nodeDomTreeText, nodeDocumentLocationHref, nodeType, domdocument){
+function webExplorer_newNode(nodeHtmlContent, nodeDomTreePath, nodeDomTreeText, nodeDocumentLocationHref, nodeType, domdocument)
+{
 	window.parent.webExplorer_newNode(nodeHtmlContent, nodeDomTreePath, nodeDomTreeText, nodeDocumentLocationHref, nodeType, domdocument);
 }
 
-function webExplorer_setPreviousNode(nodeId){
+function webExplorer_setPreviousNode(nodeId)
+{
 	window.parent.webExplorer_nodePreviousId = nodeId;
 }
 
-function webExplorer_setCurrentNode(nodeId){
+function webExplorer_setCurrentNode(nodeId)
+{
 	window.parent.webExplorer_nodeCurrentId = nodeId;
 }
 
-function webExplorer_setExternalLink(nodePreviousId, nodeCurrentId, elementPath){
+function webExplorer_setExternalLink(nodePreviousId, nodeCurrentId, elementPath)
+{
 	window.parent.webExplorer_setExternalLink(nodePreviousId, nodeCurrentId, elementPath);
 }
 
-function webExplorer_setExternalLinkVisited(nodePreviousId, elementPath){
+function webExplorer_setExternalLinkVisited(nodePreviousId, elementPath)
+{
 	window.parent.webExplorer_setExternalLinkVisited(nodePreviousId, elementPath);
 }
 
-function webExplorer_isExternalLink(nodeCurrentId, elementPath){
+function webExplorer_isExternalLink(nodeCurrentId, elementPath)
+{
 	return window.parent.webExplorer_isExternalLink(nodeCurrentId, elementPath);
 }
 
-function webExplorer_hasBeenVisitedExternalLink(nodeCurrentId, elementPath){
+function webExplorer_hasBeenVisitedExternalLink(nodeCurrentId, elementPath)
+{
 	return window.parent.webExplorer_hasBeenVisitedExternalLink(nodeCurrentId, elementPath);
 }
 
-function webExplorer_hasBeenVisitedElementPath(nodeCurrentId, elementPath){
+function webExplorer_hasBeenVisitedElementPath(nodeCurrentId, elementPath)
+{
 	return window.parent.webExplorer_hasBeenVisitedElementPath(nodeCurrentId, elementPath);
 }
 
-function webExplorer_setElementPathVisited(nodeCurrentId, elementPath){
+function webExplorer_setElementPathVisited(nodeCurrentId, elementPath)
+{
 	window.parent.webExplorer_setElementPathVisited(nodeCurrentId, elementPath);
 }
 
-function webExplorer_getNodeCurrentId(){
+function webExplorer_getNodeCurrentId()
+{
 	return window.parent.webExplorer_nodeCurrentId;
 }
 
-function webExplorer_setElementPath(elementPath){
+function webExplorer_setElementPath(elementPath)
+{
 	window.parent.webExplorer_elementPath = elementPath;
 }
 
-function webExplorer_getElementPath(){
+function webExplorer_getElementPath()
+{
 	return window.parent.webExplorer_elementPath;
 }
 
-function webExplorer_getNodeId(nodeHtmlContent, nodeDomTreePath, nodeDomTreeText){
+function webExplorer_getNodeId(nodeHtmlContent, nodeDomTreePath, nodeDomTreeText)
+{
 	return window.parent.webExplorer_getNodeId(nodeHtmlContent, nodeDomTreePath, nodeDomTreeText);
 }
 
-function webExplorer_getNodePreviousId(){
+function webExplorer_getNodePreviousId()
+{
 	return window.parent.webExplorer_nodePreviousId;
 }
 
-function webExplorer_getNodeList(){
+function webExplorer_getNodeList()
+{
 	return window.parent.webExplorer_nodeList;
 }
 
-function webExplorer_getElementToExplore(){
+function webExplorer_getElementToExplore()
+{
 	return window.parent.webExplorer_elementToExplore;
 }
 
-function webExplorer_HasToComputeStyles(){
+function webExplorer_HasToComputeStyles()
+{
 	return window.parent.webExplorer_hasToComputeStyles;
 }
 
-function webExplorer_getStylesToCompute(){
+function webExplorer_getStylesToCompute()
+{
 	return window.parent.webExplorer_stylesToCompute;
 }
 
-function webExplorer_stop(){
+function webExplorer_stop()
+{
 	return window.parent.webExplorer_stop;
 }
 
-function webExplorer_computeStyles(){
-	$("body").find(webExplorer_getElementToExplore()).each(function(index, element) {
-		if($(this).attr("style")==null){
-			$(this).attr("style","");
+function webExplorer_computeStyles()
+{
+	$("body").find(webExplorer_getElementToExplore()).each(function (index, element)
+	{
+		if ($(this).attr("style") == null)
+		{
+			$(this).attr("style", "");
 		}
-		var webExplorer_getStylesToComputeList = webExplorer_getStylesToCompute();		
-		for(var i=0;i<webExplorer_getStylesToComputeList.length;i++){
-			var cssStylePattern = new RegExp("("+webExplorer_getStylesToComputeList[i]+"\s*:\s*)");			
-			if(cssStylePattern.test($(this).attr("style"))==false){
-				$(this).attr("style",$(this).attr("style")+""+webExplorer_getStylesToComputeList[i]+":"+window.getComputedStyle(element, null).getPropertyValue(webExplorer_getStylesToComputeList[i])+";");
+		var webExplorer_getStylesToComputeList = webExplorer_getStylesToCompute();
+		for (var i = 0; i < webExplorer_getStylesToComputeList.length; i++)
+		{
+			var cssStylePattern = new RegExp("(" + webExplorer_getStylesToComputeList[i] + "\s*:\s*)");
+			if (cssStylePattern.test($(this).attr("style")) == false)
+			{
+				$(this).attr("style", $(this).attr("style") + "" + webExplorer_getStylesToComputeList[i] + ":" + window.getComputedStyle(element, null).getPropertyValue(webExplorer_getStylesToComputeList[i]) + ";");
 			}
-		}		
+		}
 	});
 }
-
-
-
 
