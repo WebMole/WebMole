@@ -4,6 +4,8 @@
 
 testOracleFunction = function(doc)
 {
+	/* Previous test: we are able to compare with previous page's data */
+
 	// var e = doc.getElementsByTagName("h1")[0];
 	// if(e === undefined) return false;
 
@@ -15,7 +17,14 @@ testOracleFunction = function(doc)
 	// testOracleFunction.lastx = e.style.width;
 	// return true;
 
-
-	if(doc.getElementById("flag") != undefined) return false;
-	else return true;
+	
+	/* Let's just flag when we see an id="flag" */
+	if (doc.getElementById("flag"))
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
 }

@@ -8,16 +8,17 @@ stopOracleFunction = function(doc)
 
 	if (e.innerText.indexOf("Stop on this page") == -1)
 	{
-		stopOracleFunction.loggedin = false;
+		stopOracleFunction.answer = false;
 		if (doc.getElementById("cart") === undefined)
 		{
+			// we could stop here if the cart couldn't be found for exemple.
 			// return true;
 		}
 	}
 	else
 	{
-		stopOracleFunction.loggedin = true;
+		stopOracleFunction.answer = true;
 	}
 
-	return stopOracleFunction.loggedin;
+	return stopOracleFunction.answer;
 }

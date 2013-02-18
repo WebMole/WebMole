@@ -2,6 +2,12 @@ WebMole
 =======
 A project for managing custom web maps and viewing web paths with automatic tools and javascript libraries
 
+Demontration Video
+------------------
+[![ScreenShot](https://raw.github.com/GabLeRoux/WebMole/master/Ressources/WebMole_Youtube_Video.png)](http://youtu.be/vt5fpE0bzSY)
+
+[Link to video](http://youtu.be/vt5fpE0bzSY)
+
 Usage
 -----
 
@@ -11,7 +17,7 @@ Requirements
 ------------
 * A [web server](http://www.wampserver.com) with PHP 5.2.0 or newer (for JSON lib)
 * A web browser
-  * Tested with [Google Chrome](https://www.google.com/chrome) but will work with popular ones
+  * Tested with [Google Chrome](https://www.google.com/chrome) and [Safari](http://www.apple.com/safari/) but may work with other popular browsers
   * Javascript must be enabled
 
 Disclaimer
@@ -48,6 +54,8 @@ Changelog
 Todo
 ----
 
-* Implement drag and drop upload
-* Clean Settings
-* json communication between viewer and explorer
+* Implement drag and drop upload for viewer
+* Make settings writable
+* Eval javascript after user's edit from ui with ace editor
+* Update Viewer to handle explorer's json data
+* Update demo with new dynamic page generator (Currently in WebMole Demo folder)
