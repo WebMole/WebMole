@@ -4,7 +4,7 @@ A project for managing custom web maps and viewing web paths with automatic tool
 
 Demontration Video
 ------------------
-[![ScreenShot](https://raw.github.com/GabLeRoux/WebMole/master/Ressources/WebMole_Youtube_Video.png)](http://youtu.be/vt5fpE0bzSY)
+[![ScreenShot](https://raw.github.com/GabLeRoux/WebMole/master/ressources/WebMole_Youtube_Video.png)](http://youtu.be/vt5fpE0bzSY)
 
 [Link to video](http://youtu.be/vt5fpE0bzSY)
 
