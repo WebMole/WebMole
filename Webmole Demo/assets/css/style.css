@@ -59,6 +59,24 @@ footer .widgets h2
 	color: #ddd;
 }
 
+.align-center
+{
+	text-align: center;
+}
+
+.photo
+{
+	padding: 5px;
+	border-radius: 3px;
+	border: 1px solid #ddd;
+	background: white;
+}
+
+.shopItem
+{
+	float: left;
+}
+
 #content
 {
 	background: white;
@@ -75,6 +93,16 @@ footer .widgets h2
 #content img
 {
 	max-width: 100%;
+}
+
+#content img
+{
+	max-width: 100%;
+}
+
+#content section article
+{
+	margin-bottom: 20px;
 }
 
 /* Menu */

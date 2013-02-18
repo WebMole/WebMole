@@ -12,8 +12,6 @@ var webExplorer_manualActiveColorC = new Array();
 var webExplorer_stop = false;
 var webExplorer_iframeLoaded = false;
 // Oracles
-var webExplorer_testOracle;
-var webExplorer_stopOracle;
 var webExplorer_useTestOracle = true;
 var webExplorer_useStopOracle = true;
 Array.prototype.clear = function ()
@@ -448,22 +446,22 @@ function webExplorer_consoleAlertNewNode(nodeId, nodeDocumentLocationHref, nodeT
 {
 	var iconNodeType;
 	var nodeColor = "alert-success";
-	var testText = "<span class='label'>false</span>";
+	var testText = "<span class='label'>true</span>";
 	var stopText = "<span class='label'>false</span>";
-	isTestNode = typeof isTestNode !== 'undefined' ? isTestNode : false;
+	isTestNode = typeof isTestNode !== 'undefined' ? isTestNode : true;
 	isStopNode = typeof isStopNode !== 'undefined' ? isStopNode : false;
 	// Flags
-	if (isTestNode)
+	if (!isTestNode)
 	{
 		nodeColor = "alert-warning";
-		testText = "<span class='label label-warning'>True</span>";
+		testText = "<span class='label label-warning'>False</span>";
 	}
 	if (isStopNode)
 	{
 		nodeColor = "alert-error";
 		stopText = "<span class='label label-important'>True</span>";
 	}
-	if (isTestNode && isStopNode)
+	if (!isTestNode && isStopNode)
 	{
 		nodeColor = "alert-teststop";
 	}
@@ -519,9 +517,10 @@ function webExplorer_consoleAlertNewNode(nodeId, nodeDocumentLocationHref, nodeT
 	consoleNodeContent += '</div>';
 	$('#web-explorer-console').append(consoleNodeContent);
 	$('#web-explorer-console').append(consoleNodePopover);
-	$('#webExplorer_consoleNode' + nodeId).popover(
+	$('#webExplorer_consoleNode' + nodeId).clickover(
 	{
 		html: true,
+		trigger: 'click',
 		content: function ()
 		{
 			return $('#NodePopovercontent' + nodeId).html();
@@ -534,12 +533,11 @@ function webExplorer_consoleAlertNewExternalLink(nodeId, nodeIdDest)
 	$('#web-explorer-el-number').val(parseInt($('#web-explorer-el-number').val()) + 1);
 	$("#web-explorer-console").append('<div class="alert alert-info webExplorer_console" style="margin-bottom:2px;"><button type="button" class="close" data-dismiss="alert">×</button><i class="icon-arrow-right icon-white"></i> <strong>External link </strong>from node ' + nodeId + ' to  node ' + nodeIdDest + '</div>');
 	webExplorer_consolePopoverUpdate(nodeId);
-	$("[rel=popover]").popover();
 }
 
 function webExplorer_consolePopoverUpdate(nodeId)
 {
-	var nodeExternalLinks;
+	var nodeExternalLinks = "";
 	for (var i = 0; i < webExplorer_nodeList.length; i++)
 	{
 		if (webExplorer_nodeList[i].id == nodeId)

@@ -6,7 +6,7 @@ stopOracleFunction = function(doc)
 {
 	var e = doc.getElementsByTagName("h1")[0];
 
-	if (e.innerText.indexOf("Welcome,") == -1)
+	if (e.innerText.indexOf("Stop on this page") == -1)
 	{
 		stopOracleFunction.loggedin = false;
 		if (doc.getElementById("cart") === undefined)

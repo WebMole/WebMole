@@ -19,13 +19,17 @@ $application_directory = dirname($_SERVER['PHP_SELF']);
 
 
 	<?php /* --- Libraries --- */ ?>
-
+	
+	<?php /* Session variables in javascript! :) */ ?>
+	<script language="javascript" type="text/javascript" charset="utf-8" src="library/js/sessvars.js"></script>
+	
 	<?php /* jQuery */ ?>
 	<script language="javascript" type="text/javascript" charset="utf-8" src="library/js/jquery-1.9.1.min.js"></script>
     
     <?php /* Twitter Bootstrap (Amazing layout and style, etc.) */ ?>
 	<link type="text/css" href="library/css/bootstrap.min.css" rel="stylesheet" />
 	<script language="javascript" type="text/javascript" charset="utf-8" src="library/js/bootstrap.min.js"></script>
+	<script language="javascript" type="text/javascript" charset="utf-8" src="library/js/bootstrapx-clickover.js"></script>
 
     <?php /* ColorPicker */ ?>
 	<link type="text/css" href="library/css/colorpicker.css" rel="stylesheet" />
@@ -41,7 +45,6 @@ $application_directory = dirname($_SERVER['PHP_SELF']);
 	<script language="javascript" type="text/javascript" charset="utf-8" src="library/js/json2.js"></script>
 
 	<?php /* --- Libraries end --- */ ?>
-	
 
 	<?php /* --- Application related scripts and style --- */ ?>
 
@@ -71,10 +74,9 @@ $application_directory = dirname($_SERVER['PHP_SELF']);
 			</h1>
 		</div>
 		
-		<?php //@Todo: set this to show if cookies does not exist ;) ?>
-		<div class="alert alert-info">
+		<div id="firstTimeAlert" class="alert alert-info">
 			<button class="close" data-dismiss="alert">×</button>
-			<strong>Hello there!</strong> Looks like it's your first time here, click on Documentation for more info ;).
+			<strong>Hello there!</strong> This is a new session, if you need help, read the documentation ;).
 		</div>
 		
 		<ul id="main-tab-controller" class="nav nav-tabs">
