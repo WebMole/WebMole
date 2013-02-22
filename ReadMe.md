@@ -23,12 +23,12 @@ Requirements
 Disclaimer
 ----------
 
-Webmole does not provide any way to hack a website nor encourage hacking. The project is delivered as-is for research purpouses and web maps generation and analysis.
+Webmole does not provide any way to hack a website nor encourages hacking. The project is delivered as-is for research purposes and web map generation and analysis.
 
 Credits
 -------
 
-Written by [Gabriel Le Breton](http://www.gableroux.com), [Fabien Maronnaud](mailto:fabien.maronnaud@gmail.com) in collaboration with [Sylvain Hallé](http://www.leduotang.com/sylvain/), Professor at Université du Québec à Chicoutimi.
+Written by [Gabriel Le Breton](http://www.gableroux.com), [Fabien Maronnaud](mailto:fabien.maronnaud@gmail.com) in collaboration with [Sylvain Hallé](http://www.leduotang.com/sylvain/), professor at [Université du Québec à Chicoutimi](http://www.uqac.ca).
 
 Developpement
 =============
@@ -37,7 +37,7 @@ Changelog
 ---------
 
 ## 0.3
-* Added Oracle Editing cappabilitie (will execute custom javascript on each nodes to filter the map)
+* Added Oracle Editing capability (will execute custom JavaScript on each node to filter the map)
 * Changed google's Prettyprint for [Ace web editor](http://ace.ajax.org/) wich is an awesome opensource web editor that allow alot of options such as edit/read-only, alot of langages, etc. :)
 * Separated the libraries from the app (makes it easier to locate custom scripts and app's code)
 * Renamed project to "WebMole"
