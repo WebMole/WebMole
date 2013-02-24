@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Test for monitors</title>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<link href="css/ui-lightness/jquery-ui-1.10.1.custom.css" rel="stylesheet">
+<script src="js/jquery-1.9.1.js"></script>
+<script src="js/jquery-ui-1.10.1.custom.js"></script>
+<script type="text/javascript" src="monitor.js"></script>
+<script type="text/javascript" src="gui.js"></script>
+</head>
+<body>
+
+<h1>LTL Monitor Tester</h1>
+
+<p>This is a simple page to test various <em>temporal</em> properties
+on page attributes.</p>
+
+<div id="monitor">
+<p>Input the LTL formula in the box:</p>
+<textarea id="input-formula"></textarea><br />
+<select name="preset">
+<option value="G ($('#yellowbox').width() &lt; 90)">#yellowbox is always narrower than 90px</option>
+<option value="∀ x ∈ $('#playground li')/.width() : x == 100">All li are 100px wide</option>
+<option value="∀ x ∈ $('#yellowbox')/.position().left : G ($('#yellowbox').position().left == x)">The yellow box never moves</option>
+<option value="G (∀ t₁ ∈ $('#playground li')/.text() : X (∃ t₂ ∈ $('#playground li')/.text() : &quot;t₁&quot; == &quot;t₂&quot;))">At least one bullet presists between two pages</option>
+</select>
+<ul>
+<li><input type="button" value="Instantiate a monitor with the formula" id="btn-instantiate" /></li>
+<li><input type="button" value="Evaluate monitor on page contents" id="btn-evaluate" /></li>
+<!-- <li><input type="button" value="Update monitor's verdict" id="btn-verdict" /></li> -->
+</ul>
+<p>Current monitor verdict: <span id="verdict-box">no monitor</span></p>
+</div>
+
+<div id="playground">
+
+<div id="yellowbox">#yellowbox</div>
+
+<div id="thelist">#thelist
+<ul>
+<li style="width:200px" title="Double-click; this element is editable">Item 1</li>
+<li style="width:100px" title="Double-click; this element is editable">Item 2</li>
+</ul>
+</div>
+
+</div>
+
+</body>
+</html>

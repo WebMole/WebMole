@@ -1,0 +1,78 @@
+body {
+  background: url('quadrille-clair.png');
+}
+
+#input-formula {
+  font-family: serif;
+  width: 320px;
+  height: 120px;
+}
+
+#monitor {
+  width: 350px;
+  float: left;
+  margin-right: 20px;
+  border: solid 1px darkgrey;
+  padding: 10px;
+  border-radius: 6px;
+  box-shadow: 10px 10px 5px #888888;
+  background: lightgrey;
+}
+
+#monitor ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+#playground {
+  float: left;
+  font-size: small;
+}
+
+#yellowbox {
+  width: 90px;
+  height: 60px;
+  cursor: pointer;
+  background: yellow;
+}
+
+#playground #yellowbox, #playground li {
+  margin: 2px;
+}
+
+#playground #yellowbox:hover, #playground li:hover {
+  margin: 0px;
+  border: 2px solid #880;
+}
+
+#playground li {
+  background: #ffc;
+}
+
+#verdict-box {
+  background: darkgrey;
+  color: white;
+  display: inline;
+  padding: 4px;
+  margin: -4px;
+}
+
+#verdict-box.verdict-nomonitor {
+  background: darkgrey;
+  color: white;
+}
+
+#verdict-box.verdict-true {
+  background: green;
+  color: white;
+}
+
+#verdict-box.verdict-false {
+  background: red;
+  color: white;
+}
+
+#verdict-box.verdict-inconclusive {
+  background: yellow;
+  color: black;
+}

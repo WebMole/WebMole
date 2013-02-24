@@ -1,0 +1,10 @@
+<html>
+<body>
+<script type="text/javascript">
+    var regex = new RegExp('([\\(\\)\\[\\],\'"\\s]*)' + "x" + '([\\(\\)\\[\\],\'"\\s]*)', 'g');
+    var new_exp = "'x' = 2".replace(regex, "$1abc$2");
+    alert(new_exp);
+    </script>
+    </body>
+    
+    </html>
