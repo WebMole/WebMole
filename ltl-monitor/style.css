@@ -1,5 +1,38 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: sans-serif;
+}
+
 body {
   background: url('quadrille-clair.png');
+  font-size: 10pt;
+}
+
+#topmenu {
+  margin: 0;
+  background: #f92;
+  color: white;
+  height: 65px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  left: 0;
+}
+#topmenu > div {
+  margin: 8px;
+}
+#topmenu h1 {
+  margin: 0;
+      text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+#topmenu p {
+  margin: 0;
+}
+
+#help > .scrollable-content {
+  clip: scroll;
 }
 
 #input-formula {
@@ -8,15 +41,26 @@ body {
   height: 120px;
 }
 
+#monitor select {
+  width: 320px;
+}
+
 #monitor {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 350px;
+  height: 100%;
   float: left;
   margin-right: 20px;
-  border: solid 1px darkgrey;
-  padding: 10px;
-  border-radius: 6px;
-  box-shadow: 10px 10px 5px #888888;
+  border: none;
+  padding: 0;
   background: lightgrey;
+}
+
+#monitor > div {
+  margin: 10px;
+  margin-top: 90px;
 }
 
 #monitor ul {
@@ -25,7 +69,9 @@ body {
 }
 
 #playground {
-  float: left;
+  position: absolute;
+  left: 370px;
+  top: 90px;
   font-size: small;
 }
 
@@ -49,30 +95,24 @@ body {
   background: #ffc;
 }
 
+#overwhite {
+  background: white transparent;
+}
+
 #verdict-box {
   background: darkgrey;
   color: white;
   display: inline;
   padding: 4px;
   margin: -4px;
+  margin-left: 0;
+  border-radius: 3px;
 }
 
-#verdict-box.verdict-nomonitor {
-  background: darkgrey;
-  color: white;
+#help {
+  display: none;
 }
 
-#verdict-box.verdict-true {
-  background: green;
-  color: white;
-}
-
-#verdict-box.verdict-false {
-  background: red;
-  color: white;
-}
-
-#verdict-box.verdict-inconclusive {
-  background: yellow;
-  color: black;
+#main-title-div {
+  border: solid 1px darkgrey;
 }

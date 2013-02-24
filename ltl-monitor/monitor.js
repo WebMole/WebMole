@@ -728,15 +728,37 @@ function MonitorU(phi, psi) // {{{
  * combine the result of other, nested monitors). The monitor can be
  * instantiated with any valid JavaScript expression, which will be
  * evaluated using JS's internal eval() function.
+ * @param exp The expression that will be evaluated
+ * @param evaluate (Optional) Set to true so that the expression will be
+ *   tentatively evaluated at instantiation (used to check syntax errors)
+ * @return Normally nothing; perhaps false if evaluation of the expression
+ *   creates an error
  */
-function MonitorJS(exp) // {{{
+function MonitorJS(exp, evaluate) // {{{
 {
   // The JavaScript expression to evaluate, stored as a string
+  this.m_exp = null;
+  if (evaluate === true)
+  {
+    try
+    {
+      eval(exp);
+    }
+    catch (err)
+    {
+      // We return right away if evaluating exp creates a syntax error;
+      // this is used to notify the parser that instantiation of the
+      // monitor failed. We don't return for other errors, as some
+      // expressions contain quantified variables that are not yet defined
+      // (this causes a ReferenceError that won't occur during normal
+      // execution).
+      if (err.name == "SyntaxError")
+      {
+        return;
+      }
+    }
+  }
   this.m_exp = exp;
-  
-  // The monitor's verdict, by default "inconclusive"; once
-  // the monitor concludes either true or false, it keeps its value forever
-  this.m_verdict = MONITOR_INCONCLUSIVE;
   
   /**
    * Performs a deep clone of the object
@@ -769,23 +791,28 @@ function MonitorJS(exp) // {{{
    */
   this.getVerdict = function()
   {
-    if (this.m_verdict != MONITOR_INCONCLUSIVE)
-    {
-      return this.m_verdict;
-    }
     // Yes, we use eval. We *do* want arbitrary JS to be executed here.
     // Eventually, we'd like to replace it by an interpreter for jQuery-like
     // expressions. Caveat emptor!
-    var verd = eval(this.m_exp);
+    var verd = null;
+    try
+    {
+      var verd = eval(this.m_exp);
+    }
+    catch (err)
+    {
+      console.log("Error evaluating " + this.m_exp);
+      return MONITOR_INCONCLUSIVE;
+    }
     if (verd === true)
     {
-      this.m_verdict = MONITOR_TRUE;
+      return MONITOR_TRUE;
     }
     if (verd === false)
     {
-      this.m_verdict = MONITOR_FALSE;
+      return MONITOR_FALSE;
     }
-    return this.m_verdict;
+    return MONITOR_INCONCLUSIVE;
   };
   
   /**
@@ -796,10 +823,23 @@ function MonitorJS(exp) // {{{
   this.setValue = function(a, v)
   {
     // Escape the "?" symbol so it won't be interpreted by regex
+    var regex, new_exp = this.m_exp;
     var a_escaped = a.replace('?', '\\?');
-    var regex = new RegExp('([\\(\\)\\[\\],\'"\\s]*)' + a_escaped + '([\\(\\)\\[\\],\'"\\s]*)', 'g');
-    var new_exp = this.m_exp.replace(regex, "$1" + v + "$2");
+    regex = new RegExp('(^|[\\(\\)\\[\\],\\s]+)' + a_escaped + '([\\(\\)\\[\\],\\s]+|$)', 'g');
+    new_exp = new_exp.replace(regex, "$1" + v + "$2");
+    regex = new RegExp('([\'"])' + a_escaped + '([\'"])', 'g');
+    new_exp = new_exp.replace(regex, "$1" + this.escapeString(v) + "$2");
     this.m_exp = new_exp;
+  };
+  
+  /**
+   * Escapes a string for common control characters
+   * @param str The string to escape
+   * @return The escaped string
+   */
+  this.escapeString = function(str)
+  {
+    return (str+'').replace(/([\\"'])/g, "\\$1").replace(/\0/g, "\\0").replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/\t/g, "\\t").replace(/'/g, "\\'");
   };
   
   /**
@@ -1222,35 +1262,40 @@ function LTLStringParser() // {{{
       var o_right = this.parse(right);
       if (o_left === null || o_right === null)
       {
-        console.log("Parse exception");
+        console.log("Parse exception: failed to parse operand from binary operator");
         return null;
       }
-      if (c === "∧")
+      if (op === "∧")
       {
         out = new MonitorAnd(o_left, o_right);
       }
-      else if (c === "∨")
+      else if (op === "∨")
       {
         out = new MonitorOr(o_left, o_right);
       }
-      else if (c === "→")
+      else if (op === "→")
       {
         out = new MonitorImplies(o_left, o_right);
       }
-      else if (c === "U")
+      else if (op === "U")
       {
-        out = new MonitorUntil(o_left, o_right);
+        out = new MonitorU(o_left, o_right);
       }
       else
       {
-        console.log("Parse exception");
+        console.log("Parse exception: unrecognized binary operator '" + c + "'");
         return null;
       }
     }
     else
     {
       // Atom or XPathAtom, last remaining case
-      out = new MonitorJS(s);
+      out = new MonitorJS(s, true);
+      if (out.m_exp === null)
+      {
+        console.log("Parse exception: error when interpreting JavaScript '" + s + "'");
+        return null;
+      }
     }
     return out;
   }; // }}}
@@ -1276,8 +1321,7 @@ function LTLStringParser() // {{{
   
   this.containsBinaryOperator = function(s)
   {
-    // TODO: until is not there!
-    return s.indexOf("∧") != -1 || s.indexOf("∨") != -1 || s.indexOf("→") != -1;
+    return s.indexOf("∧") != -1 || s.indexOf("∨") != -1 || s.indexOf("→") != -1 || s.indexOf(" U ") != -1;
   };
   
   this.getLeft = function(s)
@@ -1309,7 +1353,7 @@ function LTLStringParser() // {{{
       for (var j = 1; j < s.length; j++)
       {
         var d = s[j];
-        if (d == "(" || d == ")" || d == "∧" || d == "∨" || d == "→")
+        if (d == "(" || d == ")" || d == "∧" || d == "∨" || d == "→" || d == "U")
         {
           return s.substring(0, j);
         }
@@ -1347,7 +1391,7 @@ function LTLStringParser() // {{{
       for (var j = s.length - 1; j >= 0; j--)
       {
         var d = s[j];
-        if (d == "(" || d == ")" || d == "∧" || d == "∨" || d == "→")
+        if (d == "(" || d == ")" || d == "∧" || d == "∨" || d == "→" || d == "U")
         {
           return s.substr(j + 1);
         }

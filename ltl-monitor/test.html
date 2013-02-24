@@ -13,18 +13,19 @@
 </head>
 <body>
 
-<h1>LTL Monitor Tester</h1>
-
-<p>This is a simple page to test various <em>temporal</em> properties
-on page attributes.</p>
-
 <div id="monitor">
-<p>Input the LTL formula in the box:</p>
+<div>
+<p>Input the LTL formula in the box: [<a id="btn-help" href="#">help</a>]</p>
 <textarea id="input-formula"></textarea><br />
+
+<p>Or use the following presets:</p>
 <select name="preset">
 <option value="G ($('#yellowbox').width() &lt; 90)">#yellowbox is always narrower than 90px</option>
+<option value="($('#main-title').text() != &quot;Welcome&quot;) U ($('#main-title').text() != &quot;Login&quot;)">No title Welcome before title Login</option>
+<option value="G ($('#yellowbox').position().left == $('#main-title').position().left)">Yellow box always aligned with title</option>
 <option value="∀ x ∈ $('#playground li')/.width() : x == 100">All li are 100px wide</option>
 <option value="∀ x ∈ $('#yellowbox')/.position().left : G ($('#yellowbox').position().left == x)">The yellow box never moves</option>
+<option value="F (∃x ∈ $(&quot;li&quot;)/.text() : (X ($(&quot;#main-title&quot;).text() == &quot;x&quot;)))">One bullet becomes title in next page</option>
 <option value="G (∀ t₁ ∈ $('#playground li')/.text() : X (∃ t₂ ∈ $('#playground li')/.text() : &quot;t₁&quot; == &quot;t₂&quot;))">At least one bullet presists between two pages</option>
 </select>
 <ul>
@@ -34,8 +35,20 @@ on page attributes.</p>
 </ul>
 <p>Current monitor verdict: <span id="verdict-box">no monitor</span></p>
 </div>
+</div>
+
+<div id="topmenu">
+<div>
+<h1>LTL Monitor Tester</h1>
+<p>A simple page to test various <em>temporal</em> properties
+on page attributes.</p>
+</div>
+</div>
+
 
 <div id="playground">
+
+<div id="main-title-div">#main-title <h1 id="main-title" title="Double-click to edit">The main title</h1></div>
 
 <div id="yellowbox">#yellowbox</div>
 
@@ -44,6 +57,71 @@ on page attributes.</p>
 <li style="width:200px" title="Double-click; this element is editable">Item 1</li>
 <li style="width:100px" title="Double-click; this element is editable">Item 2</li>
 </ul>
+</div>
+
+</div>
+
+<div id="help" title="Help on LTL">
+
+<div class="scrollable-contents">
+
+<p>LTL stands for <em>Linear Temporal Logic</em>; it is a formal notation
+for expressing constraints along a sequence of states. In the present case,
+a state is created each time the monitor processes a new page.</p>
+
+<p>Basic statements can be any JavaScript/jQuery expression that returns a
+Boolean. For example:</p>
+
+<code>
+$("#menu").height() == 200
+</code>
+
+<p>These statements can be combined using the traditional connectives
+&and; (and), &or; (or), &rarr; (implies) and  &not; (not). Temporal operators
+indicate how these conditions can be sequenced:</p>
+
+<ul>
+<li><b>G</b> means "globally". Writing <b>G</b>&nbsp;&phi; indicates that
+&phi; must evaluate to true in every page</li>
+<li><b>F</b> means "eventually". Writing <b>F</b>&nbsp;&phi; indicates that
+&phi; must evaluate to true in at least one page along the sequence</li>
+<li><b>X</b> means "next". Writing <b>X</b>&nbsp;&phi; indicates that
+&phi; must evaluate to true in the page after the current one</li>
+<li><b>U</b> means "until". Writing &phi;&nbsp;<b>U</b>&nbsp;&psi; indicates that
+&phi; must evaluate to true in every page until &phi; evaluates to true on
+some page</li>
+</ul>
+
+<p>Hence the following expression indicates that a page with a div called
+menu is always followed by a page with a div called user:</p>
+
+<code>
+<b>G</b> (($("#menu") != undefined) &rarr; (<b>X</b> ($("#user") != undefined)))
+</code>
+
+<p>Finally, <em>quantifiers</em> can be used to fetch a set of values from
+a page. An expression like &forall;<i>x</i>&nbsp;&in;&nbsp;&pi;&nbsp;:&nbsp;&phi;
+indicates that:</p>
+
+<ul>
+<li>The range of values for variable <i>x</i> is obtained by evaluating
+&pi; on the current page; &pi; can be any JavaScript expression that
+returns an array of strings or integers</li>
+<li>When replacing <i>x</i> in &phi; by any value from the array,
+the resulting expression evaluates to true</li>
+</ul>
+
+<p>For example, the following expression indicates that at some point,
+the text in one of the bullets of a page will become the main heading of the
+next page:</p>
+
+<code>
+<b>F</b> (&exist;<i>x</i> &in; $("li")/.text() : (<b>X</b> ($("#main-title").text() == '<i>x</i>')))
+</code>
+
+<p>The monitor allows <tt>/.</tt> as a shorthand notation to fetch values from multiple
+elements. For example, to get the height of all elements in class <tt>abc</tt>,
+it suffices to write <tt>$(".abc")/.height()</tt>.</p>
 </div>
 
 </div>
