@@ -1,0 +1,118 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: sans-serif;
+}
+
+body {
+  background: url('quadrille-clair.png');
+  font-size: 10pt;
+}
+
+#topmenu {
+  margin: 0;
+  background: #f92;
+  color: white;
+  height: 65px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  left: 0;
+}
+#topmenu > div {
+  margin: 8px;
+}
+#topmenu h1 {
+  margin: 0;
+      text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+#topmenu p {
+  margin: 0;
+}
+
+#help > .scrollable-content {
+  clip: scroll;
+}
+
+#input-formula {
+  font-family: serif;
+  width: 320px;
+  height: 120px;
+}
+
+#monitor select {
+  width: 320px;
+}
+
+#monitor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 350px;
+  height: 100%;
+  float: left;
+  margin-right: 20px;
+  border: none;
+  padding: 0;
+  background: lightgrey;
+}
+
+#monitor > div {
+  margin: 10px;
+  margin-top: 90px;
+}
+
+#monitor ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+#playground {
+  position: absolute;
+  left: 370px;
+  top: 90px;
+  font-size: small;
+}
+
+#yellowbox {
+  width: 90px;
+  height: 60px;
+  cursor: pointer;
+  background: yellow;
+}
+
+#playground #yellowbox, #playground li {
+  margin: 2px;
+}
+
+#playground #yellowbox:hover, #playground li:hover {
+  margin: 0px;
+  border: 2px solid #880;
+}
+
+#playground li {
+  background: #ffc;
+}
+
+#overwhite {
+  background: white transparent;
+}
+
+#verdict-box {
+  background: darkgrey;
+  color: white;
+  display: inline;
+  padding: 4px;
+  margin: -4px;
+  margin-left: 0;
+  border-radius: 3px;
+}
+
+#help {
+  display: none;
+}
+
+#main-title-div {
+  border: solid 1px darkgrey;
+}
