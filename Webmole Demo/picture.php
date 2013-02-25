@@ -3,6 +3,7 @@
 if(!empty($_GET["width"])) $sentWidth = htmlspecialchars($_GET["width"]);
 if(!empty($_GET["height"])) $sentHeight = htmlspecialchars($_GET["height"]);
 if(!empty($_GET["id"])) $id = htmlspecialchars($_GET["id"]);
+else $id = 0;
 if(!empty($_GET["color"])) $sentColor = htmlspecialchars($_GET["color"]);
 
 if (!isset($sentWidth) || intval($sentWidth) <= 0 || intval($sentWidth) >= 1000)
