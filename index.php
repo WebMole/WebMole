@@ -26,8 +26,14 @@ include('config/config.php');
  * Read configuration file
  */
 $CONFIG = read_config_file(CONFIG_FILE);
-$application_directory = dirname($_SERVER['PHP_SELF']);
 
+$application_url = "http://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+$explorer_default_url = $CONFIG["Explorer"]["default_adress"];
+
+if( strpos($explorer_default_url, "http://") === false )
+	$explorer_default_url = $application_url . $explorer_default_url;
+
+$CONFIG["Explorer"]["default_adress"] = $explorer_default_url;
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -76,7 +82,7 @@ $application_directory = dirname($_SERVER['PHP_SELF']);
     
     <?php /* Web-explorer */ ?>
     <script language="javascript" type="text/javascript">
-		var webExplorer_applicationDirectory = "<?php echo $application_directory ?>";
+		var webExplorer_applicationDirectory = "<?php echo $application_url ?>";
 	</script>
     <script language="javascript" type="text/javascript" src="js/web-explorer.js"></script>
 

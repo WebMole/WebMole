@@ -221,6 +221,16 @@ a[rel="popover"]:hover{
 	cursor:pointer;
 }
 
+#web-explorer-manual-color-background-em{
+	background-color:#cc0000;
+}
+#web-explorer-manual-color-background-el{
+	background-color:#00cc00;
+}
+#web-explorer-manual-color-background-elv{
+	background-color:#0000cc;
+}
+
 #web-explorer-compute-style-list{
 	display:none;
 }

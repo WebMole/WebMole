@@ -68,6 +68,15 @@ function manageSessionVariables()
   }
 }
 
+function get_random_color() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.round(Math.random() * 15)];
+    }
+    return color;
+}
+
 function attachHandlers()
 {
   //Color picker for manual exploration
@@ -76,7 +85,7 @@ function attachHandlers()
     var colorPickerelement = $(this);
     $(colorPickerelement).ColorPicker(
     {
-      color: '#999999',
+      color: get_random_color(),
       onShow: function (colpkr)
       {
         $(colpkr).fadeIn('fast');

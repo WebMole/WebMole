@@ -28,12 +28,6 @@ if ($access != 'authorized')
 	<form class="form-horizontal">
 		<fieldset>
 			<div class="control-group">
-				<label class="control-label" for="application_directory">Application directory</label>
-				<div class="controls">
-					<input type="text" class="input-xlarge" id="application_directory" placeholder="<?php echo $CONFIG["General"]["application_directory"]; ?>">
-				</div>
-			</div>
-			<div class="control-group">
 				<label class="control-label" for="default_graph_engine">Graph engine</label>
 				<div class="controls">
 					<input type="text" class="input-xlarge" id="default_graph_engine" placeholder="<?php echo $CONFIG["Viewer"]["default_graph_engine"]; ?>">
@@ -59,8 +53,11 @@ if ($access != 'authorized')
 			</div>
 
 			<div class="form-actions">
-				<button type="submit" class="btn btn-primary">Save changes</button>
-				<button class="btn">Cancel</button>
+				<a class="btn btn-primary disabled">Save changes</a>
+				<a class="btn disabled">Cancel</a>
+				<!-- <button type="submit" class="btn btn-primary">Save changes</button> -->
+				<!-- <button class="btn">Cancel</button> -->
+				@Todo, save preferences in cookie
 			</div>
 		</fieldset>
 	</form>
