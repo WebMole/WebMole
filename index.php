@@ -146,7 +146,7 @@ $CONFIG["Explorer"]["default_adress"] = $explorer_default_url;
 		</div>
 
 		<div class="footer">
-			<a class="pull-right" href="https://github.com/GabLeRoux/Urlset-Manager-Project"><img src="img/github_logo_social_coding_outlined.png" alt="View project on GitHub" height="66" width="149" /></a>
+			<a class="pull-right" href="https://github.com/GabLeRoux/webmole"><img src="img/github_logo_social_coding_outlined.png" alt="View project on GitHub" height="66" width="149" /></a>
 			<p>By <a href="http://www.gableroux.com" target="_blank">GabLeRoux</a> and <a href="mailto:fabien.maronnaud@gmail.com">Fabien Maronnaud</a>, in collaboration with <a href="http://www.leduotang.com/sylvain/">Sylvain Hallé</a>, Professor at <a href="http://www.uqac.ca/">Université du Québec à Chicoutimi</a>. </p>
 			<p>Code licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache License v2.0</a>.</p>
 		</div><!-- /.footer -->
