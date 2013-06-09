@@ -24,9 +24,9 @@ if ($access != 'authorized')
 ?>
 <div class="controls spacer web-explorer web-explorer-automatic-option" id="web-explorer-automatic-option-computed">
 	 <label><input type="checkbox" id="web-explorer-compute-style" onclick="webExplorer_showComputeStyles();"/> Compute styles</label>
-     <p>orem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sit amet aliquam tellus. Morbi aliquam sollicitudin posuere. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum at diam lorem, ac consequat nibh. Phasellus commodo vulputate tellus. Mauris vel felis ipsum. Etiam non dolor justo, in rutrum justo. Fusce pulvinar aliquet facilisis. Etiam quis elit non leo luctus adipiscing non vitae nibh. Proin vitae facilisis lacus. Mauris cursus mollis lorem, eu convallis ligula placerat vitae.</p>    
+     <p>With Style Computation activated, the exploration <span class="label label-important">may be slower</span>.</p>
     <div id="web-explorer-compute-style-list">
-    	<span><a onclick="webExplorer_selectAllCheckbox('web-explorer-compute-style','true');">Select all</a> / <a onclick="webExplorer_selectAllCheckbox('web-explorer-compute-style','false');">unselect all</a></span>
+    	<span><a onclick="webExplorer_selectAllCheckbox('web-explorer-compute-style','true');">Select all</a> / <a onclick="webExplorer_selectAllCheckbox('web-explorer-compute-style','false');">Unselect all</a></span>
         <table class="table table-condensed">
             <tr>
                 <th style="text-align:center;">Select</th>

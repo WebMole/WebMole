@@ -45,9 +45,6 @@ $CONFIG["Explorer"]["default_adress"] = $explorer_default_url;
 
 	<?php /* --- Libraries --- */ ?>
 	
-	<?php /* Session variables in javascript! :) */ ?>
-	<script language="javascript" type="text/javascript" charset="utf-8" src="library/js/sessvars.js"></script>
-	
 	<?php /* jQuery */ ?>
 	<script language="javascript" type="text/javascript" charset="utf-8" src="library/js/jquery-1.9.1.min.js"></script>
     
