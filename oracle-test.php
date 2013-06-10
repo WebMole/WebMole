@@ -24,7 +24,7 @@ if ($access != 'authorized')
 ?>
 
 <div id="oracle-test">
-	<p>The javascript inserted in the following input will be executed on each node to create a navigation filter if activated.</p>
+	<p>The javascript inserted in the following input <span class="label label-info">will be executed on each node during the exploration</span> to create a navigation filter if activated.</p>
     
     <div id="test-oracle-editor" class="editor"><?php echo htmlspecialchars(file_get_contents("config/default.test.oracle.js"), ENT_QUOTES); ?></div>
     <br />
@@ -32,4 +32,9 @@ if ($access != 'authorized')
     <label class="checkbox">
       <input type="checkbox" checked="<?php echo $CONFIG["Test-Oracle"]["default_enabled"]; ?>"> Enable Test Oracle
     </label>
+    <div class="btn-group">
+    	<a href="#" class="btn btn-primary" id="saveTestOracle"><i class="icon-hdd"></i> Save</a>
+    	<a href="#" class="btn" id="revertTestOracle"><i class="icon-trash"></i> Revert changes</a>
+    	<a href="#" class="btn" id="restoreTestOracle"><i class="icon-file"></i> Restore default</a>
+    </div>
 </div><!-- /#oracle-test -->

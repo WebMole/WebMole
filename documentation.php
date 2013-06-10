@@ -24,7 +24,8 @@ if ($access != 'authorized')
 ?>
 
 <div class="row" id="Documentation">
-	<div class="span12">        
+	<div class="span12">
+
         <h2>Map Viewer</h2>        
         <p>Here is an example of a valid json file:</p>
 

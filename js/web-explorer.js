@@ -31,6 +31,7 @@ var webExplorer_manualActiveColorC = new Array();
 var webExplorer_stop = false;
 var webExplorer_iframeLoaded = false;
 // Oracles
+
 var webExplorer_useTestOracle = true;
 var webExplorer_useStopOracle = true;
 Array.prototype.clear = function ()
@@ -248,11 +249,11 @@ function webExplorer_Node(nodeHtmlContent, nodeDomTreePath, nodeDomTreeText, nod
 	// // Traitement d'oracles
 	if (webExplorer_useTestOracle)
 	{
-		var testResult = testOracleFunction(domdocument);
+		var testResult = new testOracleFunction(domdocument);
 	}
 	if (webExplorer_useStopOracle)
 	{
-		var stopResult = stopOracleFunction(domdocument);
+		var stopResult = new stopOracleFunction(domdocument);
 	}
 	// Ajout des éléments aux noeud
 	this.nodeHtmlContent = nodeHtmlContent; //Contenu entier de la page HTML
