@@ -28,12 +28,12 @@ include('config/config.php');
 $CONFIG = read_config_file(CONFIG_FILE);
 
 $application_url = "http://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-$explorer_default_url = $CONFIG["Explorer"]["default_adress"];
+$explorer_default_url = $CONFIG["Explorer"]["default_address"];
 
 if( strpos($explorer_default_url, "http://") === false )
 	$explorer_default_url = $application_url . $explorer_default_url;
 
-$CONFIG["Explorer"]["default_adress"] = $explorer_default_url;
+$CONFIG["Explorer"]["default_address"] = $explorer_default_url;
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

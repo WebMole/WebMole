@@ -11,7 +11,7 @@ Demontration Video
 Usage
 -----
 
-Extract application into a folder of your web server and access it using your web server adress. Visit the tabs and press the cool buttons. Note that there is an help button in the header.
+Extract application into a folder of your web server and access it using your web server address. Visit the tabs and press the cool buttons. Note that there is an help button in the header.
 
 Requirements
 ------------

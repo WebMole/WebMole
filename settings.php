@@ -34,9 +34,9 @@ if ($access != 'authorized')
 				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label" for="default_adress">Default Explorer Adress</label>
+				<label class="control-label" for="default_address">Default Explorer Address</label>
 				<div class="controls">
-					<input type="text" class="input-xlarge" id="default_adress" placeholder="<?php echo $CONFIG["Explorer"]["default_adress"]; ?>">
+					<input type="text" class="input-xlarge" id="default_address" placeholder="<?php echo $CONFIG["Explorer"]["default_address"]; ?>">
 				</div>
 			</div>
 			<div class="controls">
