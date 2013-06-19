@@ -1,2 +1,6 @@
 *~
 demos/school/config/configuration.php
+
+#Eclipse project files
+.settings
+.project

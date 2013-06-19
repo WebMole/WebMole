@@ -1,19 +1,18 @@
-//Charge la page désirée dans l'iframe et injecte le script de prototypage xmlhttprequest
-function ajax1(){
-	/*if($("#ajaxResponse").html()==""){
-		$("#ajaxResponse").html("<li><a href='p16.html'>p16</a></li><li><a href='p18.html'>p18</a></li>");
-	}
-	else{
-		$("#ajaxResponse").html("");
-	}*/
-	if($("#ajaxResponse").html()==""){
-		$.post("./ajax/action.php",{
-			action:"ajax1"
-		},function(data){
+// Simple Ajax Request
+function ajaxCall(actionNumber)
+{
+	// 1st time ajax call
+	if($("#ajaxResponse").html() == "")
+	{
+		$.post("./ajax/action.php", {
+			action: "ajax" + actionNumber
+		},function(data) {
 			$("#ajaxResponse").html(data);
 		});
 	}
-	else{
-		$("#ajaxResponse").html("<li><a href='p16.html'>p16</a></li><li><a href='p18.html'>p18</a></li>");
+	// Other times
+	else
+	{
+		$("#ajaxResponse").html("<p>You have clicked the button more than once!</p>");
 	}
 }
