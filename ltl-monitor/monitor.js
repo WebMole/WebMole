@@ -904,7 +904,18 @@ function MonitorForAll(phi, a, p) // {{{
     }
     // Fetch domain for quantified variable
     var i = 0;
-    var domain = eval(this.m_p);
+    var dom = eval(this.m_p);
+    // We consider the case where the domain function returns a single value
+    // instead of an array. In this case, we put the value inside an array
+    if (!(dom instanceof Array))
+    {
+      domain = new Array();
+      domain.push(dom);
+    }
+    else
+    {
+      domain = dom;
+    }
     if (this.m_first_event === true)
     {
       this.m_first_event = false;
@@ -1040,7 +1051,18 @@ function MonitorExists(phi, a, p) // {{{
     }
     // Fetch domain for quantified variable
     var i = 0;
-    var domain = eval(this.m_p);
+    var dom = eval(this.m_p);
+    // We consider the case where the domain function returns a single value
+    // instead of an array. In this case, we put the value inside an array
+    if (!(dom instanceof Array))
+    {
+      domain = new Array();
+      domain.push(dom);
+    }
+    else
+    {
+      domain = dom;
+    }
     if (this.m_first_event === true)
     {
       this.m_first_event = false;
@@ -1428,8 +1450,11 @@ function LTLStringParser() // {{{
    */
   this.processDomainFunction = function(p)
   {
-    p = p.replace("/.", ".map(function() { return $(this).");
-    p += "; }).get()";
+    if (p.contains("/."))
+    {
+      p = p.replace("/.", ".map(function() { return $(this).");
+      p += "; }).get()";
+    }
     return p;
   };
 } // }}}
