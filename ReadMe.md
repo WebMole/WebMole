@@ -2,6 +2,20 @@ WebMole
 =======
 A project for managing custom web maps and viewing web paths with automatic tools and javascript libraries
 
+To Clone this repository
+------------------------
+
+We are using `git submodules` so you need to clone with recursive mode
+
+    git clone --recursive https://github.com/WebMole/WebMole.git
+    git submodule update --recursive
+
+If you want to do any modification in a demo, you should checkout on the master branch
+
+    cd demos/Ajax-Listing-Generator/
+    git checkout master
+    
+
 Demontration Video
 ------------------
 [![ScreenShot](https://raw.github.com/GabLeRoux/WebMole/master/ressources/WebMole_Youtube_Video.png)](http://youtu.be/vt5fpE0bzSY)
