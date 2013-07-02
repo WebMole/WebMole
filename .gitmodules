@@ -1,0 +1,3 @@
+[submodule "demos/Ajax-Listing-Generator"]
+	path = demos/Ajax-Listing-Generator
+	url = https://github.com/WebMole/Ajax-Listing-Generator.git
