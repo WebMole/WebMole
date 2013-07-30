@@ -417,6 +417,21 @@ function PathSequence(ps) // {{{
   }; // }}}
   
   /**
+   * Returns the <i>i</i>-th element of the path sequence
+   * @param {number} The position of the element to look for
+   * @return The first element
+   */
+  this.getElement = function(i) // {{{
+  {
+    if (i >= this.m_elements.length || i < 0)
+    {
+      console.error("Calling getElement outside of valid range");
+      return;
+    }
+    return this.m_elements[i];
+  }; // }}}
+  
+  /**
    * Returns the first element of the path sequence and removes it
    * from the sequence
    * @return The first element

@@ -62,7 +62,9 @@ function MuCrawler() // {{{
     else if (wsmtype === "onepointoh")
       this.wsm = new WebOnePointOhWsm();
     else if (wsmtype === "backtrack")
-      this.wsm = new BacktrackWsm(); 
+      this.wsm = new BacktrackWsm();
+    else if (wsmtype === "tansuo")
+      this.wsm = new TansuoWsm(); 
     $("#elpath").html("Start exploration");
     $("#stats-panel").show();
     this.step_count = 0;
