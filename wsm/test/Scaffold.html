@@ -3,159 +3,90 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Scaffold</title>
+<title>&mu;-Crawler</title>
+<link rel="stylesheet" type="text/css" href="screen.css" />
+<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 <script type="text/javascript" src="jquery-1.10.2.js"></script>
+<script type="text/javascript" src="jquery-ui.js"></script>
 <script type="text/javascript" src="../src/Dom.js"></script>
 <script type="text/javascript" src="../src/Wsm.js"></script>
 <script type="text/javascript" src="../src/VanillaWsm.js"></script>
 <script type="text/javascript" src="../src/NoBacktrackWsm.js"></script>
 <script type="text/javascript" src="../src/WebOnePointOhWsm.js"></script>
-<style type="text/css">
-#navwindow {
-  width: 400px;
-  height: 300px;
-  border: solid 1px black;
-  border-radius: 4px;
-}
-#ndoecontents {
-  display: none;
-}
-#dot-contents {
-  width: 400px;
-  height: 150px;
-}
-</style>
+<script type="text/javascript" src="Scaffold.js"></script>
 </head>
 <body>
-<h1>Scaffold</h1>
-<p>WSM preset: <select id="wsmtype">
+
+<div id="header">
+<h1>&mu;-Crawler</h1>
+<p>A micro-crawler</p>
+</div>
+
+<div id="inside">
+
+<div id="column-left">
+
+<div id="minibrowser" class="square">
+
+<h2>Mini-browser</h2>
+
+URL: <input type="text" id="starturl" value="Site1/index.html" /> <button id="btn-load">Go</button><br />
+<iframe id="navwindow">
+An error occurred
+</iframe>
+
+</div>
+
+</div> <!-- /column-left -->
+
+<div id="column-right">
+
+<div class="square" id="wsm-settings">
+
+<h2>WSM settings</h2>
+
+<ul>
+<li>WSM preset: <select id="wsmtype">
 <option value="vanilla">Vanilla</option>
 <option value="nobacktrack">No-backtrack</option>
 <option value="onepointoh">Web 1.0</option>
 </select>
-</p>
-<iframe id="navwindow" src="Site1/index.html">
-An error occurred
-</iframe>
-<div><button id="moveon" onclick="nextStep();">Next exploration step</button>
-<input type="checkbox" id="automode" checked="true" /> Explore automatically</div>
-<ul>
+<button id="btn-instantiate-wsm">Instantiate</button>
+</li>
+
+<li><input type="checkbox" id="automode" checked="true" /> Explore automatically</li>
+<li><div id="poll-interval-slider"></div> Exploration speed: <span id="poll-interval">0.5 s</span></li>
+</ul>
+
+</div>
+
+<div id="wsm-stats" class="square">
+<h2>WSM statistics</h2>
+<p id="no-stats-panel">No WSM has been instantiated. Instantiate a WSM first.</p>
+<ul id="stats-panel">
 <li>Step #<span id="stepid"></span></li>
 <li>Current node ID: <span id="nodeid"></span></li>
-<li>Next element to click: <span id="elpath"></span></li>
+<li>Next element to click: <a id="elpath" href="#" title="Click here to perform next exploration step"></a></li>
 <li>WSM size: <span id="wsm-size-nodes"></span> nodes, <span id="wsm-size-edges"></span> edges, <span id="wsm-size-bytes"></span> bytes</li>
 </ul>
-<pre id="nodecontents" style="display:none"></pre>
+</div>
 
+<!-- Contents of the current node in the WSM's memory -->
+<pre id="nodecontents"></pre>
+
+<div class="square">
 <h2>DOT file</h2>
+<div id="toppathwrap">
 <textarea id="dot-contents"></textarea>
+</div>
+<div><button id="btn-dot-refresh">Refresh</button></div>
+</div>
 
-<script type="text/javascript">
-//<![CDATA[
-//wsm = new VanillaWsm();
-var wsm = null;
-ifr = document.getElementById("navwindow");
-nid = document.getElementById("nodeid");
-npath = document.getElementById("elpath");
-pretag = document.getElementById("nodecontents");
-next_click = new WsmEdge();
-last_el_color = "";
-last_el = null;
-step_count = 0;
-function nextStep()
-{
-  // If no WSM is instantiated, create one based on user's choice
-  if (wsm === null)
-  {
-    var wsmtype = $("#wsmtype").val();
-    if (wsmtype === "vanilla")
-      wsm = new VanillaWsm();
-    else if (wsmtype === "nobacktrack")
-      wsm = new NoBacktrackWsm();
-    else if (wsmtype === "onepointoh")
-      wsm = new WebOnePointOhWsm();
-  }
-  //$("#navwindow").ready(iframeReady);
-  var doc = ifr.contentDocument || ifr.contentWindow.document;
-  // Attempt click at element in iframe
-  if (next_click === null)
-  {
-    elpath.innerHTML = "I SAID we are done!";
-    $("#dot-contents").val(wsm.toDot());
-    return; // We are done
-  }
-  if (next_click.getContents() !== "")
-  {
-    var el = get_element_from_path(doc, new PathExpression(next_click.getContents()));
-    if (el === undefined)
-      console.error("Element should not be undefined");
-    if (el.nodeName === "A" || el.nodeName === "a")
-    {
-      // Manually set the iframe source
-      ifr.src = "Site1/" + $(el).attr('href');
-    }
-    else
-    {
-      $(el).click(); // jQuery trickery to provoke click
-    }
-  }
-  else
-  {
-    // We jump to the said URL
-    var dest = next_click.getDestination();
-    var node = wsm.getNodeFromId(dest);
-    if (node !== null)
-    {
-      var dom = node.getContents();
-      var url = dom.getAttribute("url");
-      ifr.src = url;
-    }
-  }
-  step_count++;
-  // We manually call the callback after waiting 250 ms
-  setTimeout(iframeReady, 250);
-}
-function iframeReady()
-{
-  var doc = ifr.contentDocument || ifr.contentWindow.document;
-  var dom = DomNode.parseFromDom(doc);
-  // Add URL
-  dom.setAttribute("url", ifr.src);
-  wsm.setCurrentDom(dom, next_click.getContents());
-  nid.innerHTML = wsm.m_currentNodeId;
-  next_click = wsm.getNextClick();
-  if (next_click === null)
-  {
-    elpath.innerHTML = "We are done!";
-  }
-  else if (next_click.getContents() === "")
-  {
-    elpath.innerHTML = "Dead-end encountered; jump to state " + next_click.getDestination();
-  }
-  else
-  {
-    elpath.innerHTML = next_click.getContents();
-    // Highlight next click in iframe
-    if (last_el !== null && last_el_color !== "")
-    {
-      last_el.style.border = last_el_color;
-    }
-    var el = get_element_from_path(doc, new PathExpression(next_click.getContents()));
-    last_el = el;
-    last_el_color = el.style.border;
-    if (last_el_color === "")
-        last_el_color = "none";
-    el.style.border = 'solid 1px red';
-  }
-  pretag.innerHTML = wsm.m_domTree.toString(true);
-  $("#wsm-size-nodes").html(wsm.countNodes());
-  $("#wsm-size-bytes").html(wsm.getByteSize());
-  $("#wsm-size-edges").html(wsm.countEdges());
-  $("#stepid").html(step_count);
-  if ($("#automode").prop("checked"))
-    nextStep();
-}
-//]]>
-</script>
+</div>
+
+<div class="clearer"></div>
+
+</div> <!-- /inside -->
+
 </body>
 </html>
