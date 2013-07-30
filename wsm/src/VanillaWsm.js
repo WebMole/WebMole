@@ -42,11 +42,11 @@ function VanillaWsm() // extends WebStateMachine {{{
   this.isAcceptableClick = function(path, dom_node) // {{{
   {
     // We only click on elements inside <body>, and not <script> elements
-    if (!path.contains("BODY") && !path.contains("body"))
+    if (path.indexOf("BODY") === -1 && path.indexOf("body") === -1)
     {
       return false;
     }
-    if (path.contains("SCRIPT"))
+    if (path.indexOf("SCRIPT") !== -1)
     {
       return false;
     }
