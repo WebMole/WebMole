@@ -1,0 +1,109 @@
+@import url(http://fonts.googleapis.com/css?family=Racing+Sans+One);
+
+html, body {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background: #eed;
+  font-family: sans-serif;
+}
+
+#navwindow {
+  width: 400px;
+  height: 300px;
+  border: solid 1px black;
+  border-radius: 4px;
+  background: white;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  /*transform: scale(0.75);*/
+}
+
+#nodecontents {
+  display: none;
+}
+#dot-contents {
+  width: 400px;
+  height: 150px;
+}
+
+#header {
+  font-family: 'Racing Sans One', sans-serif;
+  background: #222;
+  color: #ee8;
+  padding: 4px;
+}
+
+#header > h1 {
+  margin-top: 0;
+  margin-bottom: 2px;
+}
+
+#header > p {
+  margin-top: 0;
+  font-style: italic;
+  font-size: 75%;
+  display: none;
+}
+
+#inside {
+  padding: 8px;
+}
+
+#column-left {
+  width: 420px;
+  float: left;
+  margin-right: 36px;
+}
+
+#column-right {
+  float: left;
+}
+
+.clearer {
+  clear: both;
+}
+
+.square {
+  border-radius: 6px;
+  border-top-left-radius: 0;
+  border: solid 1px #444;
+  padding: 6px;
+  margin-top: 39px;
+  margin-bottom: 30px;
+  box-shadow: 10px 10px 5px #888;
+}
+
+.square > h2 {
+  height: 30px;
+  margin-top: -39px;
+  margin-left: -7px; /* 6 + 1 px border */
+  width: 50%;
+  font-size: 20px;
+  background: #222;
+  color: #ee8;
+  padding-top: 3px;
+  padding-left: 6px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+#stats-panel {
+  display: none;
+}
+
+#poll-interval-slider {
+  width: 200px;
+  height: 10px;
+  float: left;
+}
+
+#wsm-settings > ul {
+  padding: 0;
+  list-style-type: none;
+  margin: 0;
+}
+
+#wsm-settings > ul > li {
+  margin-bottom: 6px;
+}

@@ -230,7 +230,7 @@ function WsmNode(id) // {{{
   this.toDot = function() // {{{
   {
     var out = "";
-    out += this.m_id + " [shape=circ,label=\"" + this.m_id + "\"]; ## ";
+    out += this.m_id + " [shape=circle,label=\"" + this.m_id + "\"]; ## ";
     for (var i = 0; i < this.m_animationSteps.length; i++)
     {
       if (i > 0)
@@ -366,7 +366,7 @@ function WsmEdge(id) // {{{
   this.toDot = function(source_id) // {{{
   {
     var out = "";
-    out += source_id + " -> " + this.m_destination + " [label=\"" + this.m_contents + "\"]; ##";
+    out += source_id + " -> " + this.m_destination + " [label=\"" + this.m_contents + "\"]; ## ";
     for (var i = 0; i < this.m_animationSteps.length; i++)
     {
       if (i > 0)
@@ -752,6 +752,12 @@ function WebStateMachine() // {{{
     if (this.m_expectedNextNodeId !== null)
     {
       var nfd = this.getNodeFromDom(dom);
+      if (nfd === null)
+      {
+        // Not much to do apart from warning of the discrepancy
+        console.error("Sanity check fail: according to computed path, expected node ID was " + this.m_expectedNextNodeId + "; we are rather in a NEW node");
+        return;
+      }
       var obtained_id = nfd.getId();
       // Sanity check: make sure that the node we are supposed to land
       // is indeed the one we are in
@@ -759,6 +765,7 @@ function WebStateMachine() // {{{
       {
         // Not much to do apart from warning of the discrepancy
         console.error("Sanity check fail: according to computed path, expected node ID was " + this.m_expectedNextNodeId + "; we are rather in node " + obtained_id);
+        return;
       }
     }
     if (this.nodesEqual(this.m_domTree, dom))
@@ -927,8 +934,8 @@ function WebStateMachine() // {{{
       }
     }
     // By convention, node 0 never exists and node 1 is the initial state
-    out += "  0 [shape=none]; ## -1\n";
-    out += "  0 -> 1; ## -1\n";
+    out += "  0 [shape=none,label=\"\"]; ## 0\n";
+    out += "  0 -> 1; ## 0\n";
     out += "}";
     return out;
   }; // }}}
