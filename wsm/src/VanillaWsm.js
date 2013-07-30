@@ -87,6 +87,8 @@ function VanillaWsm() // extends WebStateMachine {{{
    */
   this.processReset = function() // {{{
   {
+    // Flush the visited path, as we don't need it
+    this.m_pathSinceBeginning.clear();
     for (var i = 0; i < this.m_nodes.length; i++)
     {
       var node = this.m_nodes[i];

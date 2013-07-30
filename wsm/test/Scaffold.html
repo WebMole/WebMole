@@ -13,6 +13,7 @@
 <script type="text/javascript" src="../src/VanillaWsm.js"></script>
 <script type="text/javascript" src="../src/NoBacktrackWsm.js"></script>
 <script type="text/javascript" src="../src/WebOnePointOhWsm.js"></script>
+<script type="text/javascript" src="../src/BacktrackWsm.js"></script>
 <script type="text/javascript" src="Scaffold.js"></script>
 </head>
 <body>
@@ -37,6 +38,22 @@ An error occurred
 
 </div>
 
+<div class="square">
+<h2>Oracles</h2>
+
+<p>Stop oracle:</p>
+<textarea id="stop-oracle">WebStateMachine.stop_oracle = function(dom) {
+  return false;
+};</textarea>
+
+<p>Test oracle:</p>
+<textarea id="test-oracle">WebStateMachine.test_oracle = function(dom) {
+  return true;
+};</textarea>
+<div><button id="btn-define-oracles">Redefine</button></div>
+
+</div>
+
 </div> <!-- /column-left -->
 
 <div id="column-right">
@@ -50,6 +67,7 @@ An error occurred
 <option value="vanilla">Vanilla</option>
 <option value="nobacktrack">No-backtrack</option>
 <option value="onepointoh">Web 1.0</option>
+<option value="backtrack">Backtrack</option>
 </select>
 <button id="btn-instantiate-wsm">Instantiate</button>
 </li>

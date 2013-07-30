@@ -432,6 +432,21 @@ function PathSequence(ps) // {{{
   }; // }}}
   
   /**
+   * Returns the last element of the path sequence and removes it
+   * from the sequence
+   * @return The last element
+   */
+  this.popLastElement = function() // {{{
+  {
+    if (this.m_elements.length === 0)
+    {
+      console.error("Calling popLastElement on an empty sequence");
+      return;
+    }
+    return this.m_elements.pop();
+  }; // }}}
+  
+  /**
    * Returns the last element of the path sequence
    * @return The last element
    */
@@ -461,6 +476,14 @@ function PathSequence(ps) // {{{
   this.getLength = function() // {{{
   {
     return this.m_elements.length;
+  }; // }}}
+  
+  /**
+   * Clears the path sequence
+   */
+  this.clear = function() // {{{
+  {
+    this.m_elements = [];
   }; // }}}
   
   /**
@@ -578,6 +601,32 @@ function WebStateMachine() // {{{
    * @type {PathSequence}
    */
   this.m_pathToFollow = new PathSequence();
+  
+  /**
+   * The complete history of navigation since the beginning of the
+   * exploration.
+   * @type {PathSequence}
+   */
+  this.m_pathSinceBeginning = new PathSequence();
+  
+  /**
+   * Whether to evaluate the stop oracle on each node
+   * @type {boolean}
+   */
+  this.m_evaluateStopOracle = true;
+  
+  /**
+   * Whether to evaluate the test oracle on each node
+   * @type {boolean}
+   */
+  this.m_evaluateTestOracle = true;
+  
+  /**
+   * Whether the stop oracle decided we should treat the present page
+   * as a dead-end
+   * @type {boolean}
+   */
+  this.m_oracleMustStop = false;
   
   /**
    * Determines if two DOM nodes should be considered equal for the
@@ -735,18 +784,36 @@ function WebStateMachine() // {{{
       console.error("Argument of setCurrentDom is neither a document nor a DomNode");
       return;
     }
+    // Send DOM to stop and test oracles
+    if (this.m_evaluateStopOracle && WebStateMachine.stop_oracle !== undefined)
+    {
+      this.m_oracleMustStop = WebStateMachine.stop_oracle(dom);
+    }
+    if (this.m_evaluateTestOracle && WebStateMachine.test_oracle !== undefined)
+    {
+      var test_result = WebStateMachine.test_oracle(dom);
+      // At the moment, merely report the failure on the console
+      if (!test_result)
+      {
+        console.log("Test oracle returned false!");
+      }
+    }
     // Process the DOM contents with the abstraction method
     dom = this.abstractNode(dom);
     if (this.m_nodes.length === 0)
     {
       // This is the first node we register; simply add it and do no
       // further processing
-      node = new WsmNode(++this.m_idNodeCounter);
+      this.m_idNodeCounter++;
+      node = new WsmNode(this.m_idNodeCounter);
       node.setContents(dom);
       node.addAnimationStep(this.m_animationStepCounter++);
       this.m_nodes.push(node);
       this.m_currentNodeId = this.m_idNodeCounter;
       this.m_domTree = dom;
+      var new_pe = new WsmEdge();
+      new_pe.setDestination(this.m_idNodeCounter);
+      this.m_pathSinceBeginning.append(new_pe);
       return;
     }
     if (this.m_expectedNextNodeId !== null)
@@ -799,6 +866,7 @@ function WebStateMachine() // {{{
         this.m_edges[this.m_currentNodeId] = [];
       }
       this.m_edges[this.m_currentNodeId].push(trans);
+      this.m_pathSinceBeginning.append(trans);
     }
     // Update ID of current node
     this.m_domTree = node.getContents();
@@ -888,8 +956,9 @@ function WebStateMachine() // {{{
     }
     // Otherwise, look for next element we haven't marked as clicked
     var dom = cur_node.getContents();
-    if (cur_node.isExhausted(this.isAcceptableClick))
+    if (cur_node.isExhausted(this.isAcceptableClick) || this.m_oracleMustStop)
     {
+      this.m_oracleMustStop = false;
       // Nothing else to visit in the current node. Compute path to follow
       if (!this.processReset())
       {
@@ -898,6 +967,12 @@ function WebStateMachine() // {{{
       // Then return first bit of that path
       var first_bit = this.m_pathToFollow.popFirstElement();
       this.m_expectedNextNodeId = first_bit.getDestination();
+      if (this.m_expectedNextNodeId == this.m_currentNodeId)
+      {
+        // If we must jump to where we already are, indicates we finished
+        // the exploration (stop oracles can cause this)
+        return null;
+      }
       return first_bit;
     }
     // Otherwise, ask node what is the next element to click; we pass to it

@@ -60,7 +60,9 @@ function MuCrawler() // {{{
     else if (wsmtype === "nobacktrack")
       this.wsm = new NoBacktrackWsm();
     else if (wsmtype === "onepointoh")
-      this.wsm = new WebOnePointOhWsm();  
+      this.wsm = new WebOnePointOhWsm();
+    else if (wsmtype === "backtrack")
+      this.wsm = new BacktrackWsm(); 
     $("#elpath").html("Start exploration");
     $("#stats-panel").show();
     this.step_count = 0;
@@ -140,7 +142,7 @@ function MuCrawler() // {{{
     }
     else if (this.next_click.getContents() === "")
     {
-      $("#elpath").html("Dead-end encountered; jump to state " + this.next_click.getDestination());
+      $("#elpath").html("Jump to state " + this.next_click.getDestination());
     }
     else
     {
@@ -171,6 +173,12 @@ function MuCrawler() // {{{
 function iframeReady()
 {
   mucrawler.iframeReady();
+}
+
+function define_oracles()
+{
+  eval($("#stop-oracle").val());
+  eval($("#test-oracle").val());
 }
 
 function poll_interval_slide_change(event, ui)
@@ -237,7 +245,14 @@ $(document).ready(function() {
         mucrawler.instantiate_wsm($("#wsmtype").val());
     });
     
+    // Assign handler to button "define oracles"
+    $("#btn-define-oracles").click(function () {
+        define_oracles();
+    });
+    
     $("#poll-interval-slider").slider({"min": 1, "max": 5, "value" : 3, "change": poll_interval_slide_change});
+    
+    define_oracles();
 });
 
 /* :folding=explicit:wrap=none: */

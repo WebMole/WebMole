@@ -107,3 +107,8 @@ html, body {
 #wsm-settings > ul > li {
   margin-bottom: 6px;
 }
+
+#stop-oracle, #test-oracle {
+  width: 400px;
+  height: 50px;
+}

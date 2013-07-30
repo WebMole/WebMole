@@ -53,6 +53,8 @@ function NoBacktrackWsm() // extends VanillaWsm {{{
    */
   this.processReset = function(node_id) // {{{
   {
+    // Flush the visited path, as we don't need it
+    this.m_pathSinceBeginning.clear();
     // If no ID is passed, we assume we reset the application, i.e.
     // go back to its initial state (the one with ID=1)
     if (node_id === undefined)
