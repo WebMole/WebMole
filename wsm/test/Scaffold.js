@@ -50,7 +50,7 @@ function MuCrawler() // {{{
   
   this.dot_refresh = function()
   {
-    $("#nodecontents").html(wsm.m_domTree.toString(true));
+    $("#nodecontents").html(this.wsm.m_domTree.toString(true));
   };
   
   this.instantiate_wsm = function(wsmtype) // {{{
