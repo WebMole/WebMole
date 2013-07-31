@@ -105,7 +105,7 @@ function NoBacktrackWsm() // extends VanillaWsm {{{
         var node_dest_id = pseg.getDestination();
         visited_ids[node_dest_id] = true; // Mark node as visited
         var node_dest = this.getNodeFromId(node_dest_id);
-        if (!node_dest.isExhausted())
+        if (!node_dest.isExhausted(this.isAcceptableClick))
         {
           // Yes, we are done: return sequence leading to that node
           return pseq;

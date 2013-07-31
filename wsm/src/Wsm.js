@@ -80,7 +80,7 @@ function WsmNode(id) // {{{
    * @return {boolean} true or false, depending on whether the node still
    *   has elements that have not been clicked
    */
-  this.isExhausted = function(is_acceptacle_click) // {{{
+  this.isExhausted = function(is_acceptable_click) // {{{
   {
     if (this.m_exhausted === true)
     {
@@ -95,7 +95,7 @@ function WsmNode(id) // {{{
       return false;
     }
     // Otherwise, check if an element remains to be clicked
-    this.computeNextElement(is_acceptacle_click);
+    this.computeNextElement(is_acceptable_click);
     if (this.m_nextElementToClick !== "")
     {
       // This method produced a new next element to click,

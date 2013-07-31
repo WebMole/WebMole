@@ -214,6 +214,8 @@ function DomNode(contents) // {{{
   
   this.m_attributes = [];
   
+  this.m_handlers = [];
+  
   this.m_children = [];
   
   /**
@@ -577,6 +579,7 @@ function DomNode(contents) // {{{
    */
   this.clone = function(other_node) // {{{
   {
+    var i = 0;
     if (!(other_node instanceof DomNode))
     {
       console.error("Trying to clone DomNode from an object that is not a DomNode");
@@ -585,15 +588,22 @@ function DomNode(contents) // {{{
     this.m_name = other_node.m_name;
     this.m_isLeaf = other_node.m_isLeaf;
     this.m_attributes = [];
-    for (var i = 0; i < other_node.m_attributes; i++)
+    for (i = 0; i < other_node.m_attributes; i++)
     {
       var avp = other_node.m_attributes[i];
       this.m_attributes.push(new DomNodeAttribute(avp.m_name, avp.m_value));
     }
-    this.m_children = [];
-    for (var j = 0; j < other_node.m_children.length; j++)
+    this.m_handlers = [];
     {
-      var child = other_node.m_children[j];
+      if (other_node.m_handlers["onclick"] === true)
+      {
+        this.m_handlers["onclick"] = true;
+      }
+    }
+    this.m_children = [];
+    for (i = 0; i < other_node.m_children.length; i++)
+    {
+      var child = other_node.m_children[i];
       this.m_children.push(new DomNode(child));
     }
   }; // }}}
@@ -637,6 +647,18 @@ DomNode.parseFromDom = function(e) // {{{
         var attval = e.attributes[i];
         var dna = new DomNodeAttribute(attval.nodeName, attval.nodeValue);
         out.m_attributes.push(dna);
+      }
+    }
+    if (!DomNode.IGNORE_HANDLERS)
+    {
+      // For handlers, we only record whether an element has a handler
+      // attached to it --not the contents of that handler
+      // TODO: this doesn't work. When a page has handlers attached
+      // with jQuery, onclick is always null regardless. Find a way to
+      // detect handlers when attached with jQuery.
+      if (e.onclick !== undefined && e.onclick !== null)
+      {
+        out.m_handlers["onclick"] = true;
       }
     }
     for (i = 0; i < e.childNodes.length; i++)
@@ -735,6 +757,13 @@ DomNode.are_equal = function(n1, n2) // {{{
  * @type {boolean}
  */
 DomNode.IGNORE_ATTRIBUTES = true;
+
+/**
+ * Whether to ignore event handlers when comparing nodes
+ * @constant
+ * @type {boolean}
+ */
+DomNode.IGNORE_HANDLERS = false;
 // }}}
 
 

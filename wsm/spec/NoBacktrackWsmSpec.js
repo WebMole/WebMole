@@ -24,10 +24,10 @@ describe("NoBacktrackWsm behaviour", function() {
     
     beforeEach(function() {
         pages = [];
-        pages[1] = DomNode.parseFromString("<#document><html><h1>Page 1</h1><p><a>To page 2</a><a>To page 3</a></p></html></#document>");
-        pages[2] = DomNode.parseFromString("<#document><html><h1>Page 2</h1><a>To page 3</a><a>To page 4</a></html></#document>");
-        pages[3] = DomNode.parseFromString("<#document><html><h1>Page 3</h1><a>To page 3</a><a>To page 4</a></html></#document>");
-        pages[4] = DomNode.parseFromString("<#document><html><h1>Page 4</h1><a>To page 3</a><a>To page 4</a></html></#document>");
+        pages[1] = DomNode.parseFromString("<#document><html><body><h1>Page 1</h1><p><a>To page 2</a><a>To page 3</a></p></body></html></#document>");
+        pages[2] = DomNode.parseFromString("<#document><html><body><h1>Page 2</h1><a>To page 3</a><a>To page 4</a></body></html></#document>");
+        pages[3] = DomNode.parseFromString("<#document><html><body><h1>Page 3</h1><a>To page 3</a><a>To page 4</a></body></html></#document>");
+        pages[4] = DomNode.parseFromString("<#document><html><body><h1>Page 4</h1><a>To page 3</a><a>To page 4</a></body></html></#document>");
         wsm = new NoBacktrackWsm();
     });
     
@@ -39,17 +39,17 @@ describe("NoBacktrackWsm behaviour", function() {
         
         p = new DomNode(pages[2]);
         p.setAllMarks(WsmNode.CLICKED);      
-        wsm.setCurrentDom(p, "html/p[0]/a[0]");
+        wsm.setCurrentDom(p, "html/body[0]/p[0]/a[0]");
         
         p = new DomNode(pages[3]);
         p.setAllMarks(WsmNode.CLICKED);
-        el = p.getElementFromPathString("html/a[1]");
+        el = p.getElementFromPathString("html/body[0]/a[1]");
         el.setMark(WsmNode.NOT_CLICKED); // Leave a node unclicked in this page     
-        wsm.setCurrentDom(p, "html/a[0]");
+        wsm.setCurrentDom(p, "html/body[0]/a[0]");
         
         p = new DomNode(pages[4]);
         p.setAllMarks(WsmNode.CLICKED);        
-        wsm.setCurrentDom(p, "html/p[0]/a[0]");    
+        wsm.setCurrentDom(p, "html/body[0]/p[0]/a[0]");    
         
         // Ask for next click: should be empty
         el_to_click = wsm.getNextClick();
