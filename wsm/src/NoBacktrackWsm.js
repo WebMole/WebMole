@@ -28,6 +28,7 @@ function NoBacktrackWsm() // extends VanillaWsm {{{
   // Used to extend the prototype of VanillaWsm
   this.VanillaWsm = VanillaWsm;
   this.VanillaWsm();
+  this.wsmType = "NoBacktrackWsm";
   
   /**
    * Upper bound to the number of iterations of the shortest path algorithm.

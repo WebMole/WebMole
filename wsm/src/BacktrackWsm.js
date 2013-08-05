@@ -30,6 +30,7 @@ function BacktrackWsm() // extends WebStateMachine {{{
   // Used to extend the prototype of WSM
   this.VanillaWsm = VanillaWsm;
   this.VanillaWsm();
+  this.wsmType = "BacktrackWsm";
   
   /**
    * Handles the situation where the WSM has reached a dead end and is

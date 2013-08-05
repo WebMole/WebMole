@@ -558,6 +558,13 @@ function PathSequence(ps) // {{{
  */
 function WebStateMachine() // {{{
 {
+
+  /**
+   * String containg the WSM's type
+   * @type {string}
+   */
+   this.wsmType = "";
+
   /**
    * Array containing the WSM's nodes
    * @type {array}

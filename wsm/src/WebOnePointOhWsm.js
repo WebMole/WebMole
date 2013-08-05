@@ -33,6 +33,7 @@ function WebOnePointOhWsm() // extends VanillaWsm {{{
   // Used to extend the prototype of VanillaWsm
   this.VanillaWsm = VanillaWsm;
   this.VanillaWsm();
+  this.wsmType = "WebOnePointOhWsm";
   
   /**
    * Filters elements to click in a page. See

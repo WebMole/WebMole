@@ -30,6 +30,7 @@ function VanillaWsm() // extends WebStateMachine {{{
   // Used to extend the prototype of WSM
   this.WebStateMachine = WebStateMachine;
   this.WebStateMachine();
+  this.wsmType = "VanillaWsm";
   
   /**
    * Filters elements to click in a page.

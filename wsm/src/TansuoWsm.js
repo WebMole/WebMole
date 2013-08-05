@@ -28,6 +28,7 @@ function TansuoWsm() // extends NoBacktrackWsm {{{
   // Used to extend the prototype of VanillaWsm
   this.NoBacktrackWsm = NoBacktrackWsm;
   this.NoBacktrackWsm();
+  this.wsmType = "TansuoWsm";
   
   /**
    * Internal member field to store the ID of the node we want to reach
