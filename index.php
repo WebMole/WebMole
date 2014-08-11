@@ -27,7 +27,7 @@ include('config/config.php');
  */
 $CONFIG = read_config_file(CONFIG_FILE);
 
-$application_url = "http://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+$application_url = "http://" . $_SERVER['SERVER_NAME'] . ($_SERVER['SERVER_PORT'] != 80 ? ":" . $_SERVER['SERVER_PORT'] : "") . $_SERVER['REQUEST_URI'];
 $explorer_default_url = $CONFIG["Explorer"]["default_address"];
 
 if( strpos($explorer_default_url, "http://") === false )

@@ -29,6 +29,23 @@ Extract application into a folder of your web server and access it using your we
 
 Requirements
 ------------
+
+### Simply use [Vagrant](http://www.vagrantup.com/)
+
+First [install vagrant](https://docs.vagrantup.com/v2/installation/). Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads) if you don't have it already.
+
+Also make sure you have [precise64 box installed](https://docs.vagrantup.com/v2/providers/basic_usage.html)
+
+Now simply run this in the current repository directory
+
+    vagrant up
+
+> Now sit and relaxe or go take a coffee, may take a while ;)
+
+When it's done, you can visit the app running at [localhost:8080](http://localhost:8080)
+
+### Or use your own environment
+
 * A [web server](http://www.wampserver.com) with PHP 5.2.0 or newer (for JSON lib)
 * A web browser
   * Tested with [Google Chrome](https://www.google.com/chrome) and [Safari](http://www.apple.com/safari/) but may work with other popular browsers
