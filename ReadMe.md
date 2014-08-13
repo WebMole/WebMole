@@ -5,12 +5,13 @@ A project for managing custom web maps and viewing web paths with automatic tool
 To Clone this repository
 ------------------------
 
-We are using `git submodules` so you need to clone with recursive mode
+We are using `git submodules` so clone this repository in recursive mode:
 
     git clone --recursive https://github.com/WebMole/WebMole.git
+    cd WebMole
     git submodule update --recursive
 
-If you want to do any modification in a demo, you should checkout on the master branch
+If you want to do any modification in a demo, you should checkout `master` branch on `Ajax-Listing-Generator` like so:
 
     cd demos/Ajax-Listing-Generator/
     git checkout master
@@ -36,7 +37,7 @@ First [install vagrant](https://docs.vagrantup.com/v2/installation/). Install [V
 
 Also make sure you have [precise64 box installed](https://docs.vagrantup.com/v2/providers/basic_usage.html)
 
-Now simply run this in the current repository directory
+Now run this in the current repository directory:
 
     vagrant up
 
